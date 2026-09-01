@@ -1,0 +1,3341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>مختبر إتقان التفاضل — الفصل الثالث | سادس علمي</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']]
+    },
+    svg: { fontCache: 'global' },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+
+<style>
+  :root{
+    /* ============ "المكتبة العميقة" — Deep Study Library palette ============
+       أخضر غابي داكن مطفأ + خشب جوزي/كونياك + نحاس + لمسة نيون زمردية خفيفة.
+       نفس أسماء المتغيرات محفوظة بالكامل — تغيّرت القيم فقط، فكل الأصناف
+       (btn-rose, spine-gold, val-positive...) تعمل دون أي تعديل إضافي. */
+    --ink-950:#0d1712;
+    --ink-900:#12201a;
+    --ink-850:#172922;
+    --ink-800:#1c3229;
+    --ink-750:#223c30;
+    --paper:#ede2ce;
+    --paper-dim:#a89878;
+    --paper-faint:#6f6350;
+    --rose:#95611f;
+    --rose-soft:#c68f4f;
+    --rose-dim:#3a2712;
+    --gold:#cda256;
+    --gold-dim:#40331a;
+    --teal:#3ecf8e;
+    --teal-dim:#123324;
+    --sage:#8bbf6a;
+    --sage-dim:#23361c;
+    --brick:#d3714a;
+    --brick-dim:#3d2318;
+    --copper:#cc7a45;
+    --canvas-bg:#0a120d;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--ink-950);
+    color:var(--paper);
+    font-family:'IBM Plex Sans Arabic','Cairo',sans-serif;
+    background-image:
+      linear-gradient(rgba(237,226,206,0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,226,206,0.028) 1px, transparent 1px);
+    background-size: 34px 34px;
+    background-attachment: fixed;
+    min-height:100vh;
+  }
+  .font-display{ font-family:'El Messiri', 'IBM Plex Sans Arabic', sans-serif; }
+  .font-mono{ font-family:'IBM Plex Mono', monospace; direction:ltr; unicode-bidi:isolate; }
+
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:var(--ink-950); }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(var(--rose),var(--rose-dim)); border-radius:10px; }
+
+  /* ---------- Range sliders ---------- */
+  input[type=range]{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:8px; border-radius:999px;
+    background:linear-gradient(90deg, var(--rose-dim), var(--rose));
+    outline:none; cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:26px; height:26px; border-radius:50%;
+    background:var(--paper); border:4px solid var(--rose);
+    cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,.5);
+    transition:transform .15s ease;
+  }
+  input[type=range]::-webkit-slider-thumb:hover{ transform:scale(1.15); }
+  input[type=range]::-moz-range-thumb{
+    width:26px; height:26px; border-radius:50%;
+    background:var(--paper); border:4px solid var(--rose); cursor:pointer;
+  }
+  input[type=range]::-moz-range-track{ background:transparent; }
+  input[type=range].slider-gold{ background:linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+  input[type=range].slider-gold::-webkit-slider-thumb{ border-color:var(--gold); }
+  input[type=range].slider-teal{ background:linear-gradient(90deg, var(--teal-dim), var(--teal)); }
+  input[type=range].slider-teal::-webkit-slider-thumb{ border-color:var(--teal); }
+
+  /* ---------- Cards / surfaces ---------- */
+  .surface{
+    background:var(--ink-900);
+    border:1px solid rgba(237,226,206,0.08);
+    border-radius:14px;
+  }
+  .surface-raised{
+    background:var(--ink-850);
+    border:1px solid rgba(237,226,206,0.1);
+    border-radius:14px;
+  }
+  .spine-rose{ border-inline-start:4px solid var(--rose); }
+  .spine-gold{ border-inline-start:4px solid var(--gold); }
+  .spine-teal{ border-inline-start:4px solid var(--teal); }
+  .spine-brick{ border-inline-start:4px solid var(--brick); }
+  .spine-sage{ border-inline-start:4px solid var(--sage); }
+  .spine-copper{ border-inline-start:4px solid var(--copper); }
+
+  .tag-bracket{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--gold);
+    font-weight:600;
+    letter-spacing:.5px;
+  }
+
+  /* ---------- Pink box (textbook replica) ---------- */
+  .pink-box{
+    border:3px solid var(--rose);
+    border-radius:12px;
+    background:rgba(149,97,31,0.07);
+    box-shadow:0 0 0 1px rgba(149,97,31,0.15) inset;
+  }
+  .pink-box .divider{ border-top:2px solid var(--rose); }
+  .val-positive{ color:var(--sage) !important; }
+  .val-negative{ color:var(--brick) !important; }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
+    padding:.6rem 1.1rem; border-radius:10px; font-weight:600;
+    transition:all .15s ease; cursor:pointer; user-select:none;
+    border:1px solid transparent;
+  }
+  .btn-rose{ background:var(--rose); color:#fff; }
+  .btn-rose:hover{ background:var(--rose-soft); transform:translateY(-1px); }
+  .btn-outline{ background:transparent; border-color:rgba(237,226,206,0.25); color:var(--paper); }
+  .btn-outline:hover{ border-color:var(--rose); color:var(--rose-soft); }
+  .btn-gold{ background:var(--gold); color:#1a1305; }
+  .btn-gold:hover{ filter:brightness(1.1); transform:translateY(-1px); }
+  .btn:disabled, .btn.is-disabled{ opacity:.35; pointer-events:none; }
+
+  /* ---------- Nav ---------- */
+  .nav-btn{
+    font-family:'IBM Plex Sans Arabic',sans-serif;
+    font-weight:600; font-size:.92rem;
+    padding:.55rem 1rem; border-radius:10px;
+    color:var(--paper-dim); white-space:nowrap;
+    border:1px solid transparent;
+    transition:all .18s ease;
+  }
+  .nav-btn:hover{ color:var(--paper); background:rgba(237,226,206,0.05); }
+  .nav-btn.active{
+    background:linear-gradient(135deg, var(--rose), #5c3d13);
+    color:#fff; box-shadow:0 4px 14px rgba(149,97,31,.35);
+  }
+
+  /* ---------- Step lock / states ---------- */
+  .step-locked{ opacity:.35; filter:grayscale(70%); pointer-events:none; }
+  .step-active{ box-shadow:0 0 0 2px var(--rose), 0 0 26px rgba(149,97,31,.3); }
+  .step-done{ box-shadow:0 0 0 2px var(--sage); }
+
+  /* ---------- MCQ ---------- */
+  .mcq-btn{
+    display:block; width:100%; text-align:right;
+    padding:.7rem 1rem; border-radius:10px; margin-bottom:.5rem;
+    border:1.5px solid rgba(237,226,206,0.18); background:var(--ink-850);
+    color:var(--paper); font-weight:500; cursor:pointer; transition:all .15s ease;
+  }
+  .mcq-btn:hover{ border-color:var(--rose); background:var(--ink-800); }
+  .mcq-btn.correct{ background:var(--sage-dim); border-color:var(--sage); color:#dcefc9; }
+  .mcq-btn.wrong{ background:var(--brick-dim); border-color:var(--brick); color:#ffd9c4; }
+  .mcq-btn:disabled{ cursor:default; }
+
+  /* ---------- Fade/slide animation ---------- */
+  .fade-in{ animation:fadeIn .45s ease-out; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Flip cards (Module 4) ---------- */
+  .flip-card{ perspective:1200px; height:150px; cursor:pointer; }
+  .flip-card-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform .6s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d;
+  }
+  .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+  .flip-card-front, .flip-card-back{
+    position:absolute; inset:0; backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    border-radius:12px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:1rem; text-align:center;
+  }
+  .flip-card-front{ background:var(--ink-850); border:1.5px solid rgba(237,226,206,.15); }
+  .flip-card-back{ background:var(--rose-dim); border:1.5px solid var(--rose); transform:rotateY(180deg); }
+
+  /* ---------- Mastery Stamp (signature element) ---------- */
+  .mastery-stamp{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:88px; height:88px; border-radius:50%;
+    border:3px solid var(--gold); color:var(--gold);
+    font-family:'El Messiri',sans-serif; font-weight:700; font-size:.78rem;
+    text-align:center; line-height:1.1;
+    box-shadow:0 0 0 4px rgba(205,162,86,.12), 0 6px 18px rgba(0,0,0,.4);
+    transform:rotate(-9deg);
+    animation:stampIn .8s cubic-bezier(.2,1.4,.4,1);
+    position:relative;
+  }
+  .mastery-stamp::before{
+    content:''; position:absolute; inset:-8px; border-radius:50%;
+    border:1px dashed rgba(205,162,86,.5);
+  }
+  /* اهتزاز خفيف (overshoot) + وميض ذهبي (brightness/glow flash) قبل الاستقرار */
+  @keyframes stampIn{
+    0%{ opacity:0; transform:scale(2.2) rotate(-9deg); filter:brightness(1) drop-shadow(0 0 0 rgba(205,162,86,0)); }
+    45%{ opacity:1; transform:scale(0.9) rotate(-7deg); }
+    62%{ transform:scale(1.08) rotate(-11deg); filter:brightness(1.7) drop-shadow(0 0 14px rgba(205,162,86,.9)); }
+    80%{ transform:scale(0.98) rotate(-8deg); filter:brightness(1.15) drop-shadow(0 0 6px rgba(205,162,86,.5)); }
+    100%{ opacity:1; transform:scale(1) rotate(-9deg); filter:brightness(1) drop-shadow(0 0 0 rgba(205,162,86,0)); }
+  }
+
+  /* ---------- Rescue hints (تلميحات الإنقاذ) ---------- */
+  .rescue-btn{
+    display:inline-flex; align-items:center; gap:.35rem;
+    padding:.35rem .75rem; border-radius:999px; font-size:.76rem; font-weight:600;
+    background:var(--teal-dim); color:var(--teal); border:1.5px solid var(--teal);
+    cursor:pointer; transition:all .15s ease;
+  }
+  .rescue-btn:hover{ background:var(--teal); color:var(--ink-950); transform:translateY(-1px); }
+  .rescue-box{
+    padding:.85rem; border-radius:10px; line-height:1.7; font-size:.85rem;
+    background:var(--ink-850); border-inline-start:3px solid var(--gold);
+  }
+
+  /* ---------- Module 0 accordion ---------- */
+  .m0-accordion-header{
+    width:100%; text-align:right; padding:1rem 1.1rem;
+    display:flex; align-items:center; justify-content:space-between;
+    background:transparent; cursor:pointer; transition:background .15s ease;
+  }
+  .m0-accordion-header:hover{ background:rgba(237,226,206,.04); }
+  .m0-chevron{ transition:transform .25s ease; color:var(--paper-faint); font-size:1.1rem; }
+  .m0-chevron.open{ transform:rotate(180deg); }
+
+  /* ---------- Canvas wrap ---------- */
+  .canvas-wrap{ background:var(--canvas-bg); border-radius:12px; border:1px solid rgba(237,226,206,.08); overflow:hidden; }
+
+  /* ---------- misc ---------- */
+  .divider-dashed{ border-top:1.5px dashed rgba(237,226,206,.18); }
+  .scroll-x-tabs{ -ms-overflow-style:none; scrollbar-width:none; }
+  .scroll-x-tabs::-webkit-scrollbar{ display:none; }
+  .badge-num{
+    font-family:'IBM Plex Mono',monospace; font-weight:600;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:1.9rem; height:1.9rem; border-radius:8px;
+    background:var(--ink-800); color:var(--gold); border:1px solid rgba(205,162,86,.35);
+    font-size:.85rem;
+  }
+  .badge-num.done{ background:var(--sage-dim); color:var(--sage); border-color:var(--sage); }
+  .badge-num.current{ background:var(--rose); color:#fff; border-color:var(--rose); }
+
+  select.select-native{
+    background:var(--ink-850); border:1.5px solid rgba(237,226,206,.18);
+    color:var(--paper); border-radius:10px; padding:.55rem .8rem;
+    font-family:'IBM Plex Sans Arabic',sans-serif; font-weight:500;
+  }
+
+  /* =====================================================================
+     GAMIFICATION LAYER — three independent additions, none of which
+     touch existing module CSS above. Kept in their own labelled block
+     for the same reason the JS below is kept in its own labelled
+     sections: easy to find, easy to remove in isolation if ever needed.
+     ===================================================================== */
+
+  /* ---------- 1) Ambient Focus modal (وضع التركيز العميق) ---------- */
+  #ambient-focus-overlay{
+    position:fixed; inset:0; z-index:80;
+    background:rgba(0,0,0,.8); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center; padding:1rem;
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  #ambient-focus-overlay.focus-open{ opacity:1; pointer-events:auto; }
+  #ambient-focus-panel{
+    background:var(--ink-900); border-radius:16px; border:1px solid rgba(205,162,86,.3);
+    max-width:34rem; width:100%; max-height:85vh; overflow-y:auto;
+    padding:1.75rem; position:relative;
+    box-shadow: 0 0 0 1px rgba(205,162,86,.15), 0 0 70px 12px rgba(205,162,86,.22), 0 25px 70px rgba(0,0,0,.65);
+    transform:scale(.94); transition:transform .25s cubic-bezier(.2,.9,.3,1.1);
+  }
+  #ambient-focus-overlay.focus-open #ambient-focus-panel{ transform:scale(1); }
+
+  /* ---------- 2) Time Attack (محاكي الضغط الوزاري) ---------- */
+  @keyframes screenShake{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-9px); } 40%{ transform:translateX(8px); }
+    60%{ transform:translateX(-6px); } 80%{ transform:translateX(5px); }
+  }
+  .screen-shake{ animation:screenShake .4s ease; }
+  .timeattack-track{ height:11px; border-radius:999px; overflow:hidden; background:var(--ink-850); border:1px solid rgba(237,226,206,.08); }
+  .timeattack-fill{ height:100%; background:var(--copper); transition:width .1s linear, background-color .35s ease; }
+
+  /* ---------- 3) Profile drawer + badge shelf (الملف والأوسمة) ---------- */
+  #profile-drawer-overlay{
+    position:fixed; inset:0; z-index:90;
+    background:rgba(0,0,0,.55);
+    opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  #profile-drawer-overlay.drawer-open{ opacity:1; pointer-events:auto; }
+  #profile-drawer{
+    position:fixed; top:0; right:0; height:100%;
+    width:min(88vw, 380px);
+    background:rgba(23,41,34,.72);
+    backdrop-filter:blur(22px) saturate(140%); -webkit-backdrop-filter:blur(22px) saturate(140%);
+    border-inline-start:1px solid rgba(237,226,206,.14);
+    box-shadow:-16px 0 50px rgba(0,0,0,.55);
+    padding:1.5rem; overflow-y:auto;
+    transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.85,.25,1);
+  }
+  #profile-drawer-overlay.drawer-open #profile-drawer{ transform:translateX(0); }
+  .badge-chip{
+    display:flex; flex-direction:column; align-items:center; gap:.35rem;
+    padding:.9rem .4rem; border-radius:14px; text-align:center; transition:all .3s ease;
+  }
+  .badge-locked{ background:rgba(237,226,206,.04); filter:grayscale(1); opacity:.42; border:1px solid rgba(237,226,206,.08); }
+  .badge-unlocked{ background:linear-gradient(160deg, var(--gold-dim), var(--ink-850)); border:1px solid var(--gold); box-shadow:0 0 16px rgba(205,162,86,.25); }
+  .badge-icon{ font-size:1.75rem; line-height:1; }
+  .badge-name{ font-size:.68rem; font-weight:700; color:var(--paper); }
+  .badge-locked .badge-name{ color:var(--paper-faint); }
+  @keyframes badgePop{
+    0%{ transform:scale(1) rotate(0); } 40%{ transform:scale(1.28) rotate(-7deg); }
+    70%{ transform:scale(.93) rotate(4deg); } 100%{ transform:scale(1) rotate(0); }
+  }
+  .badge-pop{ animation:badgePop .6s ease; }
+
+  .hidden{ display:none !important; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  }
+</style>
+</head>
+<body class="pb-10">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-40 backdrop-blur-md" style="background:rgba(18,20,26,0.88); border-bottom:1px solid rgba(237,226,206,0.08);">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <div class="mastery-stamp shrink-0" style="width:52px;height:52px; font-size:.62rem; animation:none; transform:rotate(-6deg);">
+      <span style="font-family:'El Messiri',sans-serif; font-size:1.3rem; line-height:1;">٣</span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <h1 class="font-display font-bold text-lg sm:text-xl leading-tight" style="color:var(--paper)">مختبر إتقان التفاضل</h1>
+      <p class="text-xs sm:text-sm truncate" style="color:var(--paper-dim)">الفصل الثالث: تطبيقات التفاضل — السادس الإعدادي العلمي</p>
+    </div>
+    <button onclick="toggleAiTutor()" class="btn btn-outline hidden sm:inline-flex" style="border-color:var(--gold); color:var(--gold);">
+      🧑‍🏫 <span>الأستاذ الذكي</span>
+    </button>
+    <button onclick="toggleProfileDrawer(true)" title="ملفي وأوسمتي" class="rounded-full flex items-center justify-center shrink-0" style="width:42px;height:42px; background:var(--ink-850); border:1.5px solid var(--copper); color:var(--copper); font-size:1.15rem;">
+      👤
+    </button>
+  </div>
+  <!-- Nav tabs -->
+  <nav class="max-w-6xl mx-auto px-4 pb-3 flex gap-2 overflow-x-auto scroll-x-tabs" id="mainNav">
+    <button class="nav-btn active" data-nav="home" onclick="showSection('home')">🏠 الرئيسية</button>
+    <button class="nav-btn" data-nav="module0" onclick="showSection('module0')" style="border:1px solid var(--brick); color:var(--brick);">💊 الأساسيات</button>
+    <button class="nav-btn" data-nav="module1" onclick="showSection('module1')">⏱️ المعدلات المرتبطة</button>
+    <button class="nav-btn" data-nav="module2" onclick="showSection('module2')">🎯 رول والقيمة المتوسطة</button>
+    <button class="nav-btn" data-nav="module3" onclick="showSection('module3')">🧮 التقريب الخطي</button>
+    <button class="nav-btn" data-nav="module4" onclick="showSection('module4')">🧩 إيجاد الثوابت</button>
+    <button class="nav-btn" data-nav="module5" onclick="showSection('module5')">📈 رسم الدوال</button>
+    <button class="nav-btn" data-nav="module6" onclick="showSection('module6')">📦 التطبيقات العملية</button>
+  </nav>
+  <!-- Global progress bar — fills as the student clears Module 5 steps or opens bank traps -->
+  <div class="w-full" style="height:5px; background:var(--ink-850);" title="تقدّمك في خطوات رسم الدوال وفخاخ بنك الأفكار">
+    <div id="global-progress-fill" style="height:100%; width:0%; background:linear-gradient(90deg, var(--copper), var(--gold)); box-shadow:0 0 8px rgba(205,162,86,.5); transition:width .7s cubic-bezier(.3,.8,.3,1);"></div>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 pt-6">
+
+<!-- ============ HOME SECTION ============ -->
+<section id="home-section" class="fade-in">
+  <div class="surface spine-rose p-6 sm:p-8 mb-8">
+    <span class="tag-bracket text-sm">[ الفصل الثالث ]</span>
+    <h2 class="font-display font-bold text-2xl sm:text-3xl mt-2 mb-3" style="color:var(--paper)">تطبيقات التفاضل — ستة أنماط، مهارة واحدة</h2>
+    <p class="leading-relaxed max-w-3xl" style="color:var(--paper-dim)">
+      كل سؤال وزاري في هذا الفصل هو نسخة من أحد ستة أنماط خوارزمية ثابتة. هذا المختبر لا يشرح الدرس من جديد — بل يدربك على تنفيذ كل نمط خطوة بخطوة حتى يصبح تلقائياً، ويوقفك عند بالضبط النقطة التي يخسر فيها أغلب الطلاب درجاتهم.
+    </p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    <div class="surface surface-raised spine-rose p-5 flex flex-col">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-3xl">⏱️</span>
+        <span class="tag-bracket text-xs">[ ٣-١ ]</span>
+      </div>
+      <h3 class="font-display font-bold text-lg mb-1" style="color:var(--paper)">المعدلات المرتبطة بالزمن</h3>
+      <p class="text-sm flex-1 mb-4" style="color:var(--paper-dim)">سلّم منزلق وخزان مخروطي متسرّب — تدرّب على الاشتقاق الضمني، واكتشف لماذا تُهمَل إشارة السالب دائماً في لحظة التسرب.</p>
+      <button onclick="showSection('module1')" class="btn btn-rose w-full">ابدأ التدريب</button>
+    </div>
+
+    <div class="surface surface-raised spine-gold p-5 flex flex-col">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-3xl">🎯</span>
+        <span class="tag-bracket text-xs">[ ٣-٢ ]</span>
+      </div>
+      <h3 class="font-display font-bold text-lg mb-1" style="color:var(--paper)">رول والقيمة المتوسطة</h3>
+      <p class="text-sm flex-1 mb-4" style="color:var(--paper-dim)">مدقّق شروط تفاعلي: استمرارية، قابلية اشتقاق، ثم f(a)=f(b). جرّب ٦ دوال حقيقية — بعضها ينجح وبعضها مصمم عمداً ليفشل.</p>
+      <button onclick="showSection('module2')" class="btn btn-rose w-full">ابدأ التدريب</button>
+    </div>
+
+    <div class="surface surface-raised spine-teal p-5 flex flex-col">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-3xl">🧮</span>
+        <span class="tag-bracket text-xs">[ ٣-٢ ]</span>
+      </div>
+      <h3 class="font-display font-bold text-lg mb-1" style="color:var(--paper)">التقريب الخطي</h3>
+      <p class="text-sm flex-1 mb-4" style="color:var(--paper-dim)">نموذج "الصندوق الوردي" الرقمي: a وb وh تُلوَّن تلقائياً — أخضر للزيادة، أحمر للنقصان — لترسّخ عندك إشارة h قبل أي شيء آخر.</p>
+      <button onclick="showSection('module3')" class="btn btn-rose w-full">ابدأ التدريب</button>
+    </div>
+
+    <div class="surface surface-raised spine-rose p-5 flex flex-col">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-3xl">🧩</span>
+        <span class="tag-bracket text-xs">[ ٣-٤ → ٣-٦ ]</span>
+      </div>
+      <h3 class="font-display font-bold text-lg mb-1" style="color:var(--paper)">إيجاد الثوابت</h3>
+      <p class="text-sm flex-1 mb-4" style="color:var(--paper-dim)">"محرّك ترجمة" يحوّل الجملة اللفظية إلى معادلة: نقطة انقلاب ⟵ f''(c)=0. ثم يفضح أشهر خطأ في الفصل كله: الخلط بين f' وf''.</p>
+      <button onclick="showSection('module4')" class="btn btn-rose w-full">ابدأ التدريب</button>
+    </div>
+
+    <div class="surface surface-raised spine-gold p-5 flex flex-col">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-3xl">📈</span>
+        <span class="tag-bracket text-xs">[ ٣-٧ ]</span>
+      </div>
+      <h3 class="font-display font-bold text-lg mb-1" style="color:var(--paper)">رسم الدوال</h3>
+      <p class="text-sm flex-1 mb-4" style="color:var(--paper-dim)">بروتوكول الست خطوات صارم هنا أيضاً: لن ترى المنحني كاملاً قبل أن تُنجز المجال، والتناظر، والمحاذيات، والنهايات، والانقلاب بنفسك.</p>
+      <button onclick="showSection('module5')" class="btn btn-rose w-full">ابدأ التدريب</button>
+    </div>
+
+    <div class="surface surface-raised spine-teal p-5 flex flex-col">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-3xl">📦</span>
+        <span class="tag-bracket text-xs">[ ٣-٨ ]</span>
+      </div>
+      <h3 class="font-display font-bold text-lg mb-1" style="color:var(--paper)">التطبيقات العملية</h3>
+      <p class="text-sm flex-1 mb-4" style="color:var(--paper-dim)">صندوق من ورقة مقصوصة الأركان: حرّك x وشاهد لماذا تُرفض القيمة x=6 هندسياً رغم أنها حل جبري صحيح تماماً.</p>
+      <button onclick="showSection('module6')" class="btn btn-rose w-full">ابدأ التدريب</button>
+    </div>
+
+  </div>
+
+  <div class="surface spine-sage p-5 mt-8 text-sm leading-relaxed" style="color:var(--paper-dim)">
+    💡 في أي وحدة، اضغط زر <span style="color:var(--gold)">"الأستاذ الذكي"</span> العائم أسفل الشاشة لطرح أي سؤال إضافي أو طلب مسألة تدريبية جديدة على نفس النمط.
+  </div>
+</section>
+
+<!-- Module sections are injected below and toggled by showSection() -->
+
+<!-- ============ MODULE 0: FOUNDATIONS / FIRST AID ============ -->
+<section id="module0-section" class="hidden">
+  <div class="surface spine-brick p-5 sm:p-6 mb-6">
+    <span class="tag-bracket text-sm" style="color:var(--brick)">[ الوحدة الصفرية ]</span>
+    <h2 class="font-display font-bold text-2xl mt-1 mb-2" style="color:var(--paper)">💊 الأساسيات — إسعافات أولية قبل الفصل الثالث</h2>
+    <p class="text-sm leading-relaxed" style="color:var(--paper-dim)">
+      لا تدخل أي وحدة من الوحدات الست قبل أن تطمئن على هذه الأساسيات الثلاث. لن نشرح الدرس من جديد — فقط نُذكّرك بأدوات ستحتاجها في كل صفحة تقريباً.
+    </p>
+  </div>
+
+  <div class="surface overflow-hidden mb-4">
+    <button class="m0-accordion-header" onclick="m0Toggle('rules')">
+      <span class="font-display font-bold flex items-center gap-2" style="color:var(--paper)"><span class="text-xl">🧮</span> قواعد الاشتقاق الأساسية</span>
+      <span class="m0-chevron" id="m0-chevron-rules">▾</span>
+    </button>
+    <div id="m0-content-rules" class="hidden px-5 pb-5 text-sm leading-loose" style="color:var(--paper-dim)">
+      <div class="grid sm:grid-cols-2 gap-3">
+        <div class="surface-raised p-3"><b style="color:var(--paper)">الثابت:</b> \(\dfrac{d}{dx}(5)=0\)</div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">القوة (الأهم):</b> \(\dfrac{d}{dx}(x^n)=nx^{n-1}\)<br><span class="text-xs">مثال: \(\dfrac{d}{dx}(x^3)=3x^2\)</span></div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">الجذر التربيعي كأسّ:</b> \(\sqrt{x}=x^{1/2}\Rightarrow \dfrac{d}{dx}(\sqrt x)=\dfrac{1}{2\sqrt x}\)</div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">الجذر التكعيبي كأسّ:</b> \(\sqrt[3]{x}=x^{1/3}\Rightarrow \dfrac{d}{dx}(\sqrt[3]x)=\dfrac{1}{3\sqrt[3]{x^2}}\)</div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">المقلوب كأسّ سالب:</b> \(\dfrac1x=x^{-1}\Rightarrow \dfrac{d}{dx}\left(\dfrac1x\right)=-\dfrac{1}{x^2}\)</div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">الجمع والطرح:</b> \(\dfrac{d}{dx}(f\pm g)=f'\pm g'\)<br><span class="text-xs">مثال: \(\dfrac{d}{dx}(x^2+3x)=2x+3\)</span></div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">الضرب بثابت:</b> \(\dfrac{d}{dx}(c\cdot f)=c\cdot f'\)<br><span class="text-xs">مثال: \(\dfrac{d}{dx}(5x^3)=15x^2\)</span></div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">ضرب دالتين:</b> \(\dfrac{d}{dx}(f\cdot g)=f'g+fg'\)</div>
+        <div class="surface-raised p-3"><b style="color:var(--paper)">قسمة دالتين:</b> \(\dfrac{d}{dx}\left(\dfrac{f}{g}\right)=\dfrac{f'g-fg'}{g^2}\)</div>
+        <div class="surface-raised p-3" style="border:1px solid var(--gold);"><b style="color:var(--gold)">السلسلة (Chain Rule) — الأكثر استخداماً هنا:</b> \(\dfrac{d}{dx}\big[(g(x))^n\big]=n(g(x))^{n-1}\cdot g'(x)\)<br><span class="text-xs">مثال حقيقي من الكتاب: \(\dfrac{d}{dx}[(2-x)^2]=2(2-x)\cdot(-1)=-2(2-x)\)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface overflow-hidden mb-4">
+    <button class="m0-accordion-header" onclick="m0Toggle('trig')">
+      <span class="font-display font-bold flex items-center gap-2" style="color:var(--paper)"><span class="text-xl">📐</span> المتطابقات المثلثية الأساسية</span>
+      <span class="m0-chevron" id="m0-chevron-trig">▾</span>
+    </button>
+    <div id="m0-content-trig" class="hidden px-5 pb-5 text-sm leading-loose" style="color:var(--paper-dim)">
+      <div class="mb-3"><b style="color:var(--paper)">القيم الأساسية:</b></div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-center font-mono text-xs">
+        <div class="surface-raised p-2">sin0=0<br>cos0=1</div>
+        <div class="surface-raised p-2">sin(π/2)=1<br>cos(π/2)=0</div>
+        <div class="surface-raised p-2">sinπ=0<br>cosπ=−1</div>
+        <div class="surface-raised p-2">sin2π=0<br>cos2π=1</div>
+      </div>
+      <div class="surface-raised p-3 mb-2"><b style="color:var(--paper)">متطابقة فيثاغورس:</b> \(\sin^2\theta+\cos^2\theta=1\)</div>
+      <div class="surface-raised p-3 mb-2" style="border:1px solid var(--gold);"><b style="color:var(--gold)">الزاوية المضاعفة (تظهر في بنك الأفكار الوزارية):</b> \(\sin(2x)=2\sin x\cos x\)</div>
+      <div class="surface-raised p-3"><b style="color:var(--paper)">مشتقات الدوال المثلثية:</b> \(\dfrac{d}{dx}(\sin x)=\cos x\) &nbsp;,&nbsp; \(\dfrac{d}{dx}(\cos x)=-\sin x\)</div>
+    </div>
+  </div>
+
+  <div class="surface overflow-hidden mb-4">
+    <button class="m0-accordion-header" onclick="m0Toggle('sign')">
+      <span class="font-display font-bold flex items-center gap-2" style="color:var(--paper)"><span class="text-xl">➕➖</span> كيف نفحص إشارة المشتقة على خط الأعداد؟</span>
+      <span class="m0-chevron" id="m0-chevron-sign">▾</span>
+    </button>
+    <div id="m0-content-sign" class="hidden px-5 pb-5 text-sm leading-loose" style="color:var(--paper-dim)">
+      <ol class="list-decimal pr-5 space-y-1 mb-4">
+        <li>حلّ \(f'(x)=0\) لإيجاد <b style="color:var(--paper)">الأعداد الحرجة</b>.</li>
+        <li>ضع هذه الأعداد على خط الأعداد — فتقسمه إلى فترات.</li>
+        <li>اختر عدداً تجريبياً واحداً من داخل كل فترة، وعوّضه في <b style="color:var(--gold)">f'(x) نفسها لا في f(x)</b>.</li>
+        <li>سجّل إشارة الناتج (+ أو −) فوق تلك الفترة.</li>
+        <li><b style="color:var(--sage)">+</b> يعني الدالة متزايدة هناك، <b style="color:var(--brick)">−</b> يعني متناقصة.</li>
+      </ol>
+      <div class="surface-raised p-3 mb-3">
+        <div class="text-xs font-bold mb-2" style="color:var(--paper-faint)">مثال سريع: \(f(x)=x^2-4x+3 \Rightarrow f'(x)=2x-4=0 \Rightarrow x=2\)</div>
+        <svg viewBox="0 0 300 62" class="w-full max-w-sm mx-auto">
+          <line x1="20" y1="30" x2="280" y2="30" stroke="var(--paper-faint)" stroke-width="2"/>
+          <polygon points="280,30 270,25 270,35" fill="var(--paper-faint)"/>
+          <polygon points="20,30 30,25 30,35" fill="var(--paper-faint)"/>
+          <circle cx="150" cy="30" r="4.5" fill="var(--gold)"/>
+          <text x="150" y="50" text-anchor="middle" fill="var(--gold)" font-size="12" font-family="IBM Plex Mono">x=2</text>
+          <circle cx="80" cy="30" r="3" fill="var(--brick)"/>
+          <text x="80" y="16" text-anchor="middle" fill="var(--brick)" font-size="10" font-family="IBM Plex Mono">اختبار 0</text>
+          <text x="80" y="45" text-anchor="middle" fill="var(--brick)" font-size="15" font-weight="bold">−</text>
+          <circle cx="220" cy="30" r="3" fill="var(--sage)"/>
+          <text x="220" y="16" text-anchor="middle" fill="var(--sage)" font-size="10" font-family="IBM Plex Mono">اختبار 3</text>
+          <text x="220" y="45" text-anchor="middle" fill="var(--sage)" font-size="15" font-weight="bold">+</text>
+        </svg>
+        <div class="text-xs mt-2 text-center" style="color:var(--paper-faint)">f'(0)=−4 (سالبة) — f'(3)=2 (موجبة) ⟹ الدالة تتناقص قبل x=2 وتتزايد بعده، إذن x=2 نهاية صغرى محلية.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODULE 1: RELATED RATES ============ -->
+<section id="module1-section" class="hidden">
+  <div class="surface spine-rose p-5 sm:p-6 mb-6">
+    <span class="tag-bracket text-sm">[ ٣-١ ] المعدلات المرتبطة Related Rates</span>
+    <h2 class="font-display font-bold text-2xl mt-1 mb-2" style="color:var(--paper)">المعدلات المرتبطة بالزمن</h2>
+    <p class="text-sm leading-relaxed" style="color:var(--paper-dim)">
+      الخوارزمية ثابتة دائماً: <b style="color:var(--gold)">(١)</b> ارسم وحدد المتغيرات والثوابت ←
+      <b style="color:var(--gold)">(٢)</b> اربطها بمعادلة واحدة ←
+      <b style="color:var(--gold)">(٣)</b> اشتق الطرفين بالنسبة لـ t ←
+      <b style="color:var(--gold)">(٤)</b> عوّض بالقيم المعطاة <u>بعد</u> الاشتقاق لا قبله.
+    </p>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-5">
+    <button id="m1-tab-ladder-btn" class="btn btn-rose flex-1" onclick="m1SwitchScenario('ladder')">🪜 السلّم المنزلق</button>
+    <button id="m1-tab-tank-btn" class="btn btn-outline flex-1" onclick="m1SwitchScenario('tank')">🌊 الخزان المخروطي المتسرّب</button>
+    <button id="m1-tab-shadow-btn" class="btn btn-outline flex-1" onclick="m1SwitchScenario('shadow')">🔦 ظل الرجل والمصباح</button>
+  </div>
+
+  <!-- ============ LADDER SCENARIO ============ -->
+  <div id="m1-ladder-panel">
+    <div class="grid md:grid-cols-2 gap-5">
+
+      <div class="surface p-4">
+        <p class="text-sm mb-3" style="color:var(--paper-dim)">سلّم طوله <b class="font-mono">10m</b> يستند طرفه الأسفل على أرض أفقية وطرفه الأعلى على حائط رأسي. الطرف الأسفل ينزلق مبتعداً عن الحائط بمعدل ثابت <b class="font-mono" style="color:var(--teal)">dx/dt = 2 m/s</b>.</p>
+        <div class="canvas-wrap flex items-center justify-center p-2">
+          <svg id="m1-ladder-svg" viewBox="0 0 320 290" class="w-full max-w-sm" style="max-height:290px;">
+            <line x1="50" y1="6" x2="50" y2="260" stroke="var(--paper-faint)" stroke-width="7" stroke-linecap="round"/>
+            <line x1="18" y1="260" x2="305" y2="260" stroke="var(--paper-faint)" stroke-width="7" stroke-linecap="round"/>
+            <g stroke="var(--paper-faint)" stroke-width="2">
+              <line x1="50" y1="20" x2="42" y2="28"/><line x1="50" y1="45" x2="42" y2="53"/>
+              <line x1="50" y1="70" x2="42" y2="78"/><line x1="50" y1="95" x2="42" y2="103"/>
+              <line x1="50" y1="120" x2="42" y2="128"/><line x1="50" y1="145" x2="42" y2="153"/>
+              <line x1="50" y1="170" x2="42" y2="178"/><line x1="50" y1="195" x2="42" y2="203"/>
+              <line x1="50" y1="220" x2="42" y2="228"/><line x1="50" y1="245" x2="42" y2="253"/>
+            </g>
+            <path d="M 50 248 L 62 248 L 62 260" stroke="var(--paper-faint)" stroke-width="2" fill="none"/>
+            <path id="m1-angle-arc" d="" stroke="var(--gold)" stroke-width="2" fill="none"/>
+            <text id="m1-theta-label" x="0" y="0" fill="var(--gold)" font-size="13" font-weight="600"></text>
+            <line id="m1-ladder-line" x1="50" y1="128" x2="226" y2="260" stroke="var(--rose-soft)" stroke-width="6" stroke-linecap="round"/>
+            <circle id="m1-ladder-bottom-dot" cx="226" cy="260" r="5.5" fill="var(--paper)"/>
+            <circle id="m1-ladder-top-dot" cx="50" cy="128" r="5.5" fill="var(--paper)"/>
+            <text id="m1-x-label" x="138" y="278" fill="var(--paper)" font-size="13" text-anchor="middle" font-family="IBM Plex Mono">x</text>
+            <text id="m1-y-label" x="30" y="194" fill="var(--paper)" font-size="13" text-anchor="middle" font-family="IBM Plex Mono">y</text>
+          </svg>
+        </div>
+        <div class="mt-4">
+          <label class="text-sm flex justify-between mb-1">
+            <span>بعد أسفل السلّم عن الحائط</span>
+            <span class="font-mono font-semibold" id="m1-x-display" style="color:var(--teal)">x = 8.00 m</span>
+          </label>
+          <input type="range" id="m1-ladder-x" min="0.5" max="9.5" step="0.05" value="8" oninput="m1LadderUpdate(this.value)">
+        </div>
+      </div>
+
+      <div class="surface p-4">
+        <div id="m1-ladder-steps" class="text-sm leading-loose"></div>
+        <div class="grid grid-cols-2 gap-3 pt-3 mt-2 divider-dashed">
+          <div class="surface-raised p-3 text-center">
+            <div class="text-xs mb-1" style="color:var(--paper-faint)">dy/dt (معدل الارتفاع)</div>
+            <div class="font-mono text-xl font-semibold" id="m1-dydt-display">—</div>
+          </div>
+          <div class="surface-raised p-3 text-center">
+            <div class="text-xs mb-1" style="color:var(--paper-faint)">dθ/dt (معدل الزاوية)</div>
+            <div class="font-mono text-xl font-semibold" id="m1-dthetadt-display">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="surface spine-brick p-5 mt-5">
+      <h4 class="font-display font-bold mb-2" style="color:var(--paper)">🚨 افحص نفسك: إشارة dy/dt</h4>
+      <p class="text-sm mb-3" style="color:var(--paper-dim)">بينما ينزلق الطرف السفلي مبتعداً عن الحائط، ماذا يحدث لارتفاع الطرف العلوي y؟</p>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <button class="mcq-btn" onclick="m1LadderQuiz(this,true)">y يرتفع ⟵ dy/dt موجبة (+)</button>
+        <button class="mcq-btn" onclick="m1LadderQuiz(this,false)">y ينخفض ⟵ dy/dt سالبة (−)</button>
+      </div>
+      <div id="m1-ladder-quiz-feedback" class="mt-3"></div>
+    </div>
+  </div>
+
+  <!-- ============ TANK SCENARIO ============ -->
+  <div id="m1-tank-panel" class="hidden">
+    <div class="grid md:grid-cols-2 gap-5">
+
+      <div class="surface p-4">
+        <p class="text-sm mb-3" style="color:var(--paper-dim)">خزان مخروطي رأسه للأسفل، ارتفاعه <b class="font-mono">24cm</b> وقطر قاعدته العلوية <b class="font-mono">16cm</b>. يُصبّ فيه سائل بمعدل <b class="font-mono" style="color:var(--sage)">5 cm³/s</b>، وفي نفس الوقت يتسرّب منه سائل بمعدل متحكَّم به أدناه.</p>
+        <div class="canvas-wrap flex items-center justify-center p-2">
+          <svg id="m1-tank-svg" viewBox="0 0 260 300" class="w-full max-w-xs" style="max-height:300px;">
+            <line x1="57" y1="50" x2="203" y2="50" stroke="var(--paper-faint)" stroke-width="2" stroke-dasharray="5 4"/>
+            <line x1="57" y1="50" x2="130" y2="270" stroke="var(--paper-faint)" stroke-width="3"/>
+            <line x1="203" y1="50" x2="130" y2="270" stroke="var(--paper-faint)" stroke-width="3"/>
+            <polygon id="m1-water-poly" points="130,270 130,270 130,270" fill="var(--teal)" fill-opacity="0.5"/>
+            <line id="m1-water-surface" x1="0" y1="0" x2="0" y2="0" stroke="var(--teal)" stroke-width="2" stroke-dasharray="4 3"/>
+            <text id="m1-h-label" x="215" y="270" fill="var(--paper)" font-size="12" font-family="IBM Plex Mono"></text>
+            <text id="m1-pour-label" x="8" y="30" fill="var(--sage)" font-size="12" font-weight="600">⬇ 5 cm³/s</text>
+            <text id="m1-leak-label" x="130" y="292" fill="var(--brick)" font-size="12" font-weight="600" text-anchor="middle">⬇ تسرّب</text>
+          </svg>
+        </div>
+        <div class="mt-4">
+          <label class="text-sm flex justify-between mb-1">
+            <span>ارتفاع السائل في الخزان</span>
+            <span class="font-mono font-semibold" id="m1-h-display" style="color:var(--teal)">h = 12.0 cm</span>
+          </label>
+          <input type="range" class="slider-teal" id="m1-tank-h" min="1" max="23" step="0.2" value="12" oninput="m1TankUpdate(this.value)">
+        </div>
+        <div class="mt-3 flex items-center gap-3">
+          <span class="text-sm" style="color:var(--paper-dim)">معدل التسرّب:</span>
+          <button id="m1-leak-btn-0" class="btn btn-outline text-xs" onclick="m1SetLeak(0)">بلا تسرّب (0)</button>
+          <button id="m1-leak-btn-1" class="btn btn-rose text-xs" onclick="m1SetLeak(1)">تسرّب 1 cm³/s</button>
+        </div>
+      </div>
+
+      <div class="surface p-4">
+        <div id="m1-tank-steps" class="text-sm leading-loose"></div>
+        <div class="surface-raised p-3 text-center mt-3">
+          <div class="text-xs mb-1" style="color:var(--paper-faint)">dh/dt (معدل تغيّر الارتفاع)</div>
+          <div class="font-mono text-xl font-semibold" id="m1-dhdt-display">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="surface spine-brick p-5 mt-5">
+      <h4 class="font-display font-bold mb-2" style="color:var(--paper)">🚨 افحص نفسك: إشارة dV/dt عند التسرّب فقط</h4>
+      <p class="text-sm mb-3" style="color:var(--paper-dim)">لو أوقفنا الصبّ تماماً وبقي التسرّب فقط يعمل بمعدل 1 cm³/s، فما هي القيمة الصحيحة لـ dV/dt؟</p>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <button class="mcq-btn" onclick="m1TankQuiz(this,true)">dV/dt = +1 cm³/s</button>
+        <button class="mcq-btn" onclick="m1TankQuiz(this,false)">dV/dt = −1 cm³/s</button>
+      </div>
+      <div id="m1-tank-quiz-feedback" class="mt-3"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHADOW / LAMP SCENARIO ============ -->
+  <div id="m1-shadow-panel" class="hidden">
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="surface p-4">
+        <p class="text-sm mb-3" style="color:var(--paper-dim)">عمود إنارة طوله <b class="font-mono">7.2m</b> في نهايته مصباح. يتحرك رجل طوله <b class="font-mono">1.8m</b> مبتعداً عن العمود بسرعة ثابتة <b class="font-mono" style="color:var(--teal)">dx/dt = 30 m/min</b>. هذا نمط مختلف: العلاقة هنا <b>تشابه مثلثات</b>، وليست فيثاغورس.</p>
+        <div class="canvas-wrap flex items-center justify-center p-2">
+          <svg id="m1-shadow-svg" viewBox="0 0 340 150" class="w-full max-w-md" style="max-height:170px;">
+            <line x1="16" y1="130" x2="330" y2="130" stroke="var(--paper-faint)" stroke-width="4" stroke-linecap="round"/>
+            <line x1="30" y1="22" x2="30" y2="130" stroke="var(--paper-faint)" stroke-width="4"/>
+            <circle cx="30" cy="16" r="6" fill="var(--gold)"/>
+            <line id="m1-shadow-lightray" x1="30" y1="22" x2="150" y2="130" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <line id="m1-shadow-man" x1="120" y1="103" x2="120" y2="130" stroke="var(--rose-soft)" stroke-width="5" stroke-linecap="round"/>
+            <circle id="m1-shadow-man-head" cx="120" cy="99" r="4.5" fill="var(--rose-soft)"/>
+            <line id="m1-shadow-line" x1="120" y1="130" x2="150" y2="130" stroke="var(--copper)" stroke-width="4" stroke-linecap="round"/>
+            <text id="m1-shadow-x-label" x="75" y="144" fill="var(--paper)" font-size="11" text-anchor="middle" font-family="IBM Plex Mono">x</text>
+            <text id="m1-shadow-s-label" x="135" y="144" fill="var(--paper)" font-size="11" text-anchor="middle" font-family="IBM Plex Mono">s</text>
+          </svg>
+        </div>
+        <div class="mt-4">
+          <label class="text-sm flex justify-between mb-1">
+            <span>بعد الرجل عن العمود x</span>
+            <span class="font-mono font-semibold" id="m1-shadow-x-display" style="color:var(--teal)">x = 6.00 m</span>
+          </label>
+          <input type="range" class="slider-teal" id="m1-shadow-x" min="1" max="15" step="0.25" value="6" oninput="m1ShadowUpdate(this.value)">
+        </div>
+      </div>
+
+      <div class="surface p-4">
+        <div id="m1-shadow-steps" class="text-sm leading-loose"></div>
+        <div class="grid grid-cols-2 gap-3 pt-3 mt-2 divider-dashed">
+          <div class="surface-raised p-3 text-center">
+            <div class="text-xs mb-1" style="color:var(--paper-faint)">طول الظل الحالي s</div>
+            <div class="font-mono text-xl font-semibold" id="m1-shadow-s-display">—</div>
+          </div>
+          <div class="surface-raised p-3 text-center">
+            <div class="text-xs mb-1" style="color:var(--paper-faint)">ds/dt (معدل تغيّر طول الظل)</div>
+            <div class="font-mono text-xl font-semibold" id="m1-shadow-dsdt-display" style="color:var(--sage)">10 m/min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="surface spine-brick p-5 mt-5">
+      <h4 class="font-display font-bold mb-2" style="color:var(--paper)">🚨 افحص نفسك: هل يتغيّر المعدل نفسه؟</h4>
+      <p class="text-sm mb-3" style="color:var(--paper-dim)">إذا ابتعد الرجل أكثر (زادت x)، هل يتغيّر معدل تغيّر طول الظل ds/dt؟</p>
+      <div class="grid sm:grid-cols-3 gap-3">
+        <button class="mcq-btn" onclick="m1ShadowQuiz(this,'up')">نعم، يزداد باستمرار</button>
+        <button class="mcq-btn" onclick="m1ShadowQuiz(this,'down')">نعم، يقلّ باستمرار</button>
+        <button class="mcq-btn" onclick="m1ShadowQuiz(this,'const')">لا، يبقى ثابتاً دائماً</button>
+      </div>
+      <div id="m1-shadow-quiz-feedback" class="mt-3"></div>
+    </div>
+  </div>
+  <div id="bank-section-module1"></div>
+</section>
+
+<!-- ============ MODULE 2: ROLLE & MVT ============ -->
+<section id="module2-section" class="hidden">
+  <div class="surface spine-gold p-5 sm:p-6 mb-6">
+    <span class="tag-bracket text-sm">[ ٣-٢ ] رول والقيمة المتوسطة</span>
+    <h2 class="font-display font-bold text-2xl mt-1 mb-2" style="color:var(--paper)">مدقّق الشروط: رول والقيمة المتوسطة</h2>
+    <p class="text-sm leading-relaxed" style="color:var(--paper-dim)">
+      رول = القيمة المتوسطة + شرط إضافي واحد: <b style="color:var(--gold)">f(a)=f(b)</b>. اختر دالة من الأسفل وتحقّق من الشروط <u>بالترتيب</u> — لا تقفز إلى إيجاد c قبل إثبات الشروط.
+    </p>
+  </div>
+
+  <div class="surface p-4 mb-5">
+    <div class="text-sm font-semibold mb-3" style="color:var(--paper-dim)">اختر الدالة:</div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2" id="m2-case-selector"></div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-5">
+    <div class="surface p-4">
+      <div class="mb-3">
+        <span id="m2-theorem-badge" class="text-xs font-bold px-2 py-1 rounded-full" style="background:var(--rose-dim); color:var(--rose-soft)"></span>
+      </div>
+      <div class="font-mono text-base mb-4 p-3 rounded-lg" style="background:var(--ink-850)" id="m2-function-display"></div>
+
+      <div id="m2-cond1-card" class="surface-raised p-4 mb-3">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="badge-num current" id="m2-cond1-badge">١</span>
+          <h4 class="font-display font-bold">الشرط الأول: الاستمرارية على [a,b]</h4>
+        </div>
+        <button class="btn btn-outline text-sm" onclick="m2CheckCondition(1)" id="m2-cond1-btn">تحقّق من الاستمرارية</button>
+        <div id="m2-cond1-result" class="mt-3 text-sm leading-relaxed"></div>
+      </div>
+
+      <div id="m2-cond2-card" class="surface-raised p-4 mb-3 step-locked">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="badge-num" id="m2-cond2-badge">٢</span>
+          <h4 class="font-display font-bold">الشرط الثاني: قابلية الاشتقاق على (a,b)</h4>
+        </div>
+        <button class="btn btn-outline text-sm" onclick="m2CheckCondition(2)" id="m2-cond2-btn">تحقّق من قابلية الاشتقاق</button>
+        <div id="m2-cond2-result" class="mt-3 text-sm leading-relaxed"></div>
+      </div>
+
+      <div id="m2-cond3-card" class="surface-raised p-4 mb-3 step-locked">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="badge-num" id="m2-cond3-badge">٣</span>
+          <h4 class="font-display font-bold" id="m2-cond3-title">الشرط الثالث: f(a) = f(b)</h4>
+        </div>
+        <button class="btn btn-outline text-sm" onclick="m2CheckCondition(3)" id="m2-cond3-btn">تحقّق من الشرط الثالث</button>
+        <div id="m2-cond3-result" class="mt-3 text-sm leading-relaxed"></div>
+      </div>
+    </div>
+
+    <div class="surface p-4">
+      <div class="canvas-wrap mb-4">
+        <canvas id="m2-canvas" width="480" height="320" class="w-full block"></canvas>
+      </div>
+      <div id="m2-result-panel"></div>
+    </div>
+  </div>
+  <div id="bank-section-module2"></div>
+</section>
+
+<!-- ============ MODULE 3: APPROXIMATION ============ -->
+<section id="module3-section" class="hidden">
+  <div class="surface spine-teal p-5 sm:p-6 mb-6">
+    <span class="tag-bracket text-sm">[ ٣-٢ ] نتيجة مبرهنة القيمة المتوسطة</span>
+    <h2 class="font-display font-bold text-2xl mt-1 mb-2" style="color:var(--paper)">التقريب الخطي — نموذج الصندوق الوردي</h2>
+    <p class="text-sm leading-relaxed" style="color:var(--paper-dim)">
+      القانون: <span style="color:var(--gold)">f(a+h) ≈ f(a) + h·f'(a)</span>. أهم خطوة لا تتعلق بالرياضيات بل بالمحاسبة: تحديد a "السهلة"، ثم حساب h=b−a <u>بإشارتها</u>.
+    </p>
+  </div>
+
+  <div class="surface p-4 mb-5">
+    <div class="text-sm font-semibold mb-3" style="color:var(--paper-dim)">اختر مسألة من الكتاب:</div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-2" id="m3-preset-selector"></div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-5">
+    <div class="lg:col-span-1">
+      <div class="text-sm font-semibold mb-2 text-center" style="color:var(--paper-dim)">الصندوق الوردي</div>
+      <div class="pink-box p-5 text-center font-mono" id="m3-pink-box">
+        <div class="text-2xl font-semibold" id="m3-pb-b">b = —</div>
+        <div class="text-2xl font-semibold" id="m3-pb-a">a = —</div>
+        <div class="divider my-2"></div>
+        <div class="text-2xl font-bold" id="m3-pb-h">h = —</div>
+      </div>
+      <div class="text-xs text-center mt-2" style="color:var(--paper-faint)">أخضر = h موجبة (زيادة) &nbsp;|&nbsp; أحمر = h سالبة (نقصان)</div>
+    </div>
+
+    <div class="lg:col-span-2 surface p-4">
+      <div id="m3-steps" class="text-sm leading-loose"></div>
+    </div>
+  </div>
+
+  <div class="surface p-4 mt-5">
+    <div class="flex items-center justify-between mb-3">
+      <h4 class="font-display font-bold" style="color:var(--paper)">🔎 استكشاف: كلما ابتعدنا عن a يزداد خطأ التقريب</h4>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4 items-center">
+      <div class="canvas-wrap">
+        <canvas id="m3-canvas" width="440" height="300" class="w-full block"></canvas>
+      </div>
+      <div>
+        <label class="text-sm flex justify-between mb-1">
+          <span>حرّك القيمة التجريبية لـ b</span>
+          <span class="font-mono font-semibold" id="m3-explore-display" style="color:var(--teal)"></span>
+        </label>
+        <input type="range" class="slider-teal" id="m3-explore-x" min="0" max="1" step="0.01" value="0.5" oninput="m3ExploreUpdate(this.value)">
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <div class="surface-raised p-3 text-center">
+            <div class="text-xs mb-1" style="color:var(--paper-faint)">القيمة بالتقريب الخطي</div>
+            <div class="font-mono text-lg font-semibold" id="m3-approx-val" style="color:var(--rose-soft)">—</div>
+          </div>
+          <div class="surface-raised p-3 text-center">
+            <div class="text-xs mb-1" style="color:var(--paper-faint)">القيمة الحقيقية</div>
+            <div class="font-mono text-lg font-semibold" id="m3-real-val" style="color:var(--teal)">—</div>
+          </div>
+        </div>
+        <div class="text-xs text-center mt-2" style="color:var(--paper-faint)">الخط البنفسجي: المماس (التقريب) — المنحني السماوي: الدالة الحقيقية</div>
+      </div>
+    </div>
+  </div>
+  <div id="bank-section-module3"></div>
+</section>
+
+<!-- ============ MODULE 4: FINDING CONSTANTS ============ -->
+<section id="module4-section" class="hidden">
+  <div class="surface spine-rose p-5 sm:p-6 mb-6">
+    <span class="tag-bracket text-sm">[ ٣-٤ → ٣-٦ ] إيجاد الثوابت</span>
+    <h2 class="font-display font-bold text-2xl mt-1 mb-2" style="color:var(--paper)">محرّك الترجمة: من الجملة اللفظية إلى المعادلة</h2>
+    <p class="text-sm leading-relaxed" style="color:var(--paper-dim)">
+      أخطر خطأ في هذا الفصل كله: الخلط بين <span style="color:var(--gold)">f'(c)=0</span> (نهاية محلية) و<span style="color:var(--gold)">f''(c)=0</span> (نقطة انقلاب). اضغط كل جملة لترى ترجمتها الصحيحة.
+    </p>
+  </div>
+
+  <div class="surface p-5 mb-6">
+    <h3 class="font-display font-bold text-lg mb-4" style="color:var(--paper)">📖 قاموس الترجمة — اضغط أي بطاقة</h3>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="m4-cards-grid"></div>
+  </div>
+
+  <div class="surface p-5">
+    <h3 class="font-display font-bold text-lg mb-3" style="color:var(--paper)">🧩 التطبيق الكامل: نظام معادلات حقيقي</h3>
+    <div class="flex flex-wrap gap-2 mb-4">
+      <button id="m4-ex-tab-5" class="btn btn-rose flex-1 text-sm" onclick="m4SelectExample('ex5')">المثال ١: نهاية عظمى + انقلاب</button>
+      <button id="m4-ex-tab-4" class="btn btn-outline flex-1 text-sm" onclick="m4SelectExample('ex4')">المثال ٢: مماس + انقلاب + نقطة</button>
+      <button id="m4-ex-tab-3" class="btn btn-outline flex-1 text-sm" onclick="m4SelectExample('ex3')">تمرين ٣ (ص١٣١): انقلاب + تماس بنفس النقطة</button>
+    </div>
+
+    <div class="surface-raised p-4 mb-4">
+      <div class="text-sm font-semibold mb-1" style="color:var(--paper-faint)">نص المسألة:</div>
+      <div class="text-sm leading-relaxed" id="m4-problem-text" style="color:var(--paper)"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-2 mb-4" id="m4-sentence-chips"></div>
+
+    <div class="surface-raised p-4 mb-4" style="min-height:70px;">
+      <div class="text-sm font-semibold mb-2" style="color:var(--paper-faint)">نظام المعادلات المتكوّن:</div>
+      <div id="m4-equation-system" class="space-y-1 font-mono text-sm" style="color:var(--gold)"></div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-3">
+      <button class="btn btn-gold" onclick="m4SolveSystem()" id="m4-solve-btn">🧮 حلّ النظام كاملاً</button>
+      <button class="btn btn-outline" style="border-color:var(--brick); color:var(--brick);" onclick="m4ShowMistake()">⚠️ ماذا لو أخطأنا بين f' و f''؟</button>
+    </div>
+    <div class="mb-4">
+      <button class="rescue-btn" onclick="toggleRescue('m4-simul')">🛟 تذكير أساسي: كيف نحل نظام المعادلات؟</button>
+      <div id="rescue-m4-simul" class="hidden rescue-box mt-2" data-hintkey="simul_system"></div>
+    </div>
+
+    <div id="m4-solution-panel" class="text-sm leading-loose"></div>
+    <div id="m4-mistake-panel" class="mt-3"></div>
+
+    <!-- ============ TIME ATTACK (محاكي الضغط الوزاري) — independent sub-feature ============ -->
+    <div class="surface-raised p-4 mt-5" id="m4-timeattack-panel">
+      <button class="btn" style="background:var(--copper); color:#1a1305;" onclick="startTimeAttack()" id="m4-timeattack-start-btn">⏱️ تحدي الوقت الوزاري</button>
+      <p class="text-xs mt-2" style="color:var(--paper-faint)">يُعاد بناء معادلات المثال الحالي من الصفر، وعليك الضغط على كل الجمل الصحيحة أعلاه قبل نفاد ٤٥ ثانية.</p>
+      <div id="m4-timeattack-active" class="hidden mt-3">
+        <div class="flex justify-between text-xs mb-1">
+          <span style="color:var(--paper-dim)">ابنِ كل المعادلات قبل نفاد الوقت!</span>
+          <span id="m4-timeattack-clock" class="font-mono font-bold" style="color:var(--copper)">45.0s</span>
+        </div>
+        <div class="timeattack-track">
+          <div id="m4-timeattack-bar" class="timeattack-fill" style="width:100%;"></div>
+        </div>
+        <div id="m4-timeattack-result" class="mt-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface spine-brick p-5 mt-6">
+    <h3 class="font-display font-bold text-lg mb-2" style="color:var(--paper)">🔒 نمط إضافي: برهان الاستحالة (تمرين ٦، ص١٣١)</h3>
+    <div class="surface-raised p-4 mb-4">
+      <div class="text-sm leading-relaxed" style="color:var(--paper)">لتكن \(f(x)=x^2-\dfrac{a}{x}\)، حيث \(a\in\mathbb{R}-\{0\}\) و\(x\neq0\). برهن أن الدالة f <b>لا تمتلك نهاية عظمى محلية</b> — مهما كانت قيمة الثابت a.</div>
+    </div>
+    <p class="text-sm mb-3" style="color:var(--paper-dim)">هذا النمط مختلف عن كل ما سبق: لا يوجد رقم واحد تبحث عنه، بل عليك إثبات استحالة شيء لكل قيم a الممكنة معاً. جرّب بنفسك أولاً: حرّك a وحاول أن تجد قيمة واحدة تجعل f تمتلك نهاية عظمى.</p>
+    <label class="text-sm flex justify-between mb-1">
+      <span>الثابت a (جرّب أي قيمة — لن تنجح في كسر البرهان!)</span>
+      <span class="font-mono font-semibold" id="m4-proof-a-display" style="color:var(--teal)">a = 4</span>
+    </label>
+    <input type="range" class="slider-teal" id="m4-proof-a" min="-10" max="10" step="0.5" value="4" oninput="m4ProofUpdate(this.value)">
+    <div class="grid sm:grid-cols-3 gap-2 text-center mt-3">
+      <div class="surface-raised p-2">
+        <div class="text-xs" style="color:var(--paper-faint)">النقطة الحرجة x₀</div>
+        <div class="font-mono font-semibold" id="m4-proof-x0">—</div>
+      </div>
+      <div class="surface-raised p-2">
+        <div class="text-xs" style="color:var(--paper-faint)">قيمة f''(x₀)</div>
+        <div class="font-mono font-semibold" id="m4-proof-fpp" style="color:var(--sage)">—</div>
+      </div>
+      <div class="surface-raised p-2">
+        <div class="text-xs" style="color:var(--paper-faint)">نوع النقطة</div>
+        <div class="font-mono font-semibold" id="m4-proof-verdict" style="color:var(--sage)">—</div>
+      </div>
+    </div>
+    <button class="btn btn-outline w-full mt-4" style="border-color:var(--brick); color:var(--brick);" onclick="m4RevealProof()">📜 اعرض البرهان الجبري الكامل (لكل a)</button>
+    <div class="mt-2">
+      <button class="rescue-btn" onclick="toggleRescue('m4-invariant')">🛟 تذكير أساسي: كيف نثبت نتيجة ثابتة كهذه؟</button>
+      <div id="rescue-m4-invariant" class="hidden rescue-box mt-2" data-hintkey="invariant_proof"></div>
+    </div>
+    <div id="m4-proof-panel" class="mt-3 text-sm leading-loose"></div>
+  </div>
+  <div id="bank-section-module4"></div>
+</section>
+
+<!-- ============ MODULE 5: CURVE SKETCHING ============ -->
+<section id="module5-section" class="hidden">
+  <div class="surface spine-gold p-5 sm:p-6 mb-6">
+    <span class="tag-bracket text-sm">[ ٣-٧ ] رسم المخطط البياني للدالة</span>
+    <h2 class="font-display font-bold text-2xl mt-1 mb-2" style="color:var(--paper)">المعالج الموجَّه: ست خطوات، بلا تخطّي</h2>
+    <p class="text-sm leading-relaxed" style="color:var(--paper-dim)">
+      لن يظهر المنحني الكامل إلا بعد اجتيازك الخطوات الست بالترتيب: المجال ← التقاطع ← التناظر ← المحاذيات ← f' وf'' ← جدول القيم.
+    </p>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-5">
+    <button id="m5-fn-tab-polyA" class="btn btn-rose flex-1 text-sm" onclick="m5SelectFunction('polyA')">كثيرة حدود: y = x³−3x²+4</button>
+    <button id="m5-fn-tab-ratB" class="btn btn-outline flex-1 text-sm" onclick="m5SelectFunction('ratB')">نسبية (أفقي فقط): x²/(x²+1)</button>
+    <button id="m5-fn-tab-ratC" class="btn btn-outline flex-1 text-sm" onclick="m5SelectFunction('ratC')">نسبية (محاذيان معاً): (3x−1)/(x+1)</button>
+  </div>
+
+  <div class="flex justify-center gap-1.5 mb-5 flex-wrap" id="m5-stepper"></div>
+
+  <div class="grid lg:grid-cols-2 gap-5">
+    <div class="surface p-5">
+      <div id="m5-question-area"></div>
+    </div>
+    <div class="surface p-4">
+      <div class="canvas-wrap">
+        <canvas id="m5-canvas" width="460" height="360" class="w-full block"></canvas>
+      </div>
+      <div id="m5-summary-panel" class="mt-3 text-xs leading-relaxed" style="color:var(--paper-dim)"></div>
+    </div>
+  </div>
+  <div id="bank-section-module5"></div>
+</section>
+
+<!-- ============ MODULE 6: OPTIMIZATION ============ -->
+<section id="module6-section" class="hidden">
+  <div class="surface spine-teal p-5 sm:p-6 mb-6">
+    <span class="tag-bracket text-sm">[ ٣-٨ ] تطبيقات عملية على القيم العظمى والصغرى</span>
+    <h2 class="font-display font-bold text-2xl mt-1 mb-2" style="color:var(--paper)">مختبر القيود الهندسية</h2>
+    <p class="text-sm leading-relaxed" style="color:var(--paper-dim)">
+      القيد الهندسي يختزل متغيرين إلى متغير واحد قبل أي اشتقاق. والأخطر: بعض حلول <span style="color:var(--gold)">f'(x)=0</span> الجبرية الصحيحة تُرفض لأنها غير معقولة هندسياً — راقب المنطقة المظلَّلة على المزلاق.
+    </p>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-5">
+    <button id="m6-tab-box-btn" class="btn btn-rose flex-1 text-sm" onclick="m6SwitchScenario('box')">📦 صندوق مقصوص الأركان</button>
+    <button id="m6-tab-cs-btn" class="btn btn-outline flex-1 text-sm" onclick="m6SwitchScenario('cs')">⭕⬜ محيط دائرة + مربع</button>
+    <button id="m6-tab-tri-btn" class="btn btn-outline flex-1 text-sm" onclick="m6SwitchScenario('tri')">△⭕ مثلث محاط بدائرة</button>
+    <button id="m6-tab-pt-btn" class="btn btn-outline flex-1 text-sm" onclick="m6SwitchScenario('pt')">📍 أقرب نقطة على منحنى</button>
+  </div>
+
+  <!-- ============ BOX SCENARIO ============ -->
+  <div id="m6-box-panel">
+    <p class="text-sm mb-4 surface-raised p-3" style="color:var(--paper-dim)">صفيحة مربعة من النحاس طول ضلعها <b class="font-mono">12cm</b>. نقصّ من كل ركن مربعاً طول ضلعه x، ثم نثني الأجزاء البارزة لصنع صندوق مفتوح. أوجد x التي تُعطي أعظم حجم.</p>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="surface p-4">
+        <div class="canvas-wrap flex items-center justify-center p-3">
+          <svg id="m6-box-net-svg" viewBox="0 0 240 240" class="w-full max-w-xs">
+            <rect x="20" y="20" width="200" height="200" fill="none" stroke="var(--paper-faint)" stroke-width="2"/>
+            <rect id="m6-cut-tl" x="20" y="20" width="30" height="30" fill="var(--brick)" fill-opacity="0.35"/>
+            <rect id="m6-cut-tr" x="170" y="20" width="30" height="30" fill="var(--brick)" fill-opacity="0.35"/>
+            <rect id="m6-cut-bl" x="20" y="170" width="30" height="30" fill="var(--brick)" fill-opacity="0.35"/>
+            <rect id="m6-cut-br" x="170" y="170" width="30" height="30" fill="var(--brick)" fill-opacity="0.35"/>
+            <rect id="m6-base-rect" x="50" y="50" width="140" height="140" fill="var(--teal)" fill-opacity="0.25" stroke="var(--teal)" stroke-width="2" stroke-dasharray="5 4"/>
+          </svg>
+        </div>
+        <div class="mt-3">
+          <label class="text-sm flex justify-between mb-1">
+            <span>طول الجزء المقصوص x</span>
+            <span class="font-mono font-semibold" id="m6-box-x-display" style="color:var(--teal)">x = 2.00 cm</span>
+          </label>
+          <div class="relative">
+            <input type="range" class="slider-teal" id="m6-box-x" min="0.05" max="6.45" step="0.05" value="2" oninput="m6BoxUpdate(this.value)">
+          </div>
+          <div class="flex text-xs mt-1" style="color:var(--paper-faint)">
+            <div style="width:46%; color:var(--brick)">✗ منطقة مرفوضة (0)</div>
+            <div class="flex-1 text-center" style="color:var(--sage)">✓ المجال الصحيح 0&lt;x&lt;6</div>
+            <div style="width:8%; text-align:left; color:var(--brick)">✗ (6≤x)</div>
+          </div>
+        </div>
+        <button class="btn btn-gold w-full mt-4" onclick="m6BoxFindOptimal()">🏆 أوجد القيمة المثلى بالاشتقاق</button>
+      </div>
+
+      <div class="surface p-4">
+        <div class="grid grid-cols-3 gap-2 text-center mb-4">
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">ضلع القاعدة</div>
+            <div class="font-mono font-semibold" id="m6-box-base">—</div>
+          </div>
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">الارتفاع</div>
+            <div class="font-mono font-semibold" id="m6-box-height">—</div>
+          </div>
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">الحجم V(x)</div>
+            <div class="font-mono font-semibold" id="m6-box-volume" style="color:var(--gold)">—</div>
+          </div>
+        </div>
+        <div class="canvas-wrap mb-3">
+          <canvas id="m6-box-canvas" width="420" height="240" class="w-full block"></canvas>
+        </div>
+        <div id="m6-box-solution" class="text-sm leading-loose"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CIRCLE+SQUARE SCENARIO ============ -->
+  <div id="m6-cs-panel" class="hidden">
+    <p class="text-sm mb-4 surface-raised p-3" style="color:var(--paper-dim)">مجموع محيطي دائرة ومربع يساوي <b class="font-mono">60cm</b> ثابتاً. أثبت أن أصغر مجموع للمساحتين يحدث عندما يساوي قطر الدائرة طول ضلع المربع.</p>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="surface p-4">
+        <div class="canvas-wrap flex items-center justify-center gap-6 p-4" style="min-height:200px;">
+          <svg id="m6-cs-square-svg" viewBox="0 0 120 120" width="110" height="110"><rect id="m6-cs-square" x="10" y="10" width="60" height="60" fill="none" stroke="var(--rose-soft)" stroke-width="3"/></svg>
+          <svg id="m6-cs-circle-svg" viewBox="0 0 120 120" width="110" height="110"><circle id="m6-cs-circle" cx="60" cy="60" r="40" fill="none" stroke="var(--teal)" stroke-width="3"/></svg>
+        </div>
+        <div class="mt-3">
+          <label class="text-sm flex justify-between mb-1">
+            <span>طول ضلع المربع x</span>
+            <span class="font-mono font-semibold" id="m6-cs-x-display" style="color:var(--teal)">x = 8.40 cm</span>
+          </label>
+          <input type="range" class="slider-teal" id="m6-cs-x" min="0.5" max="14.5" step="0.05" value="8.4" oninput="m6CSUpdate(this.value)">
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-center mt-3">
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">نصف قطر الدائرة r</div>
+            <div class="font-mono font-semibold" id="m6-cs-r">—</div>
+          </div>
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">تحقّق المحيط</div>
+            <div class="font-mono font-semibold" id="m6-cs-perim-check">—</div>
+          </div>
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">المساحة الكلية A(x)</div>
+            <div class="font-mono font-semibold" id="m6-cs-area" style="color:var(--gold)">—</div>
+          </div>
+        </div>
+        <button class="btn btn-gold w-full mt-4" onclick="m6CSFindOptimal()">🏆 أوجد القيمة المثلى بالاشتقاق</button>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <div>
+            <button class="rescue-btn" onclick="toggleRescue('m6-cs-reduce')">🛟 كيف نختزل x وr لمتغير واحد؟</button>
+            <div id="rescue-m6-cs-reduce" class="hidden rescue-box mt-2" data-hintkey="reduce2var"></div>
+          </div>
+          <div>
+            <button class="rescue-btn" onclick="toggleRescue('m6-cs-pi')">🛟 كيف نتخلّص من كسر π؟</button>
+            <div id="rescue-m6-cs-pi" class="hidden rescue-box mt-2" data-hintkey="common_denom_pi"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="surface p-4">
+        <div class="canvas-wrap mb-3">
+          <canvas id="m6-cs-canvas" width="420" height="240" class="w-full block"></canvas>
+        </div>
+        <div id="m6-cs-solution" class="text-sm leading-loose"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TRIANGLE IN CIRCLE SCENARIO ============ -->
+  <div id="m6-tri-panel" class="hidden">
+    <p class="text-sm mb-4 surface-raised p-3" style="color:var(--paper-dim)">جد بُعدي أكبر مثلث متساوي الساقين يمكن أن يوضع داخل دائرة نصف قطرها <b class="font-mono">12cm</b>، ثم أثبت أن نسبة مساحة المثلث إلى مساحة الدائرة تساوي <b class="font-mono">3√3/4π</b>.</p>
+
+    <div class="surface spine-brick p-4 mb-4">
+      <h4 class="font-display font-bold mb-2" style="color:var(--paper)">🚨 افحص نفسك أولاً: نصف القطر أم القطر؟</h4>
+      <p class="text-sm mb-3" style="color:var(--paper-dim)">بتطبيق فيثاغورس على المثلث القائم الناتج من x و(h−12) والوتر الواصل من مركز الدائرة إلى رأس القاعدة، أي علاقة صحيحة؟</p>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <button class="mcq-btn" onclick="m6TriQuiz(this,true)">\(x^2+(h-12)^2=12^2\)</button>
+        <button class="mcq-btn" onclick="m6TriQuiz(this,false)">\(x^2+(h-12)^2=24^2\)</button>
+      </div>
+      <div id="m6-tri-quiz-feedback" class="mt-3"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="surface p-4">
+        <div class="canvas-wrap flex items-center justify-center p-3">
+          <svg id="m6-tri-svg" viewBox="0 0 200 200" class="w-full max-w-xs">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="var(--paper-faint)" stroke-width="2"/>
+            <line id="m6-tri-radius" x1="100" y1="100" x2="100" y2="10" stroke="var(--teal)" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <polygon id="m6-tri-shape" points="100,10 60,145 140,145" fill="var(--rose)" fill-opacity="0.3" stroke="var(--rose-soft)" stroke-width="2.5"/>
+            <circle cx="100" cy="100" r="2.5" fill="var(--teal)"/>
+          </svg>
+        </div>
+        <div class="mt-3">
+          <label class="text-sm flex justify-between mb-1">
+            <span>ارتفاع المثلث h (من القاعدة حتى الرأس)</span>
+            <span class="font-mono font-semibold" id="m6-tri-h-display" style="color:var(--teal)">h = 18.0 cm</span>
+          </label>
+          <input type="range" class="slider-teal" id="m6-tri-h" min="0.5" max="23.5" step="0.1" value="18" oninput="m6TriUpdate(this.value)">
+        </div>
+        <button class="btn btn-gold w-full mt-4" onclick="m6TriFindOptimal()">🏆 أوجد القيمة المثلى بالاشتقاق</button>
+        <div class="mt-2">
+          <button class="rescue-btn" onclick="toggleRescue('m6-tri-pyth')">🛟 تذكير أساسي: نصف القطر أم القطر؟</button>
+          <div id="rescue-m6-tri-pyth" class="hidden rescue-box mt-2" data-hintkey="pythagorean_setup"></div>
+        </div>
+      </div>
+
+      <div class="surface p-4">
+        <div class="grid grid-cols-3 gap-2 text-center mb-4">
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">نصف القاعدة x</div>
+            <div class="font-mono font-semibold" id="m6-tri-x">—</div>
+          </div>
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">طول القاعدة 2x</div>
+            <div class="font-mono font-semibold" id="m6-tri-base">—</div>
+          </div>
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">المساحة A</div>
+            <div class="font-mono font-semibold" id="m6-tri-area" style="color:var(--gold)">—</div>
+          </div>
+        </div>
+        <div class="canvas-wrap mb-3">
+          <canvas id="m6-tri-canvas" width="420" height="240" class="w-full block"></canvas>
+        </div>
+        <div id="m6-tri-solution" class="text-sm leading-loose"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CLOSEST POINT ON CURVE SCENARIO ============ -->
+  <div id="m6-pt-panel" class="hidden">
+    <p class="text-sm mb-4 surface-raised p-3" style="color:var(--paper-dim)">جد نقطة أو نقاط تنتمي للقطع الزائد <b class="font-mono">y²−x²=3</b> بحيث تكون أقرب ما يمكن للنقطة <b class="font-mono">(0,4)</b>.</p>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="surface p-4">
+        <div class="canvas-wrap mb-3">
+          <canvas id="m6-pt-canvas" width="440" height="320" class="w-full block"></canvas>
+        </div>
+        <label class="text-sm flex justify-between mb-1">
+          <span>الإحداثي السيني x للنقطة المتحركة على المنحني</span>
+          <span class="font-mono font-semibold" id="m6-pt-x-display" style="color:var(--teal)">x = 0.00</span>
+        </label>
+        <input type="range" class="slider-teal" id="m6-pt-x" min="-4" max="4" step="0.05" value="0" oninput="m6PtUpdate(this.value)">
+        <button class="btn btn-gold w-full mt-4" onclick="m6PtFindOptimal()">🏆 أوجد أقرب نقطة بالاشتقاق</button>
+        <div class="mt-2">
+          <button class="rescue-btn" onclick="toggleRescue('m6-pt-reduce')">🛟 كيف نختزل x وy لمتغير واحد؟</button>
+          <div id="rescue-m6-pt-reduce" class="hidden rescue-box mt-2" data-hintkey="reduce2var"></div>
+        </div>
+      </div>
+
+      <div class="surface p-4">
+        <div class="grid grid-cols-2 gap-2 text-center mb-4">
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">النقطة الحالية (x,y)</div>
+            <div class="font-mono font-semibold" id="m6-pt-coord">—</div>
+          </div>
+          <div class="surface-raised p-2">
+            <div class="text-xs" style="color:var(--paper-faint)">المسافة S للنقطة (0,4)</div>
+            <div class="font-mono font-semibold" id="m6-pt-dist" style="color:var(--gold)">—</div>
+          </div>
+        </div>
+        <div class="canvas-wrap mb-3">
+          <canvas id="m6-pt-sgraph" width="420" height="200" class="w-full block"></canvas>
+        </div>
+        <div id="m6-pt-solution" class="text-sm leading-loose"></div>
+      </div>
+    </div>
+  </div>
+  <div id="bank-section-module6"></div>
+</section>
+
+</main>
+
+<footer class="max-w-6xl mx-auto px-4 py-8 text-center text-xs" style="color:var(--paper-faint)">
+  مختبر إتقان التفاضل — مبني على المنهج الرسمي العراقي، الفصل الثالث، سادس إعدادي علمي (ص ٩٠–١٤٧)
+</footer>
+
+<!-- ============ AI TUTOR (floating) ============ -->
+<button id="ai-tutor-fab" onclick="toggleAiTutor()" class="fixed bottom-5 left-5 z-50 rounded-full shadow-lg flex items-center justify-center gap-2 px-4 py-3 font-semibold text-sm" style="background:linear-gradient(135deg, var(--gold), #8a6a35); color:#1a1305; box-shadow:0 6px 20px rgba(205,162,86,.4);">
+  🧑‍🏫 <span class="hidden sm:inline">الأستاذ الذكي</span>
+</button>
+
+<div id="ai-tutor-panel" class="hidden fixed z-50 bottom-20 left-5 flex flex-col surface-raised" style="width:min(92vw,380px); height:min(70vh,520px); border:1.5px solid var(--gold); box-shadow:0 10px 40px rgba(0,0,0,.5);">
+  <div class="flex items-center justify-between px-4 py-3" style="border-bottom:1px solid rgba(237,226,206,.1);">
+    <div class="flex items-center gap-2">
+      <span class="text-xl">🧑‍🏫</span>
+      <div>
+        <div class="font-display font-bold text-sm" style="color:var(--paper)">الأستاذ الذكي</div>
+        <div class="text-xs" style="color:var(--paper-faint)">اسأل عن أي خطوة في الفصل الثالث</div>
+      </div>
+    </div>
+    <button onclick="toggleAiTutor(false)" class="text-xl px-2" style="color:var(--paper-dim)">✕</button>
+  </div>
+  <div id="ai-tutor-messages" class="flex-1 overflow-y-auto p-3"></div>
+  <div class="px-3 pb-2 flex gap-1.5 overflow-x-auto scroll-x-tabs">
+    <button class="text-xs px-2 py-1 rounded-full whitespace-nowrap" style="background:var(--ink-850); color:var(--paper-dim); border:1px solid rgba(237,226,206,.12);" onclick="askAiPreset('أعطني مسألة تدريبية جديدة على نفس نمط الوحدة الحالية مع الحل الكامل')">مسألة جديدة 🆕</button>
+    <button class="text-xs px-2 py-1 rounded-full whitespace-nowrap" style="background:var(--ink-850); color:var(--paper-dim); border:1px solid rgba(237,226,206,.12);" onclick="askAiPreset('لخّص لي القاعدة العامة للوحدة الحالية بأسلوب مبسّط جداً')">لخّص القاعدة 📋</button>
+    <button class="text-xs px-2 py-1 rounded-full whitespace-nowrap" style="background:var(--ink-850); color:var(--paper-dim); border:1px solid rgba(237,226,206,.12);" onclick="askAiPreset('ما هو أكثر خطأ شائع يقع فيه الطلاب في هذه الوحدة تحديداً؟')">أكثر خطأ شائع ⚠️</button>
+  </div>
+  <div class="p-3 flex gap-2" style="border-top:1px solid rgba(237,226,206,.1);">
+    <input id="ai-tutor-input" type="text" placeholder="اكتب سؤالك هنا..." onkeydown="aiTutorKeydown(event)"
+      class="flex-1 px-3 py-2 rounded-lg text-sm" style="background:var(--ink-850); border:1.5px solid rgba(237,226,206,.15); color:var(--paper);">
+    <button onclick="sendAiTutorMessage()" class="btn btn-gold px-3">➤</button>
+  </div>
+</div>
+
+<!-- ============ GAMIFICATION LAYER (additive — see matching JS block) ============ -->
+
+<!-- 1) Ambient Focus modal -->
+<div id="ambient-focus-overlay" onclick="if(event.target===this) closeAmbientFocus()">
+  <div id="ambient-focus-panel">
+    <button onclick="closeAmbientFocus()" class="absolute top-3 left-3 text-2xl leading-none" style="color:var(--paper-dim)">✕</button>
+    <div id="ambient-focus-content" class="text-sm leading-loose" style="color:var(--paper-dim)"></div>
+  </div>
+</div>
+
+<!-- 3) Profile drawer + badge shelf -->
+<div id="profile-drawer-overlay" onclick="if(event.target===this) toggleProfileDrawer(false)">
+  <div id="profile-drawer">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="font-display font-bold text-lg" style="color:var(--paper)">👤 ملفي وأوسمتي</h3>
+      <button onclick="toggleProfileDrawer(false)" class="text-2xl leading-none" style="color:var(--paper-dim)">✕</button>
+    </div>
+    <p class="text-xs mb-4" style="color:var(--paper-faint)">أوسمة رمادية تُفعَّل تلقائياً بالألوان كلما حققت إنجازاً في المحاكي.</p>
+    <div id="badge-shelf" class="grid grid-cols-3 gap-3"></div>
+    <div class="mt-6 pt-4 text-xs leading-relaxed" style="border-top:1px dashed rgba(237,226,206,.15); color:var(--paper-faint)">
+      💡 التقدّم هنا محفوظ لهذه الجلسة فقط داخل المتصفح — أعد المحاولة الآن لفتح المزيد!
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   UTILITIES — shared across all modules
+   ===================================================================== */
+let currentSection = 'home';
+
+function showSection(id){
+  const sections = ['home','module0','module1','module2','module3','module4','module5','module6'];
+  sections.forEach(s=>{
+    const el = document.getElementById(s+'-section');
+    if(el) el.classList.toggle('hidden', s!==id);
+  });
+  document.querySelectorAll('.nav-btn').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.nav===id);
+  });
+  currentSection = id;
+  window.scrollTo({top:0, behavior:'smooth'});
+  refreshMath();
+  if(id==='module1' && !window.__m1Init){ initModule1(); window.__m1Init = true; }
+  if(id==='module2' && !window.__m2Init){ initModule2(); window.__m2Init = true; }
+  if(id==='module3' && !window.__m3Init){ initModule3(); window.__m3Init = true; }
+  if(id==='module4' && !window.__m4Init){ initModule4(); window.__m4Init = true; }
+  if(id==='module5' && !window.__m5Init){ initModule5(); window.__m5Init = true; }
+  if(id==='module6' && !window.__m6Init){ initModule6(); window.__m6Init = true; }
+}
+
+function refreshMath(){
+  if(window.MathJax && MathJax.typesetPromise){
+    MathJax.typesetPromise().catch(()=>{});
+  }
+}
+
+function fmt(n, decimals){
+  if(n===undefined || n===null || isNaN(n)) return '—';
+  decimals = decimals===undefined ? 3 : decimals;
+  let s = n.toFixed(decimals);
+  s = s.replace(/(\.\d*?)0+$/,'$1').replace(/\.$/,'');
+  if(s==='-0') s='0';
+  return s;
+}
+
+function signClass(n){ return n < 0 ? 'val-negative' : 'val-positive'; }
+function signWord(n){ return n < 0 ? 'سالبة (نقصان)' : 'موجبة (زيادة)'; }
+
+/* Resolve a CSS custom property to its live computed value (hex string).
+   Lets canvas/SVG drawing code stay perfectly in sync with the palette
+   defined once in :root, instead of duplicating hex codes in JS. */
+function cssVar(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+/* =====================================================================
+   GLOBAL PROGRESS TRACKER (شريط التقدّم)
+   Session-only (in-memory) sense-of-achievement bar: fills as the
+   student clears Module 5 wizard steps or opens a bank "trap". Kept
+   fully independent of module logic — modules just call markProgress()
+   at the moment of accomplishment; this file owns the math/rendering.
+   ===================================================================== */
+const progressState = { m5:new Set(), bank:new Set() };
+
+function markProgress(kind, key){
+  if(kind==='m5') progressState.m5.add(key);
+  else if(kind==='bank') progressState.bank.add(key);
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+  const fill = document.getElementById('global-progress-fill');
+  if(!fill) return;
+  const m5Total = Object.keys(m5Functions).length * 6; /* 5 steps + 1 final reveal, per function */
+  const bankTotal = supplementaryBank.length;
+  const total = m5Total + bankTotal;
+  const done = progressState.m5.size + progressState.bank.size;
+  const pct = total>0 ? Math.min(100, (done/total)*100) : 0;
+  fill.style.width = pct.toFixed(1)+'%';
+}
+
+/* Generic canvas function plotter used by modules 2, 3, 5, 6 */
+function plotCurve(canvasId, opts){
+  const cv = document.getElementById(canvasId);
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const xMin = opts.xMin, xMax = opts.xMax, yMin = opts.yMin, yMax = opts.yMax;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = cssVar('--canvas-bg');
+  ctx.fillRect(0,0,W,H);
+  const X = x => (x - xMin) / (xMax - xMin) * W;
+  const Y = y => H - (y - yMin) / (yMax - yMin) * H;
+
+  ctx.strokeStyle = 'rgba(237,226,206,0.07)';
+  ctx.lineWidth = 1;
+  let gxStep = Math.max(1, Math.round((xMax-xMin)/10));
+  for(let gx = Math.ceil(xMin/gxStep)*gxStep; gx <= xMax; gx += gxStep){
+    ctx.beginPath(); ctx.moveTo(X(gx),0); ctx.lineTo(X(gx),H); ctx.stroke();
+  }
+  let gyStep = Math.max(1, Math.round((yMax-yMin)/8));
+  for(let gy = Math.ceil(yMin/gyStep)*gyStep; gy <= yMax; gy += gyStep){
+    ctx.beginPath(); ctx.moveTo(0,Y(gy)); ctx.lineTo(W,Y(gy)); ctx.stroke();
+  }
+
+  ctx.strokeStyle = 'rgba(237,226,206,0.5)';
+  ctx.lineWidth = 1.5;
+  if(yMin<=0 && yMax>=0){ ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.stroke(); }
+  if(xMin<=0 && xMax>=0){ ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke(); }
+
+  if(opts.shadeInvalid){
+    ctx.fillStyle = 'rgba(211,113,74,0.12)';
+    opts.shadeInvalid.forEach(seg=>{
+      const x1 = Math.max(xMin, seg[0]), x2 = Math.min(xMax, seg[1]);
+      if(x2>x1) ctx.fillRect(X(x1), 0, X(x2)-X(x1), H);
+    });
+  }
+
+  if(opts.vAsymptotes){
+    ctx.strokeStyle = 'rgba(211,113,74,0.85)';
+    ctx.setLineDash([6,4]); ctx.lineWidth = 1.5;
+    opts.vAsymptotes.forEach(vx=>{
+      if(vx>=xMin && vx<=xMax){ ctx.beginPath(); ctx.moveTo(X(vx),0); ctx.lineTo(X(vx),H); ctx.stroke(); }
+    });
+    ctx.setLineDash([]);
+  }
+  if(opts.hAsymptotes){
+    ctx.strokeStyle = 'rgba(62,207,142,0.85)';
+    ctx.setLineDash([6,4]); ctx.lineWidth = 1.5;
+    opts.hAsymptotes.forEach(hy=>{
+      if(hy>=yMin && hy<=yMax){ ctx.beginPath(); ctx.moveTo(0,Y(hy)); ctx.lineTo(W,Y(hy)); ctx.stroke(); }
+    });
+    ctx.setLineDash([]);
+  }
+
+  if(opts.func){
+    ctx.strokeStyle = opts.curveColor || cssVar('--teal');
+    ctx.lineWidth = 2.6;
+    ctx.beginPath();
+    let started = false;
+    const N = opts.samples || 500;
+    for(let i=0;i<=N;i++){
+      const x = xMin + (xMax-xMin)*i/N;
+      let skip = false;
+      if(opts.vAsymptotes){
+        for(const vx of opts.vAsymptotes){
+          if(Math.abs(x-vx) < (xMax-xMin)/N*1.6) skip = true;
+        }
+      }
+      if(opts.domainCheck && !opts.domainCheck(x)) skip = true;
+      let y;
+      try{ y = opts.func(x); }catch(e){ skip = true; }
+      if(skip || y===undefined || y===null || isNaN(y) || !isFinite(y)){ started = false; continue; }
+      if(y < yMin - (yMax-yMin)*0.6 || y > yMax + (yMax-yMin)*0.6){ started = false; continue; }
+      const py = Y(y);
+      if(!started){ ctx.moveTo(X(x), py); started = true; } else { ctx.lineTo(X(x), py); }
+    }
+    ctx.stroke();
+  }
+
+  if(opts.secant){
+    ctx.strokeStyle = cssVar('--gold'); ctx.lineWidth = 2.2; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(X(opts.secant.x1), Y(opts.secant.y1)); ctx.lineTo(X(opts.secant.x2), Y(opts.secant.y2)); ctx.stroke();
+  }
+  if(opts.tangent){
+    const x0=opts.tangent.x0, y0=opts.tangent.y0, slope=opts.tangent.slope;
+    const x1=xMin, x2=xMax;
+    const y1=y0+slope*(x1-x0), y2=y0+slope*(x2-x0);
+    ctx.strokeStyle = cssVar('--copper'); ctx.lineWidth = 2.2; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(X(x1),Y(y1)); ctx.lineTo(X(x2),Y(y2)); ctx.stroke();
+  }
+  if(opts.points){
+    opts.points.forEach(p=>{
+      ctx.fillStyle = p.color || cssVar('--rose');
+      ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), 5, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = cssVar('--canvas-bg'); ctx.lineWidth = 1.5; ctx.stroke();
+      if(p.label){
+        ctx.fillStyle = cssVar('--paper');
+        ctx.font = '600 12px IBM Plex Mono, monospace';
+        ctx.fillText(p.label, X(p.x)+8, Y(p.y)-8);
+      }
+    });
+  }
+  if(opts.movingDot){
+    ctx.fillStyle = cssVar('--gold');
+    ctx.beginPath(); ctx.arc(X(opts.movingDot.x), Y(opts.movingDot.y), 6.5, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+  }
+}
+
+function stampHTML(text){
+  return '<div class="flex items-center gap-3 my-2"><div class="mastery-stamp" style="width:64px;height:64px;font-size:.6rem;">'+text+'</div></div>';
+}
+
+/* =====================================================================
+   AI TUTOR — calls the Anthropic API directly from this artifact
+   ===================================================================== */
+let aiTutorHistory = [];
+let aiTutorOpen = false;
+let aiTutorBusy = false;
+
+const AI_TUTOR_SYSTEM_CONTEXT = "أنت أستاذ رياضيات عراقي خبير، متخصص حصراً في الفصل الثالث \"تطبيقات التفاضل\" من منهج الرياضيات لسادس إعدادي علمي في العراق (المعدلات المرتبطة، مبرهنتا رول والقيمة المتوسطة، التقريب، النهايات العظمى والصغرى المحلية، التقعر والتحدب ونقاط الانقلاب، رسم الدوال، والتطبيقات العملية على القيم العظمى والصغرى). أجب دائماً باللغة العربية الفصحى المبسطة، بإيجاز ووضوح تام يناسب طالب إعدادي يذاكر لامتحان وزاري، واستخدم رموز الكتاب المنهجي العراقي تماماً (اكتب f'(x) للمشتقة الأولى وf''(x) للمشتقة الثانية بالحروف اللاتينية كما في الكتاب). اكتب أي رمز أو معادلة رياضية بين علامتي \\( و\\) لكي تُعرض بشكل صحيح، مثال: \\(f'(x)=2x\\). كن مشجعاً وداعماً، لكن لا تتهاون أبداً مع الأخطاء الرياضية الشائعة، ونبّه الطالب صراحة إذا كان سؤاله يحوم حول خطأ شائع معروف في هذا الفصل.";
+
+function toggleAiTutor(forceOpen){
+  const panel = document.getElementById('ai-tutor-panel');
+  aiTutorOpen = (forceOpen !== undefined) ? forceOpen : !aiTutorOpen;
+  if(aiTutorOpen){
+    panel.classList.remove('hidden');
+    panel.classList.add('fade-in');
+    if(aiTutorHistory.length===0) renderAiTutorWelcome();
+    setTimeout(()=>{ const inp=document.getElementById('ai-tutor-input'); if(inp) inp.focus(); }, 100);
+  } else {
+    panel.classList.add('hidden');
+  }
+}
+
+function renderAiTutorWelcome(){
+  const box = document.getElementById('ai-tutor-messages');
+  box.innerHTML =
+    '<div class="text-sm leading-relaxed p-3 rounded-lg fade-in" style="background:var(--ink-850); color:var(--paper-dim)">' +
+    '👋 أهلاً بك! اسألني عن أي خطوة لم تفهمها في هذا الفصل، أو اطلب مسألة تدريبية إضافية على أي من الأنماط الستة.' +
+    '<div class="mt-2 text-xs" style="color:var(--paper-faint)">مثال: "وضّح لي ليش نرفض القيمة x=6 في مسألة الصندوق؟"</div></div>';
+}
+
+function currentModuleArabicName(){
+  const names = {
+    home:'الصفحة الرئيسية',
+    module0:'الأساسيات (الوحدة الصفرية)',
+    module1:'المعدلات المرتبطة بالزمن',
+    module2:'مبرهنتا رول والقيمة المتوسطة',
+    module3:'التقريب باستخدام نتيجة القيمة المتوسطة',
+    module4:'إيجاد الثوابت',
+    module5:'رسم الدوال',
+    module6:'التطبيقات العملية على النهايات العظمى والصغرى'
+  };
+  return names[currentSection] || 'الفصل الثالث';
+}
+
+function m0Toggle(id){
+  const content = document.getElementById('m0-content-'+id);
+  const chevron = document.getElementById('m0-chevron-'+id);
+  const wasHidden = content.classList.contains('hidden');
+  content.classList.toggle('hidden');
+  chevron.classList.toggle('open', wasHidden);
+  if(wasHidden) refreshMath();
+}
+
+function escapeHtml(raw){
+  return raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function formatAiText(raw){
+  return escapeHtml(raw)
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
+
+function appendAiMessage(role, text){
+  const box = document.getElementById('ai-tutor-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'fade-in mb-3 flex ' + (role==='user' ? 'justify-start' : 'justify-end');
+  const bubble = document.createElement('div');
+  bubble.className = 'inline-block max-w-[88%] px-3 py-2 rounded-xl text-sm leading-relaxed';
+  bubble.style.background = role==='user' ? 'var(--rose)' : 'var(--ink-800)';
+  bubble.style.color = role==='user' ? '#fff' : 'var(--paper)';
+  bubble.style.border = role==='user' ? 'none' : '1px solid rgba(237,226,206,.1)';
+  bubble.innerHTML = formatAiText(text);
+  wrap.appendChild(bubble);
+  box.appendChild(wrap);
+  box.scrollTop = box.scrollHeight;
+  refreshMath();
+}
+
+async function sendAiTutorMessage(){
+  if(aiTutorBusy) return;
+  const inp = document.getElementById('ai-tutor-input');
+  const msg = inp.value.trim();
+  if(!msg) return;
+  inp.value = '';
+  appendAiMessage('user', msg);
+  aiTutorHistory.push({role:'user', content: msg});
+  aiTutorBusy = true;
+
+  const box = document.getElementById('ai-tutor-messages');
+  const typingDiv = document.createElement('div');
+  typingDiv.id = 'ai-typing-indicator';
+  typingDiv.className = 'mb-3 flex justify-end';
+  typingDiv.innerHTML = '<div class="inline-block px-3 py-2 rounded-xl text-sm" style="background:var(--ink-800); color:var(--paper-dim)">...يفكّر</div>';
+  box.appendChild(typingDiv);
+  box.scrollTop = box.scrollHeight;
+
+  const contextPrefix = aiTutorHistory.length===1 ? ('[الطالب يشاهد حالياً وحدة: '+currentModuleArabicName()+']\n\n') : '';
+  const outgoingMessages = [
+    {role:'user', content: AI_TUTOR_SYSTEM_CONTEXT},
+    {role:'assistant', content:'فهمت تماماً، أنا جاهز لمساعدة الطالب في هذا الفصل تحديداً بأسلوب الكتاب المنهجي العراقي.'},
+  ].concat(aiTutorHistory.slice(0,-1)).concat([{role:'user', content: contextPrefix + msg}]);
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: outgoingMessages
+      })
+    });
+    const data = await response.json();
+    const indicator = document.getElementById('ai-typing-indicator');
+    if(indicator) indicator.remove();
+    if(data && data.content && data.content.length){
+      const text = data.content.map(b=>b.text||'').join('\n').trim();
+      const finalText = text || 'عذراً، لم أتمكن من توليد إجابة واضحة. حاول إعادة صياغة سؤالك.';
+      appendAiMessage('assistant', finalText);
+      aiTutorHistory.push({role:'assistant', content: finalText});
+    } else {
+      appendAiMessage('assistant', 'عذراً، حدث خطأ غير متوقع في الاتصال بالمساعد الذكي. حاول مرة أخرى.');
+    }
+  } catch(err){
+    const indicator = document.getElementById('ai-typing-indicator');
+    if(indicator) indicator.remove();
+    appendAiMessage('assistant', '⚠️ تعذّر الاتصال بالمساعد الذكي. هذه الميزة تعمل فقط عند فتح الملف داخل Claude.ai. باقي أقسام المختبر الستة تعمل بشكل كامل بدون اتصال بالإنترنت.');
+  } finally {
+    aiTutorBusy = false;
+  }
+}
+
+function aiTutorKeydown(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendAiTutorMessage(); }
+}
+
+function askAiPreset(q){
+  toggleAiTutor(true);
+  const inp = document.getElementById('ai-tutor-input');
+  inp.value = q;
+  sendAiTutorMessage();
+}
+
+/* =====================================================================
+   RESCUE HINTS (تلميحات الإنقاذ) — Scaffolding for weak students
+   One shared data object + one toggle function, reused by small
+   🛟 buttons placed inline in Modules 4 and 6 wherever a "hidden"
+   algebraic step (not the calculus itself) is what usually trips
+   students up. Purely additive: no existing button or panel is
+   touched — these are new elements sitting beside them.
+   ===================================================================== */
+const RESCUE_HINTS = {
+  simul_system: {
+    title:'🛟 كيف نحل نظام معادلات آنية (٢ أو ٣ معادلات)؟',
+    body:'الفكرة نفسها دائماً بغضّ النظر عن عدد المعادلات: '+
+      '<br>① اختر إحدى المعادلات واعزل أحد المجهولين بدلالة الباقي (مثلاً اجعل b بدلالة a).'+
+      '<br>② عوّض هذه العبارة في بقية المعادلات — هذا يُنقص عدد المجهولين في كل معادلة متبقية بمقدار واحد.'+
+      '<br>③ كرّر نفس الفكرة حتى يتبقى مجهول واحد في معادلة واحدة، وحلّها مباشرة.'+
+      '<br>④ ارجع بالتعويض للخلف خطوة بخطوة حتى تجد بقية المجاهيل.'+
+      '<br><span style="color:var(--paper-faint)">مثال سريع: من \\(b=-3a\\) و\\(9a+2b=-3\\)، نعوّض: \\(9a+2(-3a)=-3\\Rightarrow 3a=-3\\Rightarrow a=-1\\)، ثم \\(b=3\\).</span>' },
+  invariant_proof: {
+    title:'🛟 كيف نُثبت أن نتيجة ثابتة رغم وجود رمز آخر في الصيغة؟',
+    body:'إذا أردت إثبات أن تعبيراً (هنا \\(f\'\'(x_0)\\)) لا يعتمد فعلياً على ثابت آخر (هنا a) رغم ظهوره في الصيغة، استخدم العلاقة التي تربط بينهما '+
+      '(\\(x_0^3=-\\frac{a}{2}\\) أي \\(a=-2x_0^3\\)) لتعوّض a بعبارة بدلالة \\(x_0\\) فقط. عندها يختفي a تماماً من الناتج النهائي، وهذا هو معنى "ثابت مهما كانت قيمة a".' },
+  common_denom_pi: {
+    title:'🛟 كيف نتعامل مع كسر يحوي π عند التبسيط؟',
+    body:'عاملها كأي كسر عادي: اضرب طرفي المعادلة كاملة في π للتخلّص من المقام — فπ هنا مجرد ثابت رقمي (≈3.14)، وليس مجهولاً يُعقّد المعادلة.'+
+      '<br><span style="color:var(--paper-faint)">مثال: \\(2x+\\frac{1}{\\pi}(8x-120)=0\\) — نضرب في π: \\(2\\pi x+8x-120=0\\)، وأصبحت معادلة عادية بلا كسور.</span>' },
+  reduce2var: {
+    title:'🛟 كيف نختزل متغيرين إلى متغير واحد؟',
+    body:'في أغلب مسائل التطبيقات العملية لديك متغيران ودالة هدف تعتمد على كليهما. الخطوة الحاسمة: ابحث عن "علاقة قيد" ثابتة تربط بينهما '+
+      '(محيط ثابت، فيثاغورس، تشابه مثلثات...)، واستخدمها لعزل أحد المتغيرين بدلالة الآخر، ثم عوّض في دالة الهدف — فتصبح بمتغير واحد فقط، وعندها فقط يمكن اشتقاقها.' },
+  pythagorean_setup: {
+    title:'🛟 كيف نبني علاقة فيثاغورس من شكل هندسي؟',
+    body:'حدّد أولاً أي ضلع هو <b style="color:var(--gold)">الوتر</b> (مقابل الزاوية القائمة). عندما يصل من مركز دائرة إلى أي نقطة على محيطها، فهو دائماً '+
+      '<b style="color:var(--sage)">نصف القطر</b> — وليس القطر أبداً. ثم طبّق: (الضلع الأول)² + (الضلع الثاني)² = (الوتر)².' }
+};
+
+function toggleRescue(uid){
+  const el = document.getElementById('rescue-'+uid);
+  if(!el) return;
+  if(el.classList.contains('hidden')){
+    const hint = RESCUE_HINTS[el.dataset.hintkey];
+    if(hint){
+      el.innerHTML = '<div class="font-bold mb-1" style="color:var(--gold)">'+hint.title+'</div><div>'+hint.body+'</div>';
+    }
+    el.classList.remove('hidden');
+    el.classList.add('fade-in');
+  } else {
+    el.classList.add('hidden');
+  }
+  refreshMath();
+}
+
+/* =====================================================================
+   GAMIFICATION LAYER — three self-contained sub-components.
+   Note on stack: this artifact is vanilla HTML/CSS/JS, not React — there
+   is no component tree or virtual-DOM re-render cycle here. The vanilla
+   equivalent of "isolated hooks that don't disturb existing state" is
+   what's below: each sub-component owns one small state object, exposes
+   only a couple of entry points, and every hook into existing code
+   (m4ClickChip, m4SelectExample, bankToggleTrap/Solution, the four
+   m6*FindOptimal functions, m5RevealFinal) is a single additive line —
+   nothing existing is reordered, rewritten, or removed.
+   ===================================================================== */
+
+/* ---------- Sub-component 1: Ambient Focus (وضع التركيز العميق) ----------
+   Generic reusable modal: pass it any HTML string, it handles overlay,
+   glow, outside-click-to-close and Escape-to-close. Wired to exactly one
+   button per the spec (Module 4 → "حلّ النظام كاملاً"); nothing else
+   calls it, so no other module is affected. */
+function openAmbientFocus(html){
+  const overlay = document.getElementById('ambient-focus-overlay');
+  const content = document.getElementById('ambient-focus-content');
+  if(!overlay || !content) return;
+  content.innerHTML = html;
+  overlay.classList.add('focus-open');
+  document.body.style.overflow = 'hidden';
+  refreshMath();
+}
+function closeAmbientFocus(){
+  const overlay = document.getElementById('ambient-focus-overlay');
+  if(!overlay) return;
+  overlay.classList.remove('focus-open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){
+    const overlay = document.getElementById('ambient-focus-overlay');
+    if(overlay && overlay.classList.contains('focus-open')) closeAmbientFocus();
+    const drawer = document.getElementById('profile-drawer-overlay');
+    if(drawer && drawer.classList.contains('drawer-open')) toggleProfileDrawer(false);
+  }
+});
+
+/* ---------- Sub-component 2: Time Attack (محاكي الضغط الوزاري) ----------
+   Wraps the EXISTING Module 4 chip-clicking mechanic with a 45s clock;
+   it does not reimplement equation-building, it only resets the current
+   example's chips (via the existing m4RenderChips) and listens for the
+   moment m4ChipsClicked is fully true. */
+const timeAttackState = { active:false, intervalId:null, remaining:45, total:45 };
+
+function startTimeAttack(){
+  if(!m4CurrentEx) return;
+  if(timeAttackState.intervalId) clearInterval(timeAttackState.intervalId);
+
+  m4ChipsClicked = m4CurrentEx.chips.map(()=>false);
+  m4RenderChips();
+  const eqSys = document.getElementById('m4-equation-system');
+  if(eqSys) eqSys.innerHTML = '<div class="text-xs" style="color:var(--paper-faint)">اضغط الجمل أعلاه لبناء المعادلات...</div>';
+
+  timeAttackState.active = true;
+  timeAttackState.total = 45;
+  timeAttackState.remaining = 45;
+  document.getElementById('m4-timeattack-active').classList.remove('hidden');
+  document.getElementById('m4-timeattack-result').innerHTML = '';
+  document.getElementById('m4-timeattack-bar').style.background = 'var(--copper)';
+  updateTimeAttackUI();
+
+  timeAttackState.intervalId = setInterval(function(){
+    timeAttackState.remaining = Math.max(0, timeAttackState.remaining - 0.1);
+    updateTimeAttackUI();
+    if(timeAttackState.remaining <= 0) timeAttackFail();
+  }, 100);
+
+  document.getElementById('m4-timeattack-panel').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function updateTimeAttackUI(){
+  const pct = (timeAttackState.remaining/timeAttackState.total)*100;
+  document.getElementById('m4-timeattack-bar').style.width = pct+'%';
+  document.getElementById('m4-timeattack-clock').textContent = timeAttackState.remaining.toFixed(1)+'s';
+}
+
+function cancelTimeAttack(){
+  if(timeAttackState.intervalId) clearInterval(timeAttackState.intervalId);
+  timeAttackState.active = false;
+  const panel = document.getElementById('m4-timeattack-active');
+  if(panel) panel.classList.add('hidden');
+}
+
+function timeAttackFail(){
+  clearInterval(timeAttackState.intervalId);
+  timeAttackState.active = false;
+  document.getElementById('m4-timeattack-bar').style.background = 'var(--brick)';
+  document.getElementById('m4-timeattack-result').innerHTML =
+    '<div class="surface-raised p-3 fade-in text-center" style="border:2px solid var(--brick);">'+
+    '<div class="font-display font-bold" style="color:var(--brick)">⏰ انتهى الوقت، راجع حساباتك</div>'+
+    '<button class="btn btn-outline text-xs mt-3" onclick="startTimeAttack()">حاول مرة أخرى</button>'+
+    '</div>';
+}
+
+function timeAttackSuccess(){
+  clearInterval(timeAttackState.intervalId);
+  timeAttackState.active = false;
+  const elapsed = (timeAttackState.total - timeAttackState.remaining).toFixed(1);
+  document.getElementById('m4-timeattack-bar').style.background = 'var(--sage)';
+  document.getElementById('m4-timeattack-bar').style.width = '100%';
+  document.getElementById('m4-timeattack-clock').textContent = 'أُنجز! ✓';
+
+  document.body.classList.add('screen-shake');
+  setTimeout(()=>document.body.classList.remove('screen-shake'), 450);
+
+  if('vibrate' in navigator){
+    try{ navigator.vibrate([200,100,200]); }catch(e){ /* some browsers reject silently */ }
+  }
+
+  document.getElementById('m4-timeattack-result').innerHTML =
+    '<div class="text-center fade-in">'+ stampHTML('قاهر الوقت') +'</div>'+
+    '<div class="text-center text-sm mt-2" style="color:var(--sage)">أحسنت! أنجزت خلال '+elapsed+' ثانية.</div>';
+
+  badgeState.timeAttackWon = true;
+  refreshBadges();
+}
+
+/* ---------- Sub-component 3: Profile drawer + badges (الملف والأوسمة) ----------
+   Achievement checks read existing state (progressState.m5 from the
+   earlier progress-bar feature, m4ChipsClicked's completions, the M6
+   optimal-buttons, the exercise bank) rather than duplicating counters
+   wherever avoidable. */
+const badgeState = {
+  bankTrapsViewed: new Set(),
+  bankSolutionsViewed: new Set(),
+  m6OptimalsFound: new Set(),
+  timeAttackWon: false
+};
+let badgesEverUnlocked = new Set();
+
+function bankFullySolvedCount(){
+  let n = 0;
+  badgeState.bankTrapsViewed.forEach(id=>{ if(badgeState.bankSolutionsViewed.has(id)) n++; });
+  return n;
+}
+
+const BADGES = [
+  { id:'rolle_conqueror', icon:'🏆', name:'قاهر رول',
+    desc:'أنجز الفخّ والحل معاً لثلاثة أسئلة من بنك الأفكار الوزارية',
+    check: ()=> bankFullySolvedCount() >= 3 },
+  { id:'curve_artist', icon:'📈', name:'رسّام الدوال',
+    desc:'أظهر المنحني الكامل لكل دوال وحدة رسم الدوال الثلاث',
+    check: ()=> ['polyA','ratB','ratC'].every(f=>progressState.m5.has(f+'-final')) },
+  { id:'trap_hunter', icon:'🎯', name:'صياد الفخاخ',
+    desc:'اكتشف خمسة فخاخ وزارية مختلفة في البنك',
+    check: ()=> badgeState.bankTrapsViewed.size >= 5 },
+  { id:'time_master', icon:'⏱️', name:'سيد الوقت',
+    desc:'اربح تحدي الوقت الوزاري مرة واحدة على الأقل',
+    check: ()=> badgeState.timeAttackWon },
+  { id:'apps_expert', icon:'📦', name:'خبير التطبيقات',
+    desc:'أوجد الحل الأمثل في السيناريوهات الأربعة لوحدة التطبيقات',
+    check: ()=> ['box','cs','tri','pt'].every(s=>badgeState.m6OptimalsFound.has(s)) }
+];
+
+function renderBadgeShelf(){
+  const grid = document.getElementById('badge-shelf');
+  if(!grid) return;
+  grid.innerHTML = BADGES.map(function(b){
+    const unlocked = b.check();
+    if(unlocked) badgesEverUnlocked.add(b.id);
+    return '<div id="badge-'+b.id+'" class="badge-chip '+(unlocked?'badge-unlocked':'badge-locked')+'" title="'+b.desc+'">'+
+      '<div class="badge-icon">'+b.icon+'</div>'+
+      '<div class="badge-name">'+b.name+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function refreshBadges(){
+  /* Cheap to recompute; only touches its own DOM subtree, so it can
+     never interfere with any canvas/SVG simulator elsewhere. */
+  const grid = document.getElementById('badge-shelf');
+  if(!grid || grid.children.length===0){ return; } /* drawer not open yet — renderBadgeShelf() will pick up fresh state on open */
+  BADGES.forEach(function(b){
+    const unlocked = b.check();
+    const el = document.getElementById('badge-'+b.id);
+    if(!el) return;
+    const wasUnlocked = badgesEverUnlocked.has(b.id);
+    el.className = 'badge-chip ' + (unlocked ? 'badge-unlocked' : 'badge-locked');
+    if(unlocked && !wasUnlocked){
+      el.classList.add('badge-pop');
+      setTimeout(()=>el.classList.remove('badge-pop'), 700);
+    }
+    if(unlocked) badgesEverUnlocked.add(b.id);
+  });
+}
+
+function toggleProfileDrawer(open){
+  const overlay = document.getElementById('profile-drawer-overlay');
+  if(!overlay) return;
+  if(open){
+    renderBadgeShelf();
+    overlay.classList.add('drawer-open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    overlay.classList.remove('drawer-open');
+    document.body.style.overflow = '';
+  }
+}
+
+/* =====================================================================
+   MODULE 1 — RELATED RATES (المعدلات المرتبطة)
+   ===================================================================== */
+const M1_LADDER_L = 10;
+const M1_LADDER_DXDT = 2;
+const M1_TANK_H_TOTAL = 24;
+const M1_TANK_POUR_RATE = 5;
+const M1_SHADOW_L = 7.2;
+const M1_SHADOW_H = 1.8;
+const M1_SHADOW_DXDT = 30;
+let m1LeakRate = 1;
+
+function initModule1(){
+  m1SwitchScenario('ladder');
+  m1LadderUpdate(8);
+  m1TankUpdate(12);
+  m1ShadowUpdate(6);
+}
+
+function m1SwitchScenario(name){
+  document.getElementById('m1-ladder-panel').classList.toggle('hidden', name!=='ladder');
+  document.getElementById('m1-tank-panel').classList.toggle('hidden', name!=='tank');
+  document.getElementById('m1-shadow-panel').classList.toggle('hidden', name!=='shadow');
+  document.getElementById('m1-tab-ladder-btn').className = 'btn flex-1 ' + (name==='ladder' ? 'btn-rose' : 'btn-outline');
+  document.getElementById('m1-tab-tank-btn').className = 'btn flex-1 ' + (name==='tank' ? 'btn-rose' : 'btn-outline');
+  document.getElementById('m1-tab-shadow-btn').className = 'btn flex-1 ' + (name==='shadow' ? 'btn-rose' : 'btn-outline');
+}
+
+function m1LadderUpdate(xStr){
+  const x = parseFloat(xStr);
+  const y = Math.sqrt(M1_LADDER_L*M1_LADDER_L - x*x);
+  const dydt = -(x * M1_LADDER_DXDT) / y;
+  const dthetadt = dydt / x;
+
+  document.getElementById('m1-x-display').textContent = 'x = ' + fmt(x,2) + ' m';
+  const dyEl = document.getElementById('m1-dydt-display');
+  dyEl.textContent = fmt(dydt,3) + ' m/s';
+  dyEl.className = 'font-mono text-xl font-semibold ' + signClass(dydt);
+  const dthEl = document.getElementById('m1-dthetadt-display');
+  dthEl.textContent = fmt(dthetadt,3) + ' rad/s';
+  dthEl.className = 'font-mono text-xl font-semibold ' + signClass(dthetadt);
+
+  const scale = 21, originX=50, originY=260;
+  const bx = originX + x*scale, by = originY;
+  const tx = originX, ty = originY - y*scale;
+  const line = document.getElementById('m1-ladder-line');
+  line.setAttribute('x1', tx); line.setAttribute('y1', ty);
+  line.setAttribute('x2', bx); line.setAttribute('y2', by);
+  document.getElementById('m1-ladder-bottom-dot').setAttribute('cx', bx);
+  document.getElementById('m1-ladder-bottom-dot').setAttribute('cy', by);
+  document.getElementById('m1-ladder-top-dot').setAttribute('cx', tx);
+  document.getElementById('m1-ladder-top-dot').setAttribute('cy', ty);
+  document.getElementById('m1-x-label').setAttribute('x', (originX+bx)/2);
+  document.getElementById('m1-x-label').setAttribute('y', originY+18);
+  document.getElementById('m1-y-label').setAttribute('x', originX-20);
+  document.getElementById('m1-y-label').setAttribute('y', (originY+ty)/2);
+
+  const theta = Math.atan2(y, x);
+  const r = 22;
+  const ax1 = bx - r, ay1 = by;
+  const ax2 = bx - Math.cos(theta)*r, ay2 = by - Math.sin(theta)*r;
+  document.getElementById('m1-angle-arc').setAttribute('d', 'M '+ax1+' '+ay1+' A '+r+' '+r+' 0 0 1 '+ax2+' '+ay2);
+  document.getElementById('m1-theta-label').setAttribute('x', bx - r - 16);
+  document.getElementById('m1-theta-label').setAttribute('y', by - 6);
+  document.getElementById('m1-theta-label').textContent = 'θ';
+
+  document.getElementById('m1-ladder-steps').innerHTML =
+    '<div class="mb-2"><b>العلاقة (فيثاغورس):</b> \\(x^2+y^2=100\\)</div>' +
+    '<div class="mb-2">عند x='+fmt(x,2)+' m: \\(y=\\sqrt{100-x^2}='+fmt(y,3)+'\\) m</div>' +
+    '<div class="mb-2"><b>الاشتقاق الضمني بالنسبة لـ t:</b> \\(2x\\dfrac{dx}{dt}+2y\\dfrac{dy}{dt}=0\\)</div>' +
+    '<div class="mb-2 text-xs" style="color:var(--paper-faint)">عوّض بالقيم <u>بعد</u> الاشتقاق فقط:</div>' +
+    '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850); color:var(--gold)">2('+fmt(x,2)+')(2) + 2('+fmt(y,3)+')(dy/dt) = 0</div>' +
+    '<div class="mb-2">⟹ \\(\\dfrac{dy}{dt}=\\dfrac{-x\\,(dx/dt)}{y}\\)</div>' +
+    '<div class="pt-2 divider-dashed text-xs" style="color:var(--paper-faint)">ولإيجاد سرعة الزاوية من \\(\\sin\\theta=y/10\\): \\(\\cos\\theta\\cdot\\dfrac{d\\theta}{dt}=\\dfrac{1}{10}\\dfrac{dy}{dt}\\) ⟹ \\(x\\dfrac{d\\theta}{dt}=\\dfrac{dy}{dt}\\)</div>';
+  refreshMath();
+}
+
+function m1LadderQuiz(btn, choseIncrease){
+  const buttons = btn.parentElement.querySelectorAll('.mcq-btn');
+  buttons.forEach(b=>b.disabled=true);
+  const feedback = document.getElementById('m1-ladder-quiz-feedback');
+  if(choseIncrease === false){
+    btn.classList.add('correct');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--sage)">'+
+      stampHTML('صحيح')+
+      '<div class="text-sm mt-1" style="color:var(--paper-dim)">y تنخفض كلما ابتعد أسفل السلّم عن الحائط، لذلك <b style="color:var(--sage)">dy/dt سالبة دائماً</b>. هذه هي الإشارة نفسها التي رأيتها في اللوحة أعلاه — لا تُهملها أبداً في ورقة الامتحان.</div></div>';
+  } else {
+    buttons.forEach(b=>{ if(b!==btn) b.classList.add('correct'); });
+    btn.classList.add('wrong');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--brick)">'+
+      '<div class="text-sm" style="color:var(--paper-dim)">❌ هذا أشهر خطأ في هذا الدرس. بينما يبتعد السلّم عن الحائط (x يزداد) فإن ارتفاعه y <b style="color:var(--brick)">ينقص</b>، لذلك يجب أن تظهر إشارة سالبة في dy/dt دائماً.</div></div>';
+  }
+}
+
+function m1SetLeak(val){
+  m1LeakRate = val;
+  document.getElementById('m1-leak-btn-0').className = 'btn text-xs ' + (val===0?'btn-rose':'btn-outline');
+  document.getElementById('m1-leak-btn-1').className = 'btn text-xs ' + (val===1?'btn-rose':'btn-outline');
+  const h = parseFloat(document.getElementById('m1-tank-h').value);
+  m1TankUpdate(h);
+}
+
+function m1TankUpdate(hStr){
+  const h = parseFloat(hStr);
+  const r = h/3;
+  const dVdt = M1_TANK_POUR_RATE - m1LeakRate;
+  const dhdt = dVdt / ((Math.PI/9)*h*h);
+
+  document.getElementById('m1-h-display').textContent = 'h = ' + fmt(h,1) + ' cm';
+  const dhEl = document.getElementById('m1-dhdt-display');
+  dhEl.textContent = fmt(dhdt,4) + ' cm/s';
+  dhEl.className = 'font-mono text-xl font-semibold ' + signClass(dhdt);
+
+  const apexX=130, apexY=270, topY=50;
+  const scaleV = (apexY-topY)/M1_TANK_H_TOTAL;
+  const waterY = apexY - h*scaleV;
+  const halfWidthWater = r*scaleV;
+  document.getElementById('m1-water-poly').setAttribute('points',
+    apexX+','+apexY+' '+(apexX-halfWidthWater)+','+waterY+' '+(apexX+halfWidthWater)+','+waterY);
+  const surf = document.getElementById('m1-water-surface');
+  surf.setAttribute('x1', apexX-halfWidthWater-4); surf.setAttribute('y1', waterY);
+  surf.setAttribute('x2', apexX+halfWidthWater+4); surf.setAttribute('y2', waterY);
+  const hLabel = document.getElementById('m1-h-label');
+  hLabel.setAttribute('y', waterY+4);
+  hLabel.textContent = 'h='+fmt(h,1)+'cm';
+  document.getElementById('m1-leak-label').textContent = m1LeakRate>0 ? ('⬇ '+m1LeakRate+' cm³/s تسرّب') : '(بلا تسرّب)';
+
+  document.getElementById('m1-tank-steps').innerHTML =
+    '<div class="mb-2">من تشابه المثلثات: \\(\\dfrac{r}{h}=\\dfrac{8}{24}=\\dfrac{1}{3}\\Rightarrow r=\\dfrac{h}{3}\\)</div>' +
+    '<div class="mb-2">\\(V=\\dfrac{1}{3}\\pi r^2h=\\dfrac{1}{3}\\pi\\left(\\dfrac{h}{3}\\right)^{2}h=\\dfrac{\\pi}{27}h^3\\)</div>' +
+    '<div class="mb-2"><b>الاشتقاق بالنسبة لـ t:</b> \\(\\dfrac{dV}{dt}=\\dfrac{\\pi}{9}h^2\\dfrac{dh}{dt}\\)</div>' +
+    '<div class="mb-2 text-xs" style="color:var(--paper-faint)">معدل تغيّر حجم السائل = معدل الصبّ − معدل التسرّب:</div>' +
+    '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850); color:var(--gold)">dV/dt = 5 − '+m1LeakRate+' = '+fmt(dVdt,2)+' cm³/s</div>' +
+    '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850); color:var(--gold)">'+fmt(dVdt,2)+' = (π/9)('+fmt(h*h,2)+')(dh/dt)</div>';
+  refreshMath();
+}
+
+function m1TankQuiz(btn, chosePositive){
+  const buttons = btn.parentElement.querySelectorAll('.mcq-btn');
+  buttons.forEach(b=>b.disabled=true);
+  const feedback = document.getElementById('m1-tank-quiz-feedback');
+  if(chosePositive === false){
+    btn.classList.add('correct');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--sage)">'+
+      stampHTML('صحيح')+
+      '<div class="text-sm mt-1" style="color:var(--paper-dim)">التسرّب يعني نقصان الحجم، لذلك تُكتب قيمته دائماً بإشارة <b style="color:var(--sage)">سالبة</b> داخل معادلة dV/dt، حتى لو أعطتك المسألة "معدل التسرّب" كعدد موجب.</div></div>';
+  } else {
+    buttons.forEach(b=>{ if(b!==btn) b.classList.add('correct'); });
+    btn.classList.add('wrong');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--brick)">'+
+      '<div class="text-sm" style="color:var(--paper-dim)">❌ كما ينبّه الكتاب صراحة: "الإشارة السالبة تعني نقصان". معدل التسرّب يُطرح دائماً من معدل الصبّ، ولا يُكتب موجباً أبداً.</div></div>';
+  }
+}
+
+function m1ShadowUpdate(xStr){
+  const x = parseFloat(xStr);
+  const ratio = M1_SHADOW_H / (M1_SHADOW_L - M1_SHADOW_H); /* = 1/3 */
+  const s = ratio * x;
+  const dsdt = ratio * M1_SHADOW_DXDT;
+
+  document.getElementById('m1-shadow-x-display').textContent = 'x = ' + fmt(x,2) + ' m';
+  document.getElementById('m1-shadow-s-display').textContent = fmt(s,3) + ' m';
+  document.getElementById('m1-shadow-dsdt-display').textContent = fmt(dsdt,2) + ' m/min';
+
+  const scale = 15, poleX = 30, groundY = 130;
+  const lampY = groundY - M1_SHADOW_L*scale;
+  const manHeadY = groundY - M1_SHADOW_H*scale;
+  const manX = poleX + x*scale;
+  const tipX = poleX + (x+s)*scale;
+
+  document.getElementById('m1-shadow-lightray').setAttribute('x2', tipX);
+  document.getElementById('m1-shadow-man').setAttribute('x1', manX);
+  document.getElementById('m1-shadow-man').setAttribute('x2', manX);
+  document.getElementById('m1-shadow-man').setAttribute('y1', manHeadY);
+  document.getElementById('m1-shadow-man-head').setAttribute('cx', manX);
+  document.getElementById('m1-shadow-man-head').setAttribute('cy', manHeadY-4);
+  document.getElementById('m1-shadow-line').setAttribute('x1', manX);
+  document.getElementById('m1-shadow-line').setAttribute('x2', tipX);
+  document.getElementById('m1-shadow-x-label').setAttribute('x', (poleX+manX)/2);
+  document.getElementById('m1-shadow-s-label').setAttribute('x', (manX+tipX)/2);
+
+  document.getElementById('m1-shadow-steps').innerHTML =
+    '<div class="mb-2">هذا نمط مختلف: نربط المتغيرات بـ<b>تشابه المثلثات</b> بدل فيثاغورس. المثلث الكبير (من قمة العمود لنهاية الظل) يشابه المثلث الصغير (من رأس الرجل لنهاية الظل):</div>'+
+    '<div class="mb-2">\\(\\dfrac{L}{x+s}=\\dfrac{H}{s}\\)</div>'+
+    '<div class="mb-2">\\(Ls=H(x+s) \\Rightarrow s(L-H)=Hx \\Rightarrow s=\\dfrac{H}{L-H}\\,x\\)</div>'+
+    '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850)">بالتعويض L=7.2, H=1.8: \\(s=\\dfrac{1.8}{5.4}x=\\dfrac13 x\\)</div>'+
+    '<div class="mb-2">هذه علاقة <b>خطية</b> بين s وx، لذا يمكن اشتقاق الطرفين مباشرة دون أي متغير آخر:</div>'+
+    '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850); color:var(--gold)">\\(\\dfrac{ds}{dt}=\\dfrac13\\dfrac{dx}{dt}=\\dfrac13(30)=10\\) m/min</div>'+
+    '<div class="text-xs" style="color:var(--paper-faint)">لاحظ: بخلاف مسألة السلّم، هذا المعدل هنا <b>لا يعتمد على x إطلاقاً</b> — إنه ثابت دائماً بسبب الطبيعة الخطية للعلاقة.</div>';
+  refreshMath();
+}
+
+function m1ShadowQuiz(btn, choice){
+  const buttons = btn.parentElement.querySelectorAll('.mcq-btn');
+  buttons.forEach(b=>b.disabled=true);
+  const feedback = document.getElementById('m1-shadow-quiz-feedback');
+  if(choice==='const'){
+    btn.classList.add('correct');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--sage)">'+
+      stampHTML('صحيح')+
+      '<div class="text-sm mt-1" style="color:var(--paper-dim)">بما أنّ العلاقة بين s وx <b style="color:var(--sage)">خطية تماماً</b> (\\(s=\\frac13x\\))، فإن معدل تغيّرها ds/dt ثابت دائماً = \\(\\frac13\\) ضعف dx/dt، بغضّ النظر عن قيمة x نفسها. هذا يختلف جوهرياً عن مسألة السلّم، حيث كانت dy/dt تتغيّر مع كل قيمة جديدة لـx.</div></div>';
+  } else {
+    buttons.forEach(b=>{ if(b!==btn) b.classList.add('correct'); });
+    btn.classList.add('wrong');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--brick)">'+
+      '<div class="text-sm" style="color:var(--paper-dim)">❌ جرّب تحريك المزلاق أعلاه ولاحظ قيمة ds/dt — ستجدها 10 m/min دائماً مهما غيّرت x. هذا لأن العلاقة \\(s=\\frac13x\\) خطية (وليست تربيعية أو جذرية كما في مسألة السلّم)، فمشتقتها ثابتة.</div></div>';
+  }
+}
+
+/* =====================================================================
+   MODULE 2 — ROLLE & MEAN VALUE THEOREM (رول والقيمة المتوسطة)
+   ===================================================================== */
+const m2Cases = [
+  { id:'case1', theorem:'rolle', label:'(٢−x)² , [0,4]',
+    latex:"f(x)=(2-x)^2 \\;,\\; x\\in[0,4]", a:0, b:4,
+    f:x=>Math.pow(2-x,2), fprime:x=>-2*(2-x),
+    contPass:true, contHtml:"الدالة كثيرة حدود (تكافئ \\(x^2-4x+4\\))، وكل كثيرة حدود مستمرة على \\(\\mathbb{R}\\)، إذن مستمرة على الفترة المغلقة \\([0,4]\\).",
+    diffPass:true, diffHtml:"كثيرات الحدود قابلة للاشتقاق على \\(\\mathbb{R}\\) بالكامل، إذن قابلة للاشتقاق على الفترة المفتوحة \\((0,4)\\)." },
+
+  { id:'case2', theorem:'rolle', label:'9x+3x²−x³ , [−1,1]',
+    latex:"f(x)=9x+3x^2-x^3 \\;,\\; x\\in[-1,1]", a:-1, b:1,
+    f:x=>9*x+3*x*x-x*x*x, fprime:x=>9+6*x-3*x*x,
+    contPass:true, contHtml:"كثيرة حدود، مستمرة على \\(\\mathbb{R}\\)، إذن مستمرة على \\([-1,1]\\).",
+    diffPass:true, diffHtml:"كثيرة حدود، قابلة للاشتقاق على \\(\\mathbb{R}\\)، إذن قابلة للاشتقاق على \\((-1,1)\\)." },
+
+  { id:'case3', theorem:'rolle', label:'دالة متعددة التعريف',
+    latex:"f(x)=\\begin{cases}x^2+1 & x\\in[-1,2]\\\\ -1 & x\\in[-4,-1)\\end{cases}", a:-4, b:2, jumpAt:-1,
+    f:x=> (x>=-1) ? (x*x+1) : -1, fprime:x=> (x>=-1) ? 2*x : 0,
+    contPass:false, contHtml:"عند نقطة الوصل \\(x=-1\\): \\(\\displaystyle\\lim_{x\\to -1^{+}}(x^2+1)=2=L_1\\)، بينما \\(\\displaystyle\\lim_{x\\to -1^{-}}(-1)=-1=L_2\\). بما أنّ \\(L_1\\neq L_2\\) فالدالة <b style='color:var(--brick)'>غير مستمرة</b> عند \\(x=-1\\)، وبالتالي غير مستمرة على \\([-4,2]\\).",
+    diffPass:false, diffHtml:"بما أن الدالة غير مستمرة عند \\(x=-1\\)، فهي تلقائياً غير قابلة للاشتقاق هناك — الاستمرارية شرط ضروري لقابلية الاشتقاق." },
+
+  { id:'case4', theorem:'rolle', label:'f(x)=5 (ثابتة) , [−2,3]',
+    latex:"f(x)=5 \\;,\\; x\\in[-2,3]", a:-2, b:3,
+    f:x=>5, fprime:x=>0,
+    contPass:true, contHtml:"الدالة الثابتة مستمرة على \\(\\mathbb{R}\\) بالكامل، إذن مستمرة على \\([-2,3]\\).",
+    diffPass:true, diffHtml:"مشتقة الدالة الثابتة صفر في كل مكان، فهي قابلة للاشتقاق على \\(\\mathbb{R}\\)، إذن قابلة للاشتقاق على \\((-2,3)\\).",
+    specialAnyC:true },
+
+  { id:'case5', theorem:'mvt', label:'x²−6x+4 , [−1,7]',
+    latex:"f(x)=x^2-6x+4 \\;,\\; x\\in[-1,7]", a:-1, b:7,
+    f:x=>x*x-6*x+4, fprime:x=>2*x-6,
+    contPass:true, contHtml:"كثيرة حدود، مستمرة على \\(\\mathbb{R}\\)، إذن مستمرة على \\([-1,7]\\).",
+    diffPass:true, diffHtml:"كثيرة حدود، قابلة للاشتقاق على \\(\\mathbb{R}\\)، إذن قابلة للاشتقاق على \\((-1,7)\\)." },
+
+  { id:'case6', theorem:'mvt', label:'√(25−x²) , [−4,0]',
+    latex:"f(x)=\\sqrt{25-x^2} \\;,\\; x\\in[-4,0]", a:-4, b:0,
+    f:x=>Math.sqrt(Math.max(0,25-x*x)), fprime:x=>-x/Math.sqrt(25-x*x),
+    contPass:true, contHtml:"مجال الدالة الأصلي \\([-5,5]\\) يحتوي \\([-4,0]\\) بالكامل. وعند الطرفين: \\(\\lim_{x\\to -4^{+}}\\sqrt{25-x^2}=3=f(-4)\\) و\\(\\lim_{x\\to 0^{-}}\\sqrt{25-x^2}=5=f(0)\\)، إذن مستمرة على \\([-4,0]\\).",
+    diffPass:true, diffHtml:"\\(f'(x)=\\dfrac{-x}{\\sqrt{25-x^2}}\\) معرّفة على \\((-5,5)\\) بالكامل، وهي تحتوي \\((-4,0)\\)، إذن قابلة للاشتقاق هناك." },
+
+  { id:'case7', theorem:'mvt', label:'∛((x+1)²) , [−2,7] — نقطة حادّة',
+    latex:"f(x)=\\sqrt[3]{(x+1)^2} \\;,\\; x\\in[-2,7]", a:-2, b:7,
+    f:x=>Math.cbrt(Math.pow(x+1,2)), fprime:x=>(2/3)/Math.cbrt(x+1),
+    contPass:true, contHtml:"تربيع أي عدد حقيقي (x+1) ثم أخذ جذره التكعيبي معرّف ومستمر دائماً — حتى عند x=−1 حيث \\(f(-1)=\\sqrt[3]{0}=0\\). إذن الدالة مستمرة على \\([-2,7]\\) بأكملها، بلا أي استثناء.",
+    diffPass:false, diffHtml:"\\(f'(x)=\\dfrac{2}{3\\sqrt[3]{x+1}}\\)، وهذه <b style='color:var(--brick)'>غير معرّفة عند x=−1</b> (قسمة على صفر) — ونقطة \\(x=-1\\) تنتمي فعلاً للفترة المفتوحة \\((-2,7)\\)! هذه <b>نقطة رأس حادّ (Cusp)</b>: الدالة مستمرة هناك تماماً، لكن مماسّها رأسي (ميل غير محدود)، فهي غير قابلة للاشتقاق رغم استمرارها — وهذا يختلف عن حالات الفشل السابقة التي كانت بسبب انقطاع الاستمرارية نفسها." }
+];
+
+let m2CurrentCase = null;
+
+function initModule2(){
+  const grid = document.getElementById('m2-case-selector');
+  grid.innerHTML = m2Cases.map(c=>
+    '<button class="btn btn-outline text-xs" onclick="m2SelectCase(\''+c.id+'\')" id="m2-sel-'+c.id+'">'+c.label+'</button>'
+  ).join('');
+  m2SelectCase('case1');
+}
+
+function m2SelectCase(id){
+  m2CurrentCase = m2Cases.find(c=>c.id===id);
+  m2Cases.forEach(c=>{
+    document.getElementById('m2-sel-'+c.id).className = 'btn text-xs ' + (c.id===id?'btn-rose':'btn-outline');
+  });
+  document.getElementById('m2-theorem-badge').textContent = m2CurrentCase.theorem==='rolle' ? 'مبرهنة رول Rolle' : 'مبرهنة القيمة المتوسطة MVT';
+  document.getElementById('m2-function-display').innerHTML = '\\('+m2CurrentCase.latex+'\\)';
+  document.getElementById('m2-cond3-title').textContent = m2CurrentCase.theorem==='rolle' ? 'الشرط الثالث: f(a) = f(b)' : 'خطوة الحل: صيغة القيمة المتوسطة';
+
+  ['1','2','3'].forEach(n=>{
+    document.getElementById('m2-cond'+n+'-result').innerHTML='';
+    document.getElementById('m2-cond'+n+'-badge').className='badge-num'+(n==='1'?' current':'');
+    document.getElementById('m2-cond'+n+'-btn').disabled=false;
+  });
+  document.getElementById('m2-cond1-card').className='surface-raised p-4 mb-3 step-active';
+  document.getElementById('m2-cond2-card').className='surface-raised p-4 mb-3 step-locked';
+  document.getElementById('m2-cond3-card').className='surface-raised p-4 mb-3 step-locked';
+  document.getElementById('m2-result-panel').innerHTML='';
+  refreshMath();
+  m2DrawGraph(null);
+}
+
+function m2SolveForC(c){
+  if(c.id==='case1') return [2];
+  if(c.id==='case5') return [3];
+  if(c.id==='case6') return [-Math.sqrt(5), Math.sqrt(5)];
+  return [];
+}
+
+function m2CheckCondition(n){
+  const c = m2CurrentCase;
+  let pass, html;
+  if(n===1){ pass=c.contPass; html=c.contHtml; }
+  else if(n===2){ pass=c.diffPass; html=c.diffHtml; }
+  else {
+    const fa=c.f(c.a), fb=c.f(c.b);
+    if(c.theorem==='rolle'){
+      pass = Math.abs(fa-fb) < 1e-9;
+      html = '\\(f('+c.a+')='+fmt(fa,3)+'\\) &nbsp;,&nbsp; \\(f('+c.b+')='+fmt(fb,3)+'\\)<br>' +
+        (pass ? '<span style="color:var(--sage)">متساويان ✓ — الشرط الثالث محقَّق.</span>'
+              : '<span style="color:var(--brick)">غير متساويين ✗ — <b>لا تتحقق مبرهنة رول.</b></span>');
+    } else {
+      const slope=(fb-fa)/(c.b-c.a);
+      c._slope = slope; pass = true;
+      html = '\\(f('+c.a+')='+fmt(fa,3)+'\\) &nbsp;,&nbsp; \\(f('+c.b+')='+fmt(fb,3)+'\\)<br>' +
+        'ميل الوتر: \\(\\dfrac{f(b)-f(a)}{b-a}='+fmt(slope,4)+'\\)<br>' +
+        '<span style="color:var(--sage)">الآن نحل \\(f\'(c)='+fmt(slope,4)+'\\)</span>';
+    }
+  }
+  document.getElementById('m2-cond'+n+'-result').innerHTML = html;
+  document.getElementById('m2-cond'+n+'-badge').className = 'badge-num ' + (pass?'done':'');
+  document.getElementById('m2-cond'+n+'-btn').disabled = true;
+  document.getElementById('m2-cond'+n+'-card').classList.remove('step-active');
+  document.getElementById('m2-cond'+n+'-card').classList.add('step-done');
+  refreshMath();
+
+  if(!pass){ m2ShowFinalVerdict(false, n); return; }
+
+  if(n<3){
+    const nextCard = document.getElementById('m2-cond'+(n+1)+'-card');
+    nextCard.classList.remove('step-locked');
+    nextCard.classList.add('step-active');
+    document.getElementById('m2-cond'+(n+1)+'-badge').className='badge-num current';
+  } else {
+    m2ShowFinalVerdict(true, 3);
+  }
+}
+
+function m2ShowFinalVerdict(success, atStep){
+  const c = m2CurrentCase;
+  const panel = document.getElementById('m2-result-panel');
+  if(!success){
+    const reasons = {1:'الاستمرارية', 2:'قابلية الاشتقاق', 3:'الشرط f(a)=f(b)'};
+    panel.innerHTML = '<div class="surface-raised p-4 fade-in" style="border:2px solid var(--brick)">'+
+      '<div class="font-display font-bold text-lg mb-2" style="color:var(--brick)">❌ لا تتحقق '+(c.theorem==='rolle'?'مبرهنة رول':'مبرهنة القيمة المتوسطة')+'</div>'+
+      '<div class="text-sm" style="color:var(--paper-dim)">السبب: فشل شرط <b>'+reasons[atStep]+'</b>. لا يوجد ضمان بوجود نقطة c، ولا داعي لمحاولة إيجادها.</div></div>';
+    m2DrawGraph(null);
+    return;
+  }
+
+  if(c.specialAnyC){
+    panel.innerHTML = '<div class="surface-raised p-4 fade-in" style="border:2px solid var(--gold)">'+ stampHTML('تحقّقت')+
+      '<div class="font-display font-bold text-lg mt-2 mb-2" style="color:var(--paper)">حالة خاصة: c أي قيمة!</div>'+
+      '<div class="text-sm" style="color:var(--paper-dim)">بما أن \\(f\'(x)=0\\) لكل x (دالة ثابتة)، فأي نقطة c في \\(('+c.a+','+c.b+')\\) تحقق \\(f\'(c)=0\\). هذه الحالة الوحيدة في الفصل حيث لا يكون الحل رقماً واحداً محدداً.</div></div>';
+    refreshMath();
+    m2DrawGraph((c.a+c.b)/2);
+    return;
+  }
+
+  const roots = m2SolveForC(c);
+  const validRoots = roots.filter(r=> r>c.a && r<c.b);
+  const target = c.theorem==='rolle' ? '0' : fmt(c._slope,4);
+  let html = '<div class="surface-raised p-4 fade-in" style="border:2px solid var(--sage)">'+ stampHTML('تحقّقت الشروط')+
+    '<div class="font-display font-bold text-lg mt-2 mb-2" style="color:var(--paper)">إيجاد c</div>'+
+    '<div class="text-sm mb-2" style="color:var(--paper-dim)">نحل \\(f\'(c)='+target+'\\):</div>';
+  if(roots.length>1) html += '<div class="text-sm mb-2">الجذور الجبرية: '+roots.map(r=>fmt(r,4)).join(' , ')+'</div>';
+  validRoots.forEach(r=>{ html += '<div class="text-sm mb-1" style="color:var(--sage)">✓ c = '+fmt(r,4)+' — تنتمي للفترة المفتوحة ('+c.a+','+c.b+')</div>'; });
+  roots.filter(r=> !(r>c.a && r<c.b)).forEach(r=>{ html += '<div class="text-sm mb-1" style="color:var(--brick)">✗ c = '+fmt(r,4)+' — تُرفض لأنها خارج ('+c.a+','+c.b+')</div>'; });
+  html += '</div>';
+  panel.innerHTML = html;
+  refreshMath();
+  m2DrawGraph(validRoots.length ? validRoots[0] : null);
+}
+
+function m2DrawGraph(cValue){
+  const c = m2CurrentCase;
+  if(!c) return;
+  const pad = (c.b-c.a)*0.2 || 1;
+  const xMin=c.a-pad, xMax=c.b+pad;
+  let yMin=Infinity, yMax=-Infinity;
+  for(let i=0;i<=60;i++){
+    const x = xMin + (xMax-xMin)*i/60;
+    let y; try{ y=c.f(x); }catch(e){ continue; }
+    if(isFinite(y)){ yMin=Math.min(yMin,y); yMax=Math.max(yMax,y); }
+  }
+  if(!isFinite(yMin)){ yMin=-5; yMax=5; }
+  const yPad = (yMax-yMin)*0.25 || 1;
+  yMin-=yPad; yMax+=yPad;
+
+  const points=[{x:c.a,y:c.f(c.a),label:'a',color:cssVar('--teal')},{x:c.b,y:c.f(c.b),label:'b',color:cssVar('--teal')}];
+  let tangent=null, secant={x1:c.a,y1:c.f(c.a),x2:c.b,y2:c.f(c.b)};
+  if(cValue!==null && cValue!==undefined){
+    points.push({x:cValue,y:c.f(cValue),label:'c',color:cssVar('--rose')});
+    tangent={x0:cValue,y0:c.f(cValue),slope:c.fprime(cValue)};
+  }
+  plotCurve('m2-canvas', {
+    xMin,xMax,yMin,yMax, func:c.f, curveColor:cssVar('--teal'), points, secant, tangent,
+    domainCheck: c.jumpAt!==undefined ? (x=>Math.abs(x-c.jumpAt)>0.03) : undefined,
+    samples:600
+  });
+}
+
+/* =====================================================================
+   MODULE 3 — LINEAR APPROXIMATION (التقريب الخطي — الصندوق الوردي)
+   ===================================================================== */
+const m3Presets = [
+  { id:'sqrt26', label:'√26', latex:'f(x)=\\sqrt{x}',
+    f:x=>Math.sqrt(x), fp:x=>1/(2*Math.sqrt(x)), a:25, b:26, isChangeOnly:false },
+  { id:'cbrt78', label:'∛7.8', latex:'f(x)=\\sqrt[3]{x}',
+    f:x=>Math.cbrt(x), fp:x=>(1/3)*Math.pow(x,-2/3), a:8, b:7.8, isChangeOnly:false },
+  { id:'cbrt012', label:'∛0.12', latex:'f(x)=\\sqrt[3]{x}',
+    f:x=>Math.cbrt(x), fp:x=>(1/3)*Math.pow(x,-2/3), a:0.125, b:0.12, isChangeOnly:false },
+  { id:'sqrtplus4rt17', label:'√17 + ∜17', latex:"f(x)=\\sqrt{x}+\\sqrt[4]{x}",
+    f:x=>Math.sqrt(x)+Math.pow(x,0.25), fp:x=>0.5*Math.pow(x,-0.5)+0.25*Math.pow(x,-0.75), a:16, b:17, isChangeOnly:false },
+  { id:'polyf1001', label:'f(1.001) لكثيرة حدود', latex:"f(x)=x^3+3x^2+4x+5",
+    f:x=>Math.pow(x,3)+3*Math.pow(x,2)+4*x+5, fp:x=>3*Math.pow(x,2)+6*x+4, a:1, b:1.001, isChangeOnly:false },
+  { id:'cubevol998', label:'حجم مكعب حرفه 9.98cm', latex:"V(x)=x^3",
+    f:x=>Math.pow(x,3), fp:x=>3*Math.pow(x,2), a:10, b:9.98, unit:'cm³', isChangeOnly:false },
+  { id:'paintvol', label:'حجم طلاء مكعب (سمك 0.15cm)', latex:"V(x)=x^3",
+    f:x=>Math.pow(x,3), fp:x=>3*Math.pow(x,2), a:10, b:10.3, unit:'cm³', isChangeOnly:true },
+  { id:'cbrtx2change', label:'التغيّر التقريبي في ∛x²', latex:"f(x)=\\sqrt[3]{x^2}",
+    f:x=>Math.cbrt(x*x), fp:x=>(2/3)*Math.pow(x,-1/3), a:8, b:8.06, isChangeOnly:true }
+];
+
+let m3Current = null;
+
+function initModule3(){
+  const grid = document.getElementById('m3-preset-selector');
+  grid.innerHTML = m3Presets.map(p=>
+    '<button class="btn btn-outline text-xs" onclick="m3SelectPreset(\''+p.id+'\')" id="m3-sel-'+p.id+'">'+p.label+'</button>'
+  ).join('');
+  m3SelectPreset('sqrt26');
+}
+
+function m3SelectPreset(id){
+  m3Current = m3Presets.find(p=>p.id===id);
+  m3Presets.forEach(p=>{
+    document.getElementById('m3-sel-'+p.id).className = 'btn text-xs ' + (p.id===id?'btn-rose':'btn-outline');
+  });
+  const p = m3Current;
+  const h = p.b - p.a;
+  const fa = p.f(p.a), fpa = p.fp(p.a);
+  const approxDelta = h*fpa;
+  const approxValue = fa + approxDelta;
+  const realValue = p.f(p.b);
+
+  document.getElementById('m3-pb-b').textContent = 'b = ' + fmt(p.b,4);
+  document.getElementById('m3-pb-a').textContent = 'a = ' + fmt(p.a,4);
+  const hEl = document.getElementById('m3-pb-h');
+  hEl.textContent = 'h = ' + fmt(h,4);
+  hEl.className = 'text-2xl font-bold ' + signClass(h);
+
+  let stepsHTML =
+    '<div class="mb-2"><b>الدالة:</b> \\('+p.latex+'\\)</div>'+
+    '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850)">f(a) = f('+fmt(p.a,4)+') = '+fmt(fa,5)+'</div>'+
+    '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850)">f\'(a) = f\'('+fmt(p.a,4)+') = '+fmt(fpa,5)+'</div>'+
+    '<div class="mb-2"><b>القانون:</b> \\(f(a+h)\\approx f(a)+h\\,f\'(a)\\)</div>';
+
+  if(p.isChangeOnly){
+    stepsHTML += '<div class="mb-2 text-xs" style="color:var(--paper-faint)">المطلوب هنا مقدار <b>التغيّر</b> فقط \\(\\Delta f\\approx h\\,f\'(a)\\)، وليس القيمة الكاملة:</div>'+
+      '<div class="p-3 rounded-lg text-center font-mono text-xl font-bold" style="background:var(--gold-dim); color:var(--gold)">Δf ≈ ('+fmt(h,4)+')×('+fmt(fpa,5)+') = '+fmt(approxDelta,5)+(p.unit?(' '+p.unit):'')+'</div>';
+  } else {
+    stepsHTML += '<div class="mb-2 font-mono px-2 py-1 rounded" style="background:var(--ink-850)">f('+fmt(p.b,4)+') ≈ '+fmt(fa,5)+' + ('+fmt(h,4)+')('+fmt(fpa,5)+')</div>'+
+      '<div class="p-3 rounded-lg text-center font-mono text-xl font-bold mt-2" style="background:var(--gold-dim); color:var(--gold)">≈ '+fmt(approxValue,5)+(p.unit?(' '+p.unit):'')+'</div>'+
+      '<div class="text-xs mt-2 text-center" style="color:var(--paper-faint)">القيمة الحقيقية بالآلة الحاسبة: '+fmt(realValue,5)+' (للمقارنة فقط)</div>';
+  }
+  document.getElementById('m3-steps').innerHTML = stepsHTML;
+  refreshMath();
+
+  const exploreSlider = document.getElementById('m3-explore-x');
+  const domainMin = Math.max(0.01, p.a*0.4);
+  const domainMax = p.a*1.6 + 0.5;
+  exploreSlider.min = domainMin; exploreSlider.max = domainMax;
+  exploreSlider.step = (domainMax-domainMin)/200;
+  exploreSlider.value = p.b;
+  m3ExploreUpdate(p.b);
+}
+
+function m3ExploreUpdate(val){
+  const p = m3Current;
+  if(!p) return;
+  const x = parseFloat(val);
+  const fa = p.f(p.a), fpa = p.fp(p.a);
+  const approx = fa + (x-p.a)*fpa;
+  let real; try{ real = p.f(x); }catch(e){ real = NaN; }
+
+  document.getElementById('m3-explore-display').textContent = 'x = ' + fmt(x,4);
+  document.getElementById('m3-approx-val').textContent = fmt(approx,5);
+  document.getElementById('m3-real-val').textContent = isNaN(real) ? '—' : fmt(real,5);
+
+  const domainMin = parseFloat(document.getElementById('m3-explore-x').min);
+  const domainMax = parseFloat(document.getElementById('m3-explore-x').max);
+  const yVals = [];
+  for(let i=0;i<=40;i++){
+    const xx = domainMin + (domainMax-domainMin)*i/40;
+    try{ const yy=p.f(xx); if(isFinite(yy)) yVals.push(yy); }catch(e){}
+  }
+  const tanMin = fa + (domainMin-p.a)*fpa, tanMax = fa + (domainMax-p.a)*fpa;
+  yVals.push(tanMin, tanMax);
+  let yMin = Math.min.apply(null,yVals), yMax = Math.max.apply(null,yVals);
+  const yPad = (yMax-yMin)*0.15 || 1;
+  yMin -= yPad; yMax += yPad;
+
+  const pts = [{x:p.a, y:fa, label:'a', color:cssVar('--gold')}, {x:x, y:approx, color:cssVar('--copper')}];
+  if(!isNaN(real)) pts.push({x:x, y:real, color:cssVar('--teal')});
+
+  plotCurve('m3-canvas', {
+    xMin:domainMin, xMax:domainMax, yMin, yMax,
+    func: p.f, curveColor:cssVar('--teal'),
+    tangent: {x0:p.a, y0:fa, slope:fpa},
+    points: pts,
+    samples: 300
+  });
+}
+
+/* =====================================================================
+   MODULE 4 — FINDING CONSTANTS (إيجاد الثوابت — محرّك الترجمة)
+   ===================================================================== */
+const m4TranslationCards = [
+  { front:'نهاية عظمى محلية عند x=2', back:"f'(2)=0", note:"(وتُؤكَّد أيضاً بأن f''(2)<0)" },
+  { front:'نهاية صغرى محلية عند x=−1', back:"f'(-1)=0", note:"(وتُؤكَّد أيضاً بأن f''(-1)>0)" },
+  { front:'نقطة انقلاب عند x=0', back:"f''(0)=0", note:"⚠️ المشتقة الثانية، وليست الأولى" },
+  { front:'القيمة العظمى للدالة تساوي 8', back:"f(x_{max})=8", note:"تُستخدم بعد إيجاد النقطة الحرجة أولاً" },
+  { front:'المنحني يمرّ بالنقطة (3,5)', back:"f(3)=5", note:"تعويض مباشر في الدالة نفسها" },
+  { front:'ميل المماس عند x=1 يساوي 4', back:"f'(1)=4", note:"المشتقة الأولى تمثّل الميل دائماً" },
+  { front:'المماس عند x=0 أفقي', back:"f'(0)=0", note:"دون تحديد نوع النهاية (عظمى أم صغرى)" },
+  { front:'الدالة مقعّرة عند x=2', back:"f''(2)>0", note:"⚠️ متباينة، وليست معادلة!" }
+];
+
+const m4Examples = {
+  ex5:{
+    problemText:'دالة \\(f(x)=ax^3+3x^2+c\\) لها نهاية عظمى محلية قيمتها 8، ونقطة انقلاب عند x=1. جد قيمتي a, c.',
+    chips:[
+      { text:'نقطة انقلاب عند x=1', eq:"f''(1)=0" },
+      { text:'النهاية العظمى المحلية تساوي 8', eq:'f(x_{max})=8' }
+    ]
+  },
+  ex4:{
+    problemText:'منحني الدالة \\(f(x)=ax^3+bx^2+c\\) مقعّر في \\(\\{x:x<1\\}\\) ومحدّب في \\(\\{x:x>1\\}\\)، ويمسّ المستقيم \\(y+9x=28\\) عند النقطة (3,1). جد a, b, c.',
+    chips:[
+      { text:'نقطة انقلاب عند x=1 (تغيّر التقعّر)', eq:"f''(1)=0" },
+      { text:'ميل المماس عند x=3 يساوي −9', eq:"f'(3)=-9" },
+      { text:'النقطة (3,1) تنتمي للمنحني', eq:'f(3)=1' }
+    ]
+  },
+  ex3:{
+    problemText:'إذا كان \\(g(x)=1-12x\\)، \\(f(x)=ax^3+bx^2+cx\\)، وكان كل من f, g متماسّان عند نقطة انقلاب منحني f وهي النقطة \\((1,-11)\\)، فجد قيم الثوابت a, b, c.',
+    chips:[
+      { text:'نقطة (1,−11) هي نقطة انقلاب لمنحني f', eq:"f''(1)=0" },
+      { text:'النقطة (1,−11) تنتمي لمنحني f', eq:'f(1)=-11' },
+      { text:'f وg متماسّان بنفس النقطة (نفس الميل)', eq:"f'(1)=-12" }
+    ]
+  }
+};
+
+let m4CurrentEx = null;
+let m4CurrentExId = null;
+let m4ChipsClicked = [];
+
+function initModule4(){
+  const grid = document.getElementById('m4-cards-grid');
+  grid.innerHTML = m4TranslationCards.map((c,i)=>
+    '<div class="flip-card" id="m4-card-'+i+'" onclick="m4FlipCard('+i+')">'+
+      '<div class="flip-card-inner">'+
+        '<div class="flip-card-front"><div class="text-sm font-semibold">'+c.front+'</div><div class="text-xs mt-2" style="color:var(--paper-faint)">اضغط للترجمة ⟲</div></div>'+
+        '<div class="flip-card-back"><div class="font-mono text-lg font-bold" id="m4-back-'+i+'"></div><div class="text-xs mt-2" style="color:#f0dcc0">'+c.note+'</div></div>'+
+      '</div></div>'
+  ).join('');
+  m4TranslationCards.forEach((c,i)=>{ document.getElementById('m4-back-'+i).innerHTML = '\\('+c.back+'\\)'; });
+  refreshMath();
+  m4SelectExample('ex5');
+  m4ProofUpdate(4);
+}
+
+function m4FlipCard(idx){ document.getElementById('m4-card-'+idx).classList.toggle('flipped'); }
+
+function m4SelectExample(id){
+  cancelTimeAttack();
+  m4CurrentExId = id;
+  m4CurrentEx = m4Examples[id];
+  document.getElementById('m4-ex-tab-5').className = 'btn flex-1 text-sm ' + (id==='ex5'?'btn-rose':'btn-outline');
+  document.getElementById('m4-ex-tab-4').className = 'btn flex-1 text-sm ' + (id==='ex4'?'btn-rose':'btn-outline');
+  document.getElementById('m4-ex-tab-3').className = 'btn flex-1 text-sm ' + (id==='ex3'?'btn-rose':'btn-outline');
+  document.getElementById('m4-problem-text').innerHTML = m4CurrentEx.problemText;
+  m4ChipsClicked = m4CurrentEx.chips.map(()=>false);
+  m4RenderChips();
+  document.getElementById('m4-equation-system').innerHTML = '<div class="text-xs" style="color:var(--paper-faint)">اضغط الجمل أعلاه لبناء المعادلات...</div>';
+  document.getElementById('m4-solution-panel').innerHTML = '';
+  document.getElementById('m4-mistake-panel').innerHTML = '';
+  refreshMath();
+}
+
+function m4RenderChips(){
+  document.getElementById('m4-sentence-chips').innerHTML = m4CurrentEx.chips.map((chip,i)=>
+    '<button class="mcq-btn text-sm" style="margin-bottom:0;" onclick="m4ClickChip('+i+')" id="m4-chip-'+i+'">'+chip.text+'</button>'
+  ).join('');
+}
+
+function m4ClickChip(i){
+  m4ChipsClicked[i] = true;
+  const btn = document.getElementById('m4-chip-'+i);
+  btn.classList.add('correct'); btn.disabled = true;
+  m4RefreshEquationSystem();
+  if(timeAttackState.active && m4ChipsClicked.every(v=>v)) timeAttackSuccess();
+}
+
+function m4RefreshEquationSystem(){
+  const active = m4CurrentEx.chips.filter((c,i)=>m4ChipsClicked[i]);
+  const container = document.getElementById('m4-equation-system');
+  container.innerHTML = active.length===0
+    ? '<div class="text-xs" style="color:var(--paper-faint)">اضغط الجمل أعلاه لبناء المعادلات...</div>'
+    : active.map(c=>'<div class="fade-in">⟵ \\('+c.eq+'\\)</div>').join('');
+  refreshMath();
+}
+
+function m4SolveSystem(){
+  m4CurrentEx.chips.forEach((c,i)=>{ if(!m4ChipsClicked[i]) m4ClickChip(i); });
+  let html = '<div class="surface-raised p-4 fade-in mt-2" style="border:2px solid var(--gold)">' + stampHTML('تم الحل') +
+    '<div class="font-display font-bold text-lg mt-2 mb-2">النتيجة النهائية</div>';
+  if(m4CurrentExId==='ex5'){
+    html += '<div class="space-y-1">'+
+      '<div>من \\(f\'\'(1)=0\\): \\(6a+6=0 \\Rightarrow a=-1\\)</div>'+
+      '<div>إذن \\(f(x)=-x^3+3x^2+c\\)، و\\(f\'(x)=-3x^2+6x=-3x(x-2)\\)</div>'+
+      '<div>الأعداد الحرجة: \\(x=0\\) و\\(x=2\\). بفحص الإشارة: \\(x=2\\) هي النهاية العظمى المحلية.</div>'+
+      '<div>من \\(f(2)=8\\): \\(-8+12+c=8 \\Rightarrow c=4\\)</div>'+
+      '<div class="mt-2 p-2 rounded font-mono text-center" style="background:var(--gold-dim); color:var(--gold)">a = −1 &nbsp; , &nbsp; c = 4</div>'+
+      '</div>';
+  } else if(m4CurrentExId==='ex4'){
+    html += '<div class="space-y-1">'+
+      '<div>من \\(f\'\'(1)=0\\): \\(6a+2b=0 \\Rightarrow b=-3a\\) …(1)</div>'+
+      '<div>من \\(f\'(3)=-9\\): \\(27a+6b=-9\\) …(2)</div>'+
+      '<div>بالتعويض من (1) في (2): \\(9a-6a=-3 \\Rightarrow a=-1 \\Rightarrow b=3\\)</div>'+
+      '<div>من \\(f(3)=1\\): \\(-27+27+c=1 \\Rightarrow c=1\\)</div>'+
+      '<div class="mt-2 p-2 rounded font-mono text-center" style="background:var(--gold-dim); color:var(--gold)">a = −1 &nbsp; , &nbsp; b = 3 &nbsp; , &nbsp; c = 1</div>'+
+      '</div>';
+  } else {
+    html += '<div class="space-y-1">'+
+      '<div>من \\(f\'\'(1)=0\\): \\(6a+2b=0 \\Rightarrow b=-3a\\) …(1)</div>'+
+      '<div>من \\(f(1)=-11\\): \\(a+b+c=-11\\) …(2)</div>'+
+      '<div>ميل g ثابت ويساوي −12، وبما أن f وg متماسّان: \\(f\'(1)=3a+2b+c=-12\\) …(3)</div>'+
+      '<div>بالتعويض من (1) في (2): \\(c=-11+2a\\). وبالتعويض من (1) في (3): \\(c=-12+3a\\)</div>'+
+      '<div>بمساواة عبارتَي c: \\(-11+2a=-12+3a \\Rightarrow a=1\\)، ومنها \\(b=-3\\)، \\(c=-9\\)</div>'+
+      '<div class="mt-2 p-2 rounded font-mono text-center" style="background:var(--gold-dim); color:var(--gold)">a = 1 &nbsp; , &nbsp; b = −3 &nbsp; , &nbsp; c = −9</div>'+
+      '</div>';
+  }
+  html += '</div>';
+  document.getElementById('m4-solution-panel').innerHTML = html;
+  openAmbientFocus(html);
+  refreshMath();
+}
+
+function m4ShowMistake(){
+  let html;
+  if(m4CurrentExId==='ex5'){
+    html = '<div class="surface-raised p-4 fade-in" style="border:2px solid var(--brick)">'+
+      '<div class="font-display font-bold mb-2" style="color:var(--brick)">⚠️ الخطأ الشائع: f\' بدلاً من f\'\'</div>'+
+      '<div class="text-sm leading-loose" style="color:var(--paper-dim)">'+
+      '<div>لو استخدمنا خطأً \\(f\'(1)=0\\) بدلاً من \\(f\'\'(1)=0\\) لنقطة الانقلاب:</div>'+
+      '<div class="font-mono my-1 px-2 py-1 rounded" style="background:var(--ink-850)">f\'(x)=3ax²+6x ⟹ f\'(1)=3a+6=0 ⟹ a=−2 <span style="color:var(--brick)">(خطأ!)</span></div>'+
+      '<div>هذا يعطي قيمة مختلفة تماماً عن الجواب الصحيح (a=−1)، لأن نقطة الانقلاب تصف <b>تغيّر التقعّر</b> وترتبط حصراً بالمشتقة الثانية، بينما \\(f\'=0\\) يصف نقطة حرجة (نهاية عظمى أو صغرى) — مفهوم مختلف كلياً.</div>'+
+      '</div></div>';
+  } else if(m4CurrentExId==='ex4'){
+    html = '<div class="surface-raised p-4 fade-in" style="border:2px solid var(--brick)">'+
+      '<div class="font-display font-bold mb-2" style="color:var(--brick)">⚠️ الخطأ الشائع: f\' بدلاً من f\'\'</div>'+
+      '<div class="text-sm leading-loose" style="color:var(--paper-dim)">'+
+      '<div>لو استخدمنا خطأً \\(f\'(1)=0\\) بدلاً من \\(f\'\'(1)=0\\) لنقطة الانقلاب:</div>'+
+      '<div class="font-mono my-1 px-2 py-1 rounded" style="background:var(--ink-850)">f\'(x)=3ax²+2bx ⟹ f\'(1)=3a+2b=0 <span style="color:var(--brick)">(معادلة مختلفة تماماً عن f\'\'(1)=0)</span></div>'+
+      '<div>حل النظام بهذه المعادلة الخاطئة سيُنتج قيماً مختلفة كلياً لـ a,b,c — رغم أن الخطوات "تبدو" منظّمة، فالنتيجة كلها خاطئة لأن الأساس غلط.</div>'+
+      '</div></div>';
+  } else {
+    html = '<div class="surface-raised p-4 fade-in" style="border:2px solid var(--brick)">'+
+      '<div class="font-display font-bold mb-2" style="color:var(--brick)">⚠️ الخطأ الشائع: f\' بدلاً من f\'\'</div>'+
+      '<div class="text-sm leading-loose" style="color:var(--paper-dim)">'+
+      '<div>لو استخدمنا خطأً \\(f\'(1)=0\\) بدلاً من \\(f\'\'(1)=0\\) لوصف نقطة الانقلاب:</div>'+
+      '<div class="font-mono my-1 px-2 py-1 rounded" style="background:var(--ink-850)">f\'(x)=3ax²+2bx+c ⟹ f\'(1)=3a+2b+c=0 <span style="color:var(--brick)">(معادلة زائفة)</span></div>'+
+      '<div>هذا الفخّ أخطر مما يبدو هنا تحديداً: معادلتنا الثالثة الصحيحة أصلاً هي \\(f\'(1)=-12\\)، أي \\(3a+2b+c=-12\\). فإذا أضفت المعادلة الخاطئة \\(3a+2b+c=0\\)، تحصل على <b>معادلتين متناقضتين</b> — نفس الطرف الأيسر تماماً، لكن بقيمتين مختلفتين (0 و−12) في آنٍ واحد! النتيجة: نظام <b>بلا أي حل ممكن</b> إطلاقاً، لا حلاً خاطئاً فحسب.</div>'+
+      '</div></div>';
+  }
+  document.getElementById('m4-mistake-panel').innerHTML = html;
+  refreshMath();
+}
+
+function m4ProofUpdate(aStr){
+  let a = parseFloat(aStr);
+  if(Math.abs(a) < 0.01) a = 0.5;
+  const x0 = Math.cbrt(-a/2);
+  const fpp = 2 - (2*a)/Math.pow(x0,3);
+
+  document.getElementById('m4-proof-a-display').textContent = 'a = ' + fmt(a,2);
+  document.getElementById('m4-proof-x0').textContent = fmt(x0,4);
+  document.getElementById('m4-proof-fpp').textContent = fmt(fpp,4);
+  const verdictEl = document.getElementById('m4-proof-verdict');
+  verdictEl.textContent = fpp>0 ? 'نهاية صغرى محلية' : (fpp<0 ? 'نهاية عظمى محلية!' : 'غير محدّد');
+  verdictEl.style.color = fpp>0 ? 'var(--sage)' : 'var(--brick)';
+}
+
+function m4RevealProof(){
+  document.getElementById('m4-proof-panel').innerHTML =
+    '<div class="surface-raised p-4 fade-in" style="border:2px solid var(--gold)">' + stampHTML('برهان تام') +
+    '<div class="font-display font-bold text-lg mt-2 mb-2">البرهان الجبري العام (لكل a≠0)</div>'+
+    '<div class="space-y-1" style="color:var(--paper-dim)">'+
+    '<div>\\(f(x)=x^2-\\dfrac{a}{x} \\Rightarrow f\'(x)=2x+\\dfrac{a}{x^2}\\)</div>'+
+    '<div>الأعداد الحرجة: \\(f\'(x)=0 \\Rightarrow 2x^3+a=0 \\Rightarrow x_0=\\sqrt[3]{-\\dfrac{a}{2}}\\) — قيمة حقيقية وحيدة دائماً (الجذر التكعيبي معرّف ووحيد لأي عدد حقيقي).</div>'+
+    '<div>\\(f\'\'(x)=2-\\dfrac{2a}{x^3}\\)</div>'+
+    '<div>عند \\(x_0\\): بما أن \\(x_0^3=-\\dfrac{a}{2}\\)، فإن \\(a=-2x_0^3\\). بالتعويض:</div>'+
+    '<div class="font-mono px-2 py-1 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">\\(f\'\'(x_0)=2-\\dfrac{2(-2x_0^3)}{x_0^3}=2+4=6>0\\)</div>'+
+    '<div><b>هذه النتيجة (=6) مستقلة تماماً عن قيمة a</b> — أياً كانت a، ستكون \\(f\'\'(x_0)\\) موجبة دائماً، أي أن النقطة الحرجة الوحيدة هي دائماً <b style="color:var(--sage)">نهاية صغرى محلية</b>، ولا يمكن أبداً أن تكون عظمى. وبما أنه لا توجد أي نقطة حرجة أخرى، فالدالة f <b>لا تمتلك نهاية عظمى محلية مهما كانت قيمة a</b> — وهو المطلوب إثباته (و.هـ.م).</div>'+
+    '</div></div>';
+  refreshMath();
+}
+
+/* =====================================================================
+   MODULE 5 — CURVE SKETCHING (رسم الدوال — معالج الست خطوات)
+   ===================================================================== */
+const m5Functions = {
+  polyA: {
+    label:'y = x³−3x²+4', latex:'y=x^3-3x^2+4',
+    f: x=>Math.pow(x,3)-3*Math.pow(x,2)+4,
+    xMin:-3, xMax:5, yMin:-5, yMax:10,
+    vAsymptotes:null, hAsymptotes:null,
+    steps:[
+      { title:'المجال',
+        q:"ما أوسع مجال لهذه الدالة كثيرة الحدود؟",
+        options:["R","R − {0}","R − {−1, 2}","[0, ∞)"], correct:0,
+        wrong:[null, "جرّب: f(0)=4 — قيمة معرّفة تماماً، لا مانع من التعويض بصفر.", "هاتان القيمتان جذور الدالة (تقاطع مع محور السينات)، وليستا قيداً على المجال.", "المجال ليس محصوراً بالقيم الموجبة — الدالة معرّفة أيضاً عند x السالبة."],
+        explain:"كل كثيرة حدود مجالها الطبيعي هو \\(\\mathbb{R}\\) بالكامل — لا قواسم ولا جذور تقيّد المجال." },
+      { title:'التقاطع مع المحورين',
+        q:"بالتعويض x=0 ثم y=0، ما نقاط التقاطع؟",
+        options:["(0,4) فقط","(0,4) و(−1,0) و(2,0)","(0,0) فقط","(4,0) و(0,−1) و(0,2)"], correct:1,
+        wrong:["هذا تقاطع الصادات فقط — تبقى تقاطعات السينات (y=0) غير محسوبة بعد.", null, "تحقّق من التعويض: عند x=0 نحصل على y=4 وليس صفراً.", "لاحظ ترتيب الإحداثيَين في كل نقطة — أعد الترتيب بعناية."],
+        explain:"x=0 ⟹ y=4. ولإيجاد الجذور: \\(x^3-3x^2+4=(x+1)(x-2)^2=0\\) ⟹ x=−1 أو x=2 (جذر مضاعف)." },
+      { title:'التناظر',
+        q:"احسب f(−x) وقارنها بـ f(x) و−f(x). ما نوع التناظر؟",
+        options:["متناظرة حول محور الصادات (زوجية)","متناظرة حول نقطة الأصل (فردية)","غير متناظرة","متناظرة حول المحورين معاً"], correct:2,
+        wrong:["لو كانت زوجية لكان f(−x)=f(x) — لكن الحد \\(x^3\\) يغيّر إشارته.", "لو كانت فردية لكان f(−x)=−f(x) بالكامل — لكن الحد الثابت +4 يكسر هذا الشرط.", null, "هذه الحالة نادرة جداً ولا تنطبق هنا أصلاً."],
+        explain:"\\(f(-x)=-x^3-3x^2+4\\)، وهذا لا يساوي f(x) ولا −f(x)، إذن لا يوجد أي تناظر." },
+      { title:'المستقيمات المحاذية',
+        q:"هذه الدالة كثيرة حدود. كم عدد محاذياتها؟",
+        options:["واحد أفقي فقط","واحد عمودي فقط","لا يوجد أي محاذٍ","عمودي وأفقي معاً"], correct:2,
+        wrong:["المحاذي الأفقي يظهر فقط عند دراسة نهاية دالة نسبية في اللانهاية — لا ينطبق على كثيرة حدود.", "المحاذي العمودي ينشأ من تصفير المقام — كثيرة الحدود لا تملك مقاماً أصلاً.", null, "كلا النوعين مرتبط بالدوال النسبية حصراً."],
+        explain:"المحاذيات تظهر فقط في الدوال النسبية — كثيرات الحدود لا تمتلك أي محاذٍ إطلاقاً." },
+      { title:'النهايات المحلية ونقطة الانقلاب',
+        q:"بحساب f'(x)=3x²−6x وحل f'(x)=0، ما نقطة النهاية العظمى المحلية؟",
+        options:["(0,4)","(2,0)","(1,2)","(−1,0)"], correct:0,
+        wrong:[null, "هذه فعلاً نقطة حرجة، لكنها النهاية الصغرى وليست العظمى — تحقّق من إشارة f' حولها.", "هذه نقطة الانقلاب (من f''=0)، وليست نهاية محلية إطلاقاً.", "هذه نقطة تقاطع مع محور السينات فقط، وf' لا تساوي صفراً عندها."],
+        explain:"الأعداد الحرجة x=0,2. فحص الإشارة: تزايد ثم تناقص ثم تزايد ⟹ (0,4) عظمى محلية، (2,0) صغرى محلية. أما (1,2) فمن \\(f''(x)=6x-6=0\\) فهي نقطة الانقلاب." },
+      { title:'جدول القيم والرسم النهائي', isFinal:true }
+    ]
+  },
+  ratB: {
+    label:'f(x) = x²/(x²+1)', latex:'f(x)=\\dfrac{x^2}{x^2+1}',
+    f: x=>(x*x)/(x*x+1),
+    xMin:-4, xMax:4, yMin:-0.3, yMax:1.5,
+    vAsymptotes:[], hAsymptotes:[1],
+    steps:[
+      { title:'المجال',
+        q:"المقام هو x²+1. هل يمكن أن يساوي صفراً لأي x حقيقي؟",
+        options:["نعم عند x=1 و x=−1","نعم عند x=0","لا، أبداً — لأن x²≥0 دائماً","نعم عند كل القيم السالبة"], correct:2,
+        wrong:["جرّب: عند x=1، x²+1=2 وليس صفراً.", "عند x=0، x²+1=1 وليس صفراً.", null, "x² غير سالبة دائماً مهما كانت إشارة x، فالمقام لا يقل عن 1 أبداً."],
+        explain:"\\(x^2+1\\ge 1\\) دائماً مهما كانت x، فلا يساوي صفراً أبداً. المجال إذن \\(\\mathbb{R}\\) بالكامل رغم أن الدالة نسبية!" },
+      { title:'التقاطع مع المحورين',
+        q:"بالتعويض x=0 وy=0، ما نقاط التقاطع؟",
+        options:["(0,0) فقط","(0,1) و(1,0)","(0,0) و(1,0) و(−1,0)","لا توجد نقاط تقاطع"], correct:0,
+        wrong:[null, "تحقّق من التعويض: f(0)=0/1=0 وليس 1.", "بحل x²=0 نحصل على x=0 فقط (جذر مضاعف)، وليس ثلاث نقاط.", "التقاطع موجود بالفعل عند نقطة الأصل تحديداً."],
+        explain:"x=0 ⟹ y=0. وعند y=0: \\(x^2=0\\) ⟹ x=0 أيضاً (نفس النقطة) — المنحني يمسّ نقطة الأصل فقط." },
+      { title:'التناظر',
+        q:"احسب f(−x). ماذا تلاحظ؟",
+        options:["f(−x)=f(x) ⟹ تناظر حول محور الصادات","f(−x)=−f(x) ⟹ تناظر حول الأصل","لا يوجد تناظر","تناظر حول المحورين معاً"], correct:0,
+        wrong:[null, "كل الأسس زوجية (x² في البسط والمقام)، فإشارة x لا تغيّر النتيجة إطلاقاً.", "تحقّق من الحساب: \\((-x)^2=x^2\\) دائماً، فالدالة تُعيد نفس القيمة تماماً.", "هذا النوع نادر جداً ولا ينطبق هنا."],
+        explain:"\\(f(-x)=\\dfrac{(-x)^2}{(-x)^2+1}=\\dfrac{x^2}{x^2+1}=f(x)\\). دالة زوجية، متناظرة حول محور الصادات." },
+      { title:'المستقيمات المحاذية',
+        q:"بقسمة البسط والمقام على x² ودراسة السلوك عند x→±∞، ومعرفة أن المقام لا يساوي صفراً أبداً — ما المحاذيات؟",
+        options:["y=1 أفقي، ولا يوجد عمودي","y=0 أفقي، ويوجد عمودي عند x=0","x=1 عمودي فقط","لا يوجد أي محاذٍ إطلاقاً"], correct:0,
+        wrong:[null, "في الخطوة الأولى أثبتنا أن x=0 قيمة عادية في المجال — لا محاذٍ عمودي هناك ولا في أي مكان.", "x=1 ليست نقطة تصفير للمقام، فلا علاقة لها بأي محاذٍ عمودي.", "بقسمة البسط والمقام على x² نحصل على نهاية محدّدة عند اللانهاية — يوجد محاذٍ أفقي."],
+        explain:"لا محاذٍ عمودي لأن المقام لا يساوي صفراً أبداً. وبقسمة كل حد على x²: \\(f(x)=\\dfrac{1}{1+1/x^2}\\to 1\\) عندما \\(x\\to\\pm\\infty\\)، فالمحاذي الأفقي y=1." },
+      { title:'النهايات المحلية ونقاط الانقلاب',
+        q:"من f'(x)=2x/(x²+1)² وحل f'(x)=0، ما نوع النقطة (0,0)؟",
+        options:["نهاية عظمى محلية","نهاية صغرى محلية","نقطة انقلاب فقط","لا شيء مما سبق"], correct:1,
+        wrong:["تحقّق من إشارة f' حول الصفر: سالبة قبله وموجبة بعده — هذا نمط النهاية الصغرى وليس العظمى.", null, "نقطة الانقلاب تُحسب من f''=0 وتقع عند \\(x=\\pm1/\\sqrt3\\)، وليست عند الصفر.", "إشارة f' توضّح بدقة نوع هذه النقطة — راجع فحص الإشارة حولها."],
+        explain:"f'(x)<0 لـ x<0 (تناقص) وf'(x)>0 لـ x>0 (تزايد) ⟹ (0,0) نهاية صغرى محلية. كما أن \\(f''(x)=\\dfrac{2-6x^2}{(x^2+1)^3}=0\\) عند \\(x=\\pm1/\\sqrt3\\)، وهما نقطتا الانقلاب \\((\\pm1/\\sqrt3,\\,1/4)\\)." },
+      { title:'جدول القيم والرسم النهائي', isFinal:true }
+    ]
+  },
+  ratC: {
+    label:'f(x) = (3x−1)/(x+1)', latex:'f(x)=\\dfrac{3x-1}{x+1}',
+    f: x=>(3*x-1)/(x+1),
+    xMin:-7, xMax:6, yMin:-6, yMax:12,
+    vAsymptotes:[-1], hAsymptotes:[3],
+    steps:[
+      { title:'المجال',
+        q:"المقام هو x+1. عند أي قيمة يساوي صفراً، وبالتالي يجب استبعادها من المجال؟",
+        options:["x=1، فالمجال R−{1}","x=−1، فالمجال R−{−1}","x=3، فالمجال R−{3}","لا يوجد أي قيد — المجال R بالكامل"], correct:1,
+        wrong:["تحقّق من حل المعادلة x+1=0 بعناية — الناتج ليس 1.", null, "القيمة 3 ستظهر لاحقاً كمحاذٍ أفقي، وليست قيداً على المجال نفسه.", "بما أن الدالة نسبية وx+1 يساوي صفراً عند قيمة حقيقية معينة، فلا بد من استبعادها."],
+        explain:"\\(x+1=0 \\Rightarrow x=-1\\). إذن أوسع مجال هو \\(\\mathbb{R}-\\{-1\\}\\) — احتفظ بهذا الاستبعاد في ذهنك، فهو أساس فخّ الخطوة الخامسة قادماً." },
+      { title:'التقاطع مع المحورين',
+        q:"بالتعويض x=0 ثم y=0، ما نقاط التقاطع؟",
+        options:["(0,−1) و(⅓,0)","(0,1) و(−⅓,0)","(0,3) فقط، لأنه المحاذي الأفقي","لا توجد نقاط تقاطع لأن x=−1 مستبعدة"], correct:0,
+        wrong:[null, "تحقّق من التعويض المباشر: عند x=0 تحصل على −1 وليس 1.", "المحاذي الأفقي (من الخطوة القادمة) لا علاقة له بتقاطع المنحني الفعلي مع المحاور.", "استبعاد x=−1 من المجال لا يعني عدم وجود تقاطعات في بقية المجال — جرّب x=0 وy=0 مباشرة."],
+        explain:"x=0 ⟹ \\(y=\\dfrac{-1}{1}=-1\\). وعند y=0: \\(3x-1=0 \\Rightarrow x=\\dfrac13\\)." },
+      { title:'التناظر',
+        q:"احسب f(−x) بعناية وقارنها بـ f(x) و−f(x). ما نوع التناظر؟",
+        options:["زوجية — تناظر حول محور الصادات","فردية — تناظر حول نقطة الأصل","لا يوجد أي تناظر","تناظر حول الأصل فقط عند x موجبة"], correct:2,
+        wrong:["جرّب قيمة عددية فعلية، مثل x=2: هل f(−2) تساوي فعلاً f(2)؟", "جرّب المقارنة بـ −f(x) أيضاً بقيمة عددية — النتيجتان مختلفتان.", null, "هذا النوع من التناظر 'الجزئي' غير موجود أصلاً في تصنيف التناظر بمنهج هذا الفصل."],
+        explain:"\\(f(-x)=\\dfrac{-3x-1}{1-x}\\)، وبتجربة قيمة مثل x=2: \\(f(2)=\\dfrac53\\) بينما \\(f(-2)=-\\dfrac73\\) — لا تساوي f(2) ولا −f(2)=−5/3، إذن لا يوجد أي تناظر." },
+      { title:'المستقيمات المحاذية',
+        q:"هذه دالة نسبية حقيقية. أوجد محاذييها العمودي والأفقي معاً.",
+        options:["عمودي x=−1 فقط، بلا أفقي","أفقي y=3 فقط، بلا عمودي","عمودي x=−1 وأفقي y=3 معاً","عمودي x=⅓ وأفقي y=−1"], correct:2,
+        wrong:["لم تبحث عن المحاذي الأفقي بعد — قسّم البسط والمقام على x وادرس النهاية عند اللانهاية.", "لم تبحث عن المحاذي العمودي — وهو موجود فعلاً عند نقطة تصفير المقام من الخطوة الأولى.", null, "لقد خلطت بين نقاط التقاطع مع المحاور (من الخطوة ٢) وبين المحاذيات — مفهومان مختلفان تماماً."],
+        explain:"العمودي عند تصفير المقام: \\(x=-1\\). والأفقي من نهاية الدالة عند اللانهاية: \\(f(x)=\\dfrac{3-1/x}{1+1/x}\\to3\\)، فـ\\(y=3\\). <b>دالة واحدة قد تملك النوعين معاً</b> — وهذا شائع جداً في الدوال من الدرجة الأولى على الأولى." },
+      { title:'النهايات المحلية ونقطة الانقلاب — الفخّ الأكبر',
+        q:"f'(x)=4/(x+1)² (موجبة دائماً) وf''(x)=−8/(x+1)³ (تتغيّر إشارتها حسابياً عند x=−1). هل توجد نقطة انقلاب عند x=−1؟",
+        options:["نعم، لأن f'' تُغيّر إشارتها هناك","لا، لأن x=−1 لا ينتمي إلى مجال الدالة أصلاً","نعم، وهي أيضاً نهاية صغرى محلية","لا يمكن الجزم بدون رسم الدالة أولاً"], correct:1,
+        wrong:["🚨 هذا الفخّ المعرفي الأشهر في رسم الدوال النسبية: نسيان أن نقطة تصفير المقام مستبعدة أصلاً من المجال (الخطوة ١) — فلا يجوز اعتبارها نقطة انقلاب مهما تغيّرت إشارة f'' حولها حسابياً.", null, "بما أن x=−1 غير منتمية للمجال، فلا يمكن أن تكون أي نوع من النقاط المميّزة للدالة — لا انقلاب ولا نهاية محلية.", "المعطيات الجبرية وحدها كافية للجزم هنا دون الحاجة لأي رسم — راجع نتيجة الخطوة الأولى (المجال)."],
+        explain:"هذا أهم فخّ في هذه الدالة: صحيح أنّ f'' تتغيّر إشارتها حسابياً عند x=−1، لكن x=−1 <b>مستبعدة من المجال</b> منذ الخطوة الأولى! لا يمكن أن تكون نقطة انقلاب لدالة غير معرّفة عندها أصلاً. كما أن f'(x)=4/(x+1)² لا تساوي صفراً أبداً، فلا توجد أي نهاية محلية أيضاً — الدالة <b>متزايدة تماماً</b> على كل فترة من مجالها." },
+      { title:'جدول القيم والرسم النهائي', isFinal:true }
+    ]
+  }
+};
+
+let m5CurrentFnId = null;
+let m5CurrentFn = null;
+let m5StepIdx = 0;
+let m5Answered = [];
+let m5FinalRevealed = false;
+
+function initModule5(){ m5SelectFunction('polyA'); }
+
+function m5SelectFunction(id){
+  m5CurrentFnId = id;
+  m5CurrentFn = m5Functions[id];
+  m5StepIdx = 0;
+  m5FinalRevealed = false;
+  m5Answered = m5CurrentFn.steps.map(()=>false);
+  document.getElementById('m5-fn-tab-polyA').className = 'btn flex-1 text-sm ' + (id==='polyA'?'btn-rose':'btn-outline');
+  document.getElementById('m5-fn-tab-ratB').className = 'btn flex-1 text-sm ' + (id==='ratB'?'btn-rose':'btn-outline');
+  document.getElementById('m5-fn-tab-ratC').className = 'btn flex-1 text-sm ' + (id==='ratC'?'btn-rose':'btn-outline');
+  m5RenderStepper();
+  m5RenderStep();
+  m5DrawGraph();
+}
+
+function m5RenderStepper(){
+  const wrap = document.getElementById('m5-stepper');
+  wrap.innerHTML = m5CurrentFn.steps.map((s,i)=>{
+    let cls = 'badge-num';
+    if(i===m5StepIdx) cls += ' current';
+    else if(m5Answered[i]) cls += ' done';
+    const active = (m5Answered[i] || i===m5StepIdx);
+    return '<span class="'+cls+'"'+(active?' style="cursor:pointer" onclick="m5JumpToStep('+i+')"':'')+' title="'+s.title+'">'+(i+1)+'</span>';
+  }).join('<span style="color:var(--paper-faint)">—</span>');
+}
+
+function m5JumpToStep(i){
+  if(!(m5Answered[i] || i===m5StepIdx)) return;
+  m5StepIdx = i;
+  m5RenderStepper();
+  m5RenderStep();
+  m5DrawGraph();
+}
+
+function m5RenderStep(){
+  const step = m5CurrentFn.steps[m5StepIdx];
+  const area = document.getElementById('m5-question-area');
+  if(step.isFinal){
+    area.innerHTML =
+      '<h4 class="font-display font-bold text-lg mb-3">'+step.title+'</h4>'+
+      '<p class="text-sm mb-4" style="color:var(--paper-dim)">أحسنت! أنجزت الخطوات الخمس. اضغط الزر لعرض جدول القيم الإضافية والمنحني الكامل بكل عناصره مجتمعة.</p>'+
+      (m5FinalRevealed ? '' : '<button class="btn btn-gold w-full" onclick="m5RevealFinal()">📈 أظهر المنحني الكامل</button>')+
+      '<div id="m5-final-table" class="mt-4"></div>';
+    if(m5FinalRevealed) m5RevealFinal();
+    refreshMath();
+    return;
+  }
+  area.innerHTML =
+    '<div class="text-xs font-bold mb-1" style="color:var(--gold)">الخطوة '+(m5StepIdx+1)+' من 6 — '+step.title+'</div>'+
+    '<h4 class="font-display font-bold text-base mb-3" style="color:var(--paper)">'+step.q+'</h4>'+
+    '<div id="m5-options">'+step.options.map((opt,i)=>'<button class="mcq-btn" onclick="m5Answer('+i+')" id="m5-opt-'+i+'">'+opt+'</button>').join('')+'</div>'+
+    '<div id="m5-feedback" class="mt-3"></div>';
+  if(m5Answered[m5StepIdx]) m5ShowExplanationState();
+  refreshMath();
+}
+
+function m5Answer(i){
+  const step = m5CurrentFn.steps[m5StepIdx];
+  document.querySelectorAll('#m5-options .mcq-btn').forEach(b=>b.disabled=true);
+  if(i===step.correct){
+    document.getElementById('m5-opt-'+i).classList.add('correct');
+    m5Answered[m5StepIdx] = true;
+    markProgress('m5', m5CurrentFnId+'-'+m5StepIdx);
+    const nextBtn = (m5StepIdx < m5CurrentFn.steps.length-1) ? '<button class="btn btn-rose w-full mt-3" onclick="m5NextStep()">الخطوة التالية ⟵</button>' : '';
+    document.getElementById('m5-feedback').innerHTML =
+      '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--sage)">'+stampHTML('صحيح')+
+      '<div class="text-sm mt-1" style="color:var(--paper-dim)">'+step.explain+'</div></div>'+nextBtn;
+    m5RenderStepper();
+    m5DrawGraph();
+  } else {
+    document.getElementById('m5-opt-'+i).classList.add('wrong');
+    const hint = (step.wrong && step.wrong[i]) ? step.wrong[i] : 'أعد التفكير في هذه النقطة، ثم راجع الخيارات الأخرى.';
+    document.getElementById('m5-feedback').innerHTML =
+      '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--brick)"><div class="text-sm" style="color:var(--paper-dim)">❌ '+hint+'</div></div>'+
+      '<button class="btn btn-outline w-full mt-3" onclick="m5RenderStep()">حاول مرة أخرى</button>';
+  }
+  refreshMath();
+}
+
+function m5ShowExplanationState(){
+  const step = m5CurrentFn.steps[m5StepIdx];
+  document.getElementById('m5-opt-'+step.correct).classList.add('correct');
+  document.querySelectorAll('#m5-options .mcq-btn').forEach(b=>b.disabled=true);
+  const nextBtn = (m5StepIdx < m5CurrentFn.steps.length-1) ? '<button class="btn btn-rose w-full mt-3" onclick="m5NextStep()">الخطوة التالية ⟵</button>' : '';
+  document.getElementById('m5-feedback').innerHTML =
+    '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--sage)"><div class="text-sm" style="color:var(--paper-dim)">✓ '+step.explain+'</div></div>'+nextBtn;
+}
+
+function m5NextStep(){
+  if(m5StepIdx < m5CurrentFn.steps.length-1){
+    m5StepIdx++;
+    m5RenderStepper();
+    m5RenderStep();
+    m5DrawGraph();
+  }
+}
+
+function m5RevealFinal(){
+  m5FinalRevealed = true;
+  markProgress('m5', m5CurrentFnId+'-final');
+  refreshBadges();
+  m5DrawGraph();
+  const fn = m5CurrentFn;
+  let xs;
+  if(m5CurrentFnId==='polyA') xs = [-2,-1,0,1,2,3];
+  else if(m5CurrentFnId==='ratB') xs = [-3,-2,-1,0,1,2,3];
+  else xs = [-4,-2,-0.5,0,1,3,5]; /* ratC: نتجنّب x=-1 المستبعدة من المجال */
+  const rowX = xs.map(x=>'<td class="px-2 py-1 font-mono">'+fmt(x,2)+'</td>').join('');
+  const rowY = xs.map(x=>'<td class="px-2 py-1 font-mono">'+fmt(fn.f(x),2)+'</td>').join('');
+  const tableHost = document.getElementById('m5-final-table');
+  if(tableHost){
+    tableHost.innerHTML =
+      stampHTML('أتقنت الرسم')+
+      '<div class="text-xs font-bold mb-1 mt-2" style="color:var(--paper-faint)">جدول نقاط إضافية:</div>'+
+      '<div style="overflow-x:auto"><table class="text-center text-xs" style="border-collapse:collapse"><tr><td class="px-2 py-1 font-bold">x</td>'+rowX+'</tr><tr><td class="px-2 py-1 font-bold">y</td>'+rowY+'</tr></table></div>';
+  }
+}
+
+function m5UpdateSummary(){
+  const lines = [];
+  const id = m5CurrentFnId;
+  if(id==='polyA'){
+    lines.push('المجال: R');
+    if(m5Answered[1]) lines.push('التقاطع: (0,4) , (−1,0) , (2,0)');
+    if(m5Answered[2]) lines.push('التناظر: لا يوجد');
+    if(m5Answered[3]) lines.push('المحاذيات: لا يوجد');
+    if(m5Answered[4]) lines.push('النهايات/الانقلاب: عظمى(0,4) — صغرى(2,0) — انقلاب(1,2)');
+  } else if(id==='ratB'){
+    lines.push('المجال: R (رغم أنها دالة نسبية!)');
+    if(m5Answered[1]) lines.push('التقاطع: (0,0)');
+    if(m5Answered[2]) lines.push('التناظر: زوجية — حول محور الصادات');
+    if(m5Answered[3]) lines.push('المحاذيات: أفقي y=1 فقط، بلا عمودي');
+    if(m5Answered[4]) lines.push('النهايات/الانقلاب: صغرى(0,0) — انقلاب(±1/√3, 1/4)');
+  } else {
+    lines.push('المجال: R − {−1}');
+    if(m5Answered[1]) lines.push('التقاطع: (0,−1) , (⅓,0)');
+    if(m5Answered[2]) lines.push('التناظر: لا يوجد');
+    if(m5Answered[3]) lines.push('المحاذيات: عمودي x=−1 وأفقي y=3 معاً');
+    if(m5Answered[4]) lines.push('النهايات/الانقلاب: لا يوجد أي منهما — متزايدة دائماً (x=−1 مستبعدة من المجال)');
+  }
+  document.getElementById('m5-summary-panel').innerHTML = lines.map(l=>'<div class="mb-0.5">• '+l+'</div>').join('');
+}
+
+function m5DrawGraph(){
+  const fn = m5CurrentFn;
+  const id = m5CurrentFnId;
+  const showIntercepts = m5Answered[1];
+  const showAsymptotes = m5Answered[3];
+  const showExtrema = m5Answered[4];
+
+  let points = [];
+  if(showIntercepts){
+    if(id==='polyA'){
+      points.push({x:0,y:4,label:'(0,4)',color:cssVar('--gold')});
+      points.push({x:-1,y:0,label:'(−1,0)',color:cssVar('--gold')});
+      points.push({x:2,y:0,label:'(2,0)',color:cssVar('--gold')});
+    } else if(id==='ratB'){
+      points.push({x:0,y:0,label:'(0,0)',color:cssVar('--gold')});
+    } else {
+      points.push({x:0,y:-1,label:'(0,−1)',color:cssVar('--gold')});
+      points.push({x:1/3,y:0,label:'(⅓,0)',color:cssVar('--gold')});
+    }
+  }
+  if(showExtrema){
+    if(id==='polyA'){
+      points.push({x:0,y:4,label:'عظمى',color:cssVar('--rose')});
+      points.push({x:2,y:0,label:'صغرى',color:cssVar('--rose')});
+      points.push({x:1,y:2,label:'انقلاب',color:cssVar('--copper')});
+    } else if(id==='ratB'){
+      const ix = 1/Math.sqrt(3);
+      points.push({x:0,y:0,label:'صغرى',color:cssVar('--rose')});
+      points.push({x:ix,y:0.25,label:'انقلاب',color:cssVar('--copper')});
+      points.push({x:-ix,y:0.25,label:'انقلاب',color:cssVar('--copper')});
+    }
+    /* ratC: لا نهايات محلية ولا نقطة انقلاب — عمداً لا تُضاف أي نقاط هنا،
+       وهذا بحدّ ذاته الدرس المطلوب توصيله في هذه الخطوة تحديداً. */
+  }
+
+  plotCurve('m5-canvas', {
+    xMin:fn.xMin, xMax:fn.xMax, yMin:fn.yMin, yMax:fn.yMax,
+    func: m5FinalRevealed ? fn.f : null,
+    curveColor:cssVar('--teal'),
+    vAsymptotes: showAsymptotes ? fn.vAsymptotes : null,
+    hAsymptotes: showAsymptotes ? fn.hAsymptotes : null,
+    points, samples:500
+  });
+  m5UpdateSummary();
+}
+
+/* =====================================================================
+   MODULE 6 — OPTIMIZATION (التطبيقات العملية على القيم العظمى والصغرى)
+   ===================================================================== */
+function initModule6(){
+  m6SwitchScenario('box');
+  m6BoxUpdate(2);
+  m6CSUpdate(8.4);
+  m6TriUpdate(18);
+  m6PtUpdate(0);
+}
+
+function m6SwitchScenario(name){
+  document.getElementById('m6-box-panel').classList.toggle('hidden', name!=='box');
+  document.getElementById('m6-cs-panel').classList.toggle('hidden', name!=='cs');
+  document.getElementById('m6-tri-panel').classList.toggle('hidden', name!=='tri');
+  document.getElementById('m6-pt-panel').classList.toggle('hidden', name!=='pt');
+  document.getElementById('m6-tab-box-btn').className = 'btn flex-1 text-sm ' + (name==='box'?'btn-rose':'btn-outline');
+  document.getElementById('m6-tab-cs-btn').className = 'btn flex-1 text-sm ' + (name==='cs'?'btn-rose':'btn-outline');
+  document.getElementById('m6-tab-tri-btn').className = 'btn flex-1 text-sm ' + (name==='tri'?'btn-rose':'btn-outline');
+  document.getElementById('m6-tab-pt-btn').className = 'btn flex-1 text-sm ' + (name==='pt'?'btn-rose':'btn-outline');
+}
+
+function m6BoxUpdate(xStr){
+  const x = parseFloat(xStr);
+  const base = 12-2*x;
+  const V = x*base*base;
+
+  document.getElementById('m6-box-x-display').textContent = 'x = '+fmt(x,2)+' cm';
+  document.getElementById('m6-box-base').textContent = fmt(base,2)+' cm';
+  document.getElementById('m6-box-height').textContent = fmt(x,2)+' cm';
+  document.getElementById('m6-box-volume').textContent = fmt(V,2)+' cm³';
+
+  const scale = 200/12;
+  const cutSize = x*scale;
+  document.getElementById('m6-cut-tl').setAttribute('width', cutSize); document.getElementById('m6-cut-tl').setAttribute('height', cutSize);
+  document.getElementById('m6-cut-tr').setAttribute('width', cutSize); document.getElementById('m6-cut-tr').setAttribute('height', cutSize);
+  document.getElementById('m6-cut-tr').setAttribute('x', 220-cutSize);
+  document.getElementById('m6-cut-bl').setAttribute('width', cutSize); document.getElementById('m6-cut-bl').setAttribute('height', cutSize);
+  document.getElementById('m6-cut-bl').setAttribute('y', 220-cutSize);
+  document.getElementById('m6-cut-br').setAttribute('width', cutSize); document.getElementById('m6-cut-br').setAttribute('height', cutSize);
+  document.getElementById('m6-cut-br').setAttribute('x', 220-cutSize); document.getElementById('m6-cut-br').setAttribute('y', 220-cutSize);
+  const baseSize = Math.max(0, 200-2*cutSize);
+  document.getElementById('m6-base-rect').setAttribute('x', 20+cutSize);
+  document.getElementById('m6-base-rect').setAttribute('y', 20+cutSize);
+  document.getElementById('m6-base-rect').setAttribute('width', baseSize);
+  document.getElementById('m6-base-rect').setAttribute('height', baseSize);
+
+  plotCurve('m6-box-canvas', {
+    xMin:0, xMax:6.5, yMin:0, yMax:135,
+    func: xx => xx*(12-2*xx)*(12-2*xx),
+    curveColor:cssVar('--teal'),
+    shadeInvalid:[[6,6.5]],
+    movingDot:{x:x,y:V},
+    samples:300
+  });
+  refreshMath();
+}
+
+function m6BoxFindOptimal(){
+  badgeState.m6OptimalsFound.add('box');
+  refreshBadges();
+  document.getElementById('m6-box-x').value = 2;
+  m6BoxUpdate(2);
+  document.getElementById('m6-box-solution').innerHTML =
+    '<div class="surface-raised p-3 fade-in" style="border:2px solid var(--gold)">'+stampHTML('الحل الأمثل')+
+    '<div class="text-sm mt-2 space-y-1" style="color:var(--paper-dim)">'+
+    '<div>\\(V(x)=x(12-2x)^2=4x^3-48x^2+144x\\)</div>'+
+    '<div>\\(V\'(x)=12x^2-96x+144=12(x-2)(x-6)\\)</div>'+
+    '<div>\\(V\'(x)=0 \\Rightarrow x=2\\) أو \\(x=6\\)</div>'+
+    '<div style="color:var(--brick)">✗ x=6 تُرفض: تجعل طول القاعدة صفراً (صندوق بلا قاعدة) — حل جبري صحيح، لكنه غير معقول هندسياً.</div>'+
+    '<div style="color:var(--sage)">✓ x=2 ⟹ \\(V(2)=2\\times8^2=\\)<b>128 cm³</b> — وهي القيمة العظمى.</div>'+
+    '</div></div>';
+  refreshMath();
+}
+
+function m6CSUpdate(xStr){
+  const x = parseFloat(xStr);
+  const r = (30-2*x)/Math.PI;
+  const perim = 4*x + 2*Math.PI*r;
+  const A = x*x + Math.PI*r*r;
+
+  document.getElementById('m6-cs-x-display').textContent = 'x = '+fmt(x,2)+' cm';
+  document.getElementById('m6-cs-r').textContent = fmt(r,2)+' cm';
+  document.getElementById('m6-cs-perim-check').textContent = fmt(perim,2)+' cm';
+  document.getElementById('m6-cs-area').textContent = fmt(A,2)+' cm²';
+
+  const scale = 4.2;
+  const sqSize = Math.max(4, x*scale);
+  const sqRect = document.getElementById('m6-cs-square');
+  sqRect.setAttribute('width', sqSize); sqRect.setAttribute('height', sqSize);
+  sqRect.setAttribute('x', 60-sqSize/2); sqRect.setAttribute('y', 60-sqSize/2);
+  const circR = Math.max(2, r*scale);
+  document.getElementById('m6-cs-circle').setAttribute('r', circR);
+
+  const areaFn = xx => { const rr=(30-2*xx)/Math.PI; return xx*xx+Math.PI*rr*rr; };
+  let yMax=-Infinity;
+  for(let i=0;i<=30;i++){ const xx=0.3+(14.7-0.3)*i/30; yMax=Math.max(yMax, areaFn(xx)); }
+
+  plotCurve('m6-cs-canvas', {
+    xMin:0.3, xMax:14.7, yMin:0, yMax:yMax*1.05,
+    func: areaFn, curveColor:cssVar('--teal'),
+    movingDot:{x:x,y:A}, samples:300
+  });
+  refreshMath();
+}
+
+function m6CSFindOptimal(){
+  badgeState.m6OptimalsFound.add('cs');
+  refreshBadges();
+  const xOpt = 60/(Math.PI+4);
+  document.getElementById('m6-cs-x').value = xOpt;
+  m6CSUpdate(xOpt);
+  const rOpt = (30-2*xOpt)/Math.PI;
+  document.getElementById('m6-cs-solution').innerHTML =
+    '<div class="surface-raised p-3 fade-in" style="border:2px solid var(--gold)">'+stampHTML('الحل الأمثل')+
+    '<div class="text-sm mt-2 space-y-1" style="color:var(--paper-dim)">'+
+    '<div>من القيد: \\(4x+2\\pi r=60 \\Rightarrow r=\\dfrac{30-2x}{\\pi}\\)</div>'+
+    '<div>\\(A(x)=x^2+\\pi r^2=x^2+\\dfrac{1}{\\pi}(30-2x)^2\\)</div>'+
+    '<div>\\(A\'(x)=2x+\\dfrac{1}{\\pi}(8x-120)=0 \\Rightarrow x(\\pi+4)=60\\)</div>'+
+    '<div style="color:var(--sage)">✓ \\(x=\\dfrac{60}{\\pi+4}\\approx '+fmt(xOpt,3)+'\\) cm، و\\(r\\approx '+fmt(rOpt,3)+'\\) cm</div>'+
+    '<div class="mt-1 p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">لاحظ أن \\(x\\approx 2r\\) — طول ضلع المربع يساوي تماماً قطر الدائرة! (و.هـ.م)</div>'+
+    '</div></div>';
+  refreshMath();
+}
+
+function m6TriQuiz(btn, choseRadius){
+  const buttons = btn.parentElement.querySelectorAll('.mcq-btn');
+  buttons.forEach(b=>b.disabled=true);
+  const feedback = document.getElementById('m6-tri-quiz-feedback');
+  if(choseRadius===true){
+    btn.classList.add('correct');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--sage)">'+stampHTML('صحيح')+
+      '<div class="text-sm mt-1" style="color:var(--paper-dim)">الوتر هنا هو <b style="color:var(--sage)">نصف قطر الدائرة (12cm)</b> وليس القطر — نصف القطر يصل من المركز إلى أي نقطة على محيط الدائرة، وهذا بالضبط ما يربط رأس القاعدة بمركز الدائرة.</div></div>';
+  } else {
+    buttons.forEach(b=>{ if(b!==btn) b.classList.add('correct'); });
+    btn.classList.add('wrong');
+    feedback.innerHTML = '<div class="surface-raised p-3 fade-in" style="border:1px solid var(--brick)">'+
+      '<div class="text-sm" style="color:var(--paper-dim)">❌ هذا الفخّ الأشهر في مسائل "الشكل المحاط بدائرة": استخدام القطر (24) بدل نصف القطر (12) كوتر في فيثاغورس. الوتر يصل من المركز إلى المحيط، وهذه المسافة نصف القطر دائماً، وليست القطر.</div></div>';
+  }
+}
+
+function m6TriUpdate(hStr){
+  const h = parseFloat(hStr);
+  const R = 12;
+  const xsq = 24*h - h*h;
+  const x = xsq > 0 ? Math.sqrt(xsq) : 0;
+  const area = h*x;
+
+  document.getElementById('m6-tri-h-display').textContent = 'h = '+fmt(h,1)+' cm';
+  document.getElementById('m6-tri-x').textContent = fmt(x,2)+' cm';
+  document.getElementById('m6-tri-base').textContent = fmt(2*x,2)+' cm';
+  document.getElementById('m6-tri-area').textContent = fmt(area,2)+' cm²';
+
+  const scale = 90/R;
+  const baseYmath = R - h;
+  const baseYpx = 100 - baseYmath*scale;
+  const xPx = x*scale;
+  document.getElementById('m6-tri-shape').setAttribute('points',
+    '100,10 '+(100-xPx)+','+baseYpx+' '+(100+xPx)+','+baseYpx);
+  document.getElementById('m6-tri-radius').setAttribute('y2', baseYpx);
+  document.getElementById('m6-tri-radius').setAttribute('x2', 100-xPx);
+
+  plotCurve('m6-tri-canvas', {
+    xMin:0, xMax:24, yMin:0, yMax:200,
+    func: hh => hh*Math.sqrt(Math.max(0,24*hh-hh*hh)),
+    curveColor:cssVar('--teal'),
+    movingDot:{x:h,y:area},
+    samples:300
+  });
+  refreshMath();
+}
+
+function m6TriFindOptimal(){
+  badgeState.m6OptimalsFound.add('tri');
+  refreshBadges();
+  document.getElementById('m6-tri-h').value = 18;
+  m6TriUpdate(18);
+  document.getElementById('m6-tri-solution').innerHTML =
+    '<div class="surface-raised p-3 fade-in" style="border:2px solid var(--gold)">'+stampHTML('الحل الأمثل')+
+    '<div class="text-sm mt-2 space-y-1" style="color:var(--paper-dim)">'+
+    '<div>من فيثاغورس (الوتر = نصف القطر = 12): \\(x^2+(h-12)^2=12^2 \\Rightarrow x^2=24h-h^2\\)</div>'+
+    '<div>\\(A=hx=h\\sqrt{24h-h^2}\\)، وللتبسيط قبل الاشتقاق نستخدم \\(A^2=24h^3-h^4\\)</div>'+
+    '<div>\\(\\dfrac{d(A^2)}{dh}=72h^2-4h^3=4h^2(18-h)=0 \\Rightarrow h=18\\) (نرفض h=0: مثلث منعدم المساحة)</div>'+
+    '<div style="color:var(--sage)">✓ عند h=18: \\(x=\\sqrt{24(18)-18^2}=\\sqrt{108}=6\\sqrt3\\) cm، والقاعدة \\(12\\sqrt3\\) cm</div>'+
+    '<div>\\(A_{مثلث}=18\\times6\\sqrt3=108\\sqrt3\\) cm²، \\(A_{دائرة}=\\pi(12)^2=144\\pi\\) cm²</div>'+
+    '<div class="mt-1 p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">النسبة \\(=\\dfrac{108\\sqrt3}{144\\pi}=\\dfrac{3\\sqrt3}{4\\pi}\\) (و.هـ.م)</div>'+
+    '</div></div>';
+  refreshMath();
+}
+
+function m6PtUpdate(xStr){
+  const x = parseFloat(xStr);
+  const y = Math.sqrt(x*x+3);
+  const dist = Math.sqrt(x*x + Math.pow(y-4,2));
+
+  document.getElementById('m6-pt-x-display').textContent = 'x = '+fmt(x,2);
+  document.getElementById('m6-pt-coord').textContent = '('+fmt(x,2)+', '+fmt(y,2)+')';
+  document.getElementById('m6-pt-dist').textContent = fmt(dist,3);
+
+  plotCurve('m6-pt-canvas', {
+    xMin:-5, xMax:5, yMin:-1, yMax:9,
+    func: xx => Math.sqrt(xx*xx+3),
+    curveColor:cssVar('--teal'),
+    points:[{x:0,y:4,label:'(0,4)',color:cssVar('--gold')}],
+    secant:{x1:0,y1:4,x2:x,y2:y},
+    movingDot:{x:x,y:y},
+    samples:300
+  });
+
+  const sVals = [];
+  for(let i=-40;i<=40;i++){
+    const xx = i/10;
+    const yy = Math.sqrt(xx*xx+3);
+    sVals.push(Math.sqrt(xx*xx+Math.pow(yy-4,2)));
+  }
+  plotCurve('m6-pt-sgraph', {
+    xMin:-4, xMax:4, yMin:Math.min.apply(null,sVals)-0.3, yMax:Math.max.apply(null,sVals)+0.3,
+    func: xx => Math.sqrt(xx*xx + Math.pow(Math.sqrt(xx*xx+3)-4,2)),
+    curveColor:cssVar('--copper'),
+    movingDot:{x:x,y:dist},
+    samples:200
+  });
+  refreshMath();
+}
+
+function m6PtFindOptimal(){
+  badgeState.m6OptimalsFound.add('pt');
+  refreshBadges();
+  document.getElementById('m6-pt-x').value = 1;
+  m6PtUpdate(1);
+  document.getElementById('m6-pt-solution').innerHTML =
+    '<div class="surface-raised p-3 fade-in" style="border:2px solid var(--gold)">'+stampHTML('الحل الأمثل')+
+    '<div class="text-sm mt-2 space-y-1" style="color:var(--paper-dim)">'+
+    '<div>لتكن P(x,y) نقطة على المنحني، فتحقّق: \\(x^2=y^2-3\\)</div>'+
+    '<div>\\(S=\\sqrt{x^2+(y-4)^2}\\)، وبالتعويض: \\(S=\\sqrt{2y^2-8y+13}\\)</div>'+
+    '<div>\\(S\'(y)=\\dfrac{4y-8}{2\\sqrt{2y^2-8y+13}}=0 \\Rightarrow y=2\\)</div>'+
+    '<div>من \\(x^2=y^2-3=4-3=1 \\Rightarrow x=\\pm1\\)</div>'+
+    '<div class="mt-1 p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">أقرب نقطتين: (1,2) و(−1,2) — بنفس المسافة \\(\\sqrt5\\) تماماً، بسبب تناظر القطع الزائد حول محور الصادات.</div>'+
+    '</div></div>';
+  refreshMath();
+}
+
+/* =====================================================================
+   SUPPLEMENTARY MINISTERIAL BANK (بنك الأفكار الوزارية)
+   Data-first, Supabase-ready structure: one flat array of question
+   objects. Each row = {id, module, question_text, ministerial_trap,
+   detailed_solution}. This is intentionally decoupled from the six
+   interactive modules above — it can be swapped for a real DB query
+   later (see id convention: ex_<chapter>_<section>_<n>) without
+   touching any rendering code, only the fetch source.
+   ===================================================================== */
+const supplementaryBank = [
+  { id:'ex_3_1_1', module:'module1',
+    question_text:'جد النقاط التي تنتمي للدائرة \\(x^2+y^2+4x-8y=108\\) والتي يكون عندها المعدل الزمني لتغيّر x مساوياً للمعدل الزمني لتغيّر y بالنسبة للزمن t.',
+    ministerial_trap:'الفخّ هنا مفاهيمي لا حسابي: "المعدلان متساويان" لا يعني أنهما صفر أو رقم معطى — بل يُستخدمان كرمز واحد مشترك (لتكن قيمته k≠0) يُختصر لاحقاً من طرفي المعادلة. كثير من الطلاب يتجمّدون هنا لأنهم يبحثون عن رقم محدد بدل التعامل مع k كمتغير رمزي يُحذف جبرياً.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>نشتق طرفي معادلة الدائرة بالنسبة لـt: \\(2x\\dfrac{dx}{dt}+2y\\dfrac{dy}{dt}+4\\dfrac{dx}{dt}-8\\dfrac{dy}{dt}=0\\)</div>'+
+      '<div>بما أنّ \\(\\dfrac{dx}{dt}=\\dfrac{dy}{dt}=k\\) (k≠0)، نعوّض ونختصرها من كل الحدود:</div>'+
+      '<div>\\(k(2x+4)+k(2y-8)=0 \\Rightarrow 2x+2y-4=0 \\Rightarrow y=2-x\\)</div>'+
+      '<div>نعوّض في معادلة الدائرة: \\(x^2+(2-x)^2+4x-8(2-x)=108 \\Rightarrow 2x^2+8x-120=0\\)</div>'+
+      '<div>\\(x^2+4x-60=0 \\Rightarrow (x+10)(x-6)=0 \\Rightarrow x=-10\\) أو \\(x=6\\)</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">النقطتان: (−10,12) و(6,−4)</div>'+
+    '</div>' },
+
+  { id:'ex_3_1_2', module:'module1',
+    question_text:'متوازي سطوح مستطيلة قاعدته مربعة الشكل، يزداد طول ضلع القاعدة بمعدل \\(0.3\\,cm/s\\)، وارتفاعه يتناقص بمعدل \\(0.5\\,cm/s\\). جد معدل تغيّر الحجم عندما يكون طول ضلع القاعدة 4cm والارتفاع 3cm.',
+    ministerial_trap:'أخطر خطأ هنا: معاملة \\(V=x^2h\\) وكأن فيها متغيراً واحداً، فيشتق الطالب \\(x^2\\) فقط متناسياً أن h أيضاً تتغيّر — بينما المطلوب قاعدة الضرب الكاملة لحدَّين متغيرين معاً: \\(\\frac{dV}{dt}=2xh\\frac{dx}{dt}+x^2\\frac{dh}{dt}\\). ويجب الانتباه أيضاً إلى أن معدل الارتفاع سالب لأنه يتناقص.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>\\(V=x^2h\\) — كلا المتغيرين دالتان في t، فنحتاج قاعدة الضرب الكاملة:</div>'+
+      '<div>\\(\\dfrac{dV}{dt}=2xh\\dfrac{dx}{dt}+x^2\\dfrac{dh}{dt}\\)</div>'+
+      '<div>المعطيات: \\(\\frac{dx}{dt}=0.3\\) (تزداد)، \\(\\frac{dh}{dt}=-0.5\\) (تتناقص)، عند x=4, h=3:</div>'+
+      '<div class="font-mono px-2 py-1 rounded" style="background:var(--ink-850)">dV/dt = 2(4)(3)(0.3) + (4)²(−0.5) = 7.2 − 8</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">dV/dt = −0.8 cm³/s</div>'+
+      '<div class="text-xs" style="color:var(--paper-faint)">لاحظ: الحجم يتناقص إجمالاً رغم أن القاعدة تكبر — تأثير تناقص الارتفاع أقوى هنا من تأثير نمو القاعدة.</div>'+
+    '</div>' },
+
+  { id:'ex_3_2_1', module:'module2',
+    question_text:'بيّن أن الدالة \\(f(x)=\\cos2x+2\\cos x\\) تحقق مبرهنة رول على \\([0,2\\pi]\\)، ثم جد جميع قيم c الممكنة.',
+    ministerial_trap:'أغلب الطلاب يتوقفون بعد إيجاد أول قيمة لـc، لكن الدوال المثلثية الدورية غالباً تُعطي أكثر من نقطة حرجة ضمن الفترة — يجب حل \\(\\sin x(2\\cos x+1)=0\\) بكلا عاملَيها منفصلين لاستخراج كل القيم الممكنة، لا التوقف عند أول جذر يظهر.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>الدالة مستمرة وقابلة للاشتقاق على R (دوال مثلثية أساسية)، فالشرطان الأول والثاني محققان تلقائياً.</div>'+
+      '<div>\\(f(0)=1+2=3\\)، \\(f(2\\pi)=1+2=3\\) — متساويان ✓ (الشرط الثالث)</div>'+
+      '<div>\\(f\'(x)=-2\\sin2x-2\\sin x=0\\)، وباستخدام \\(\\sin2x=2\\sin x\\cos x\\):</div>'+
+      '<div>\\(-2\\sin x(2\\cos x+1)=0 \\Rightarrow \\sin x=0\\) أو \\(\\cos x=-\\dfrac12\\)</div>'+
+      '<div>من \\(\\sin x=0\\) في \\((0,2\\pi)\\): \\(x=\\pi\\). ومن \\(\\cos x=-\\frac12\\): \\(x=\\dfrac{2\\pi}{3}\\) أو \\(x=\\dfrac{4\\pi}{3}\\)</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">ثلاث قيم صالحة: \\(\\dfrac{2\\pi}{3},\\ \\pi,\\ \\dfrac{4\\pi}{3}\\)</div>'+
+    '</div>' },
+
+  { id:'ex_3_2_2', module:'module2',
+    question_text:'اختبر إمكانية تطبيق مبرهنة القيمة المتوسطة للدالة \\(f(x)=x^3-x-1\\) على الفترة \\([-1,2]\\)، وإن تحققت جد قيم c الممكنة.',
+    ministerial_trap:'حل معادلة \\(f\'(c)=\\)الميل يُعطي \\(c=\\pm1\\) — لكن \\(c=-1\\) تساوي طرف الفترة a نفسه بالضبط، وهي مستبعدة لأن المطلوب فترة مفتوحة (a,b) حصراً. كثير من الطلاب يقبلون كل الجذور الجبرية دون التحقق من كونها داخل الفترة المفتوحة تماماً لا على حدودها بالضبط.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>كثيرة حدود: مستمرة على \\([-1,2]\\) وقابلة للاشتقاق على \\((-1,2)\\) — الشرطان محققان.</div>'+
+      '<div>\\(f(-1)=-1\\)، \\(f(2)=5\\)، ميل الوتر: \\(\\dfrac{5-(-1)}{2-(-1)}=2\\)</div>'+
+      '<div>\\(f\'(x)=3x^2-1\\)، نحل \\(3c^2-1=2 \\Rightarrow c^2=1 \\Rightarrow c=\\pm1\\)</div>'+
+      '<div style="color:var(--brick)">✗ c=−1 تُرفض: تساوي الطرف a تماماً، خارج الفترة المفتوحة رغم كونها حلاً جبرياً صحيحاً.</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">القيمة المقبولة الوحيدة: c = 1</div>'+
+    '</div>' },
+
+  { id:'ex_3_3_1', module:'module3',
+    question_text:'جد تقريباً لـ \\(\\sqrt{63}+\\sqrt[3]{63}\\) باستخدام نتيجة مبرهنة القيمة المتوسطة.',
+    ministerial_trap:'الفخّ في اختيار a: كلا الحدَّين لهما نفس "العدد السهل" المشترك a=64 لأن \\(64=8^2=4^3\\) معاً! كثير من الطلاب يحاولون اختيار قيمتين مختلفتين لـa لكل جذر على حدة، بينما المطلوب دالة واحدة \\(f(x)=\\sqrt{x}+\\sqrt[3]{x}\\) بقيمة a واحدة مشتركة تخدم الحدَّين معاً.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>الدالة: \\(f(x)=x^{1/2}+x^{1/3}\\)، نختار a=64 (يخدم الجذرين معاً):</div>'+
+      '<div class="font-mono px-2 py-1 rounded" style="background:var(--ink-850)">a=64, b=63, h=−1</div>'+
+      '<div>\\(f(64)=8+4=12\\)</div>'+
+      '<div>\\(f\'(x)=\\dfrac12x^{-1/2}+\\dfrac13x^{-2/3} \\Rightarrow f\'(64)=0.0625+0.0208=0.0833\\)</div>'+
+      '<div>\\(f(63)\\approx 12+(-1)(0.0833)\\)</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">≈ 11.9167</div>'+
+    '</div>' },
+
+  { id:'ex_3_3_2', module:'module3',
+    question_text:'جد تقريباً للعدد \\(\\dfrac{1}{101}\\) باستخدام نتيجة مبرهنة القيمة المتوسطة.',
+    ministerial_trap:'كثير من الطلاب لا يتعرّفون على أن \\(\\frac{1}{101}\\) هو ببساطة قيمة الدالة \\(f(x)=\\frac1x\\) عند x=101، فيحاولون معاملتها كجذر أو كثيرة حدود دون جدوى — هذا النمط (دالة كسرية بسيطة) مختلف عن كل أمثلة الجذور المعتادة في هذا الدرس.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>الدالة: \\(f(x)=x^{-1}\\)، نختار a=100 (أقرب "عدد سهل" لـ101):</div>'+
+      '<div class="font-mono px-2 py-1 rounded" style="background:var(--ink-850)">a=100, b=101, h=1</div>'+
+      '<div>\\(f(100)=0.01\\)</div>'+
+      '<div>\\(f\'(x)=-\\dfrac{1}{x^2} \\Rightarrow f\'(100)=-0.0001\\)</div>'+
+      '<div>\\(f(101)\\approx 0.01+(1)(-0.0001)\\)</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">≈ 0.0099</div>'+
+    '</div>' },
+
+  { id:'ex_3_4_1', module:'module4',
+    question_text:'لتكن \\(f(x)=ax^2-6x+b\\) حيث \\(a\\in\\{-4,8\\},\\ b\\in\\mathbb{R}\\). جد قيمة a إذا كانت: أ) الدالة f محدّبة. ب) الدالة f مقعّرة.',
+    ministerial_trap:'هذا سؤال مفاهيمي بحت لا يحتاج حل معادلات إطلاقاً. كثير من الطلاب يبحثون عن خطوات جبرية معقّدة، بينما الإجابة تعتمد فقط على تذكّر: تقعّر ⟺ f\'\'>0، وتحدّب ⟺ f\'\'<0، ثم اختيار القيمة المناسبة من المجموعة {−4,8} المعطاة مسبقاً.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>\\(f\'(x)=2ax-6 \\Rightarrow f\'\'(x)=2a\\) — إشارة ثابتة دائماً (لا تعتمد على x)</div>'+
+      '<div><b>أ) محدّبة:</b> يلزم \\(2a<0 \\Rightarrow a<0\\). من {−4,8}: <span style="color:var(--sage)">a=−4</span></div>'+
+      '<div><b>ب) مقعّرة:</b> يلزم \\(2a>0 \\Rightarrow a>0\\). من {−4,8}: <span style="color:var(--sage)">a=8</span></div>'+
+    '</div>' },
+
+  { id:'ex_3_4_2', module:'module4',
+    question_text:'إذا كانت 6 تمثّل نهاية صغرى محلية لمنحني الدالة \\(f(x)=3x^2-x^3+c\\)، فجد قيمة c، ثم جد معادلة مماس المنحني في نقطة انقلابه.',
+    ministerial_trap:'مسألة بمرحلتين: أولاً يجب تحديد أي عدد حرج هو "الصغرى" فعلاً عبر فحص f\'\' عند كل عدد حرج — لا افتراض ذلك مباشرة. ثانياً، بعد إيجاد c، يهمل كثير من الطلاب متابعة السؤال لإيجاد معادلة المماس عند نقطة الانقلاب، ظانّين أن السؤال انتهى بإيجاد c فقط.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>\\(f\'(x)=6x-3x^2=3x(2-x)=0 \\Rightarrow x=0\\) أو \\(x=2\\)</div>'+
+      '<div>\\(f\'\'(x)=6-6x\\). عند x=0: \\(f\'\'=6>0\\) ⟹ <b>صغرى هنا</b>. عند x=2: \\(f\'\'=-6<0\\) ⟹ عظمى.</div>'+
+      '<div>إذن \\(f(0)=c=6\\)</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">c = 6</div>'+
+      '<div class="pt-2 divider-dashed"><b>المماس عند نقطة الانقلاب:</b></div>'+
+      '<div>\\(f\'\'(x)=6-6x=0 \\Rightarrow x=1\\)، \\(f(1)=8\\) — نقطة (1,8). الميل: \\(f\'(1)=3\\)</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">y = 3x + 5</div>'+
+    '</div>' },
+
+  { id:'ex_3_5_1', module:'module5',
+    question_text:'باستخدام معلوماتك في التفاضل، ارسم منحني الدالة \\(f(x)=6x-x^3\\).',
+    ministerial_trap:'هذه دالة فردية (متناظرة حول نقطة الأصل) — نوع تناظر أقلّ ظهوراً من الزوجي، فيخلط الطلاب بينهما. العلامة الفارقة: يجب أن يتحقق \\(f(-x)=-f(x)\\) تماماً (وليس \\(f(-x)=f(x)\\) الخاص بالتناظر الزوجي).',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div><b>المجال:</b> R. <b>التقاطع:</b> \\(f(0)=0\\)، وبحل \\(x(6-x^2)=0\\): \\(x=0,\\pm\\sqrt6\\)</div>'+
+      '<div><b>التناظر:</b> \\(f(-x)=-6x+x^3=-f(x)\\) ⟹ <b>فردية</b>، حول نقطة الأصل.</div>'+
+      '<div><b>المحاذيات:</b> لا يوجد (كثيرة حدود).</div>'+
+      '<div>\\(f\'(x)=6-3x^2=0 \\Rightarrow x=\\pm\\sqrt2\\)، \\(f\'\'(x)=-6x\\)</div>'+
+      '<div>عند \\(\\sqrt2\\): عظمى \\((\\sqrt2,4\\sqrt2)\\). عند \\(-\\sqrt2\\): صغرى \\((-\\sqrt2,-4\\sqrt2)\\)</div>'+
+      '<div>الانقلاب: \\(x=0\\) — <b>نفسها</b> نقطة الأصل والتقاطع، تطابق ناتج مباشرة عن الفردية.</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">منحني متناظر حول الأصل، قمة \\((\\sqrt2,4\\sqrt2)\\) وقاع \\((-\\sqrt2,-4\\sqrt2)\\)</div>'+
+    '</div>' },
+
+  { id:'ex_3_5_2', module:'module5',
+    question_text:'باستخدام معلوماتك في التفاضل، ارسم منحني الدالة \\(f(x)=(x+2)(x-1)^2\\).',
+    ministerial_trap:'الدالة معطاة بصورة معاملة لا موسّعة — والفخّ إهمال معنى تكرار العامل \\((x-1)^2\\): يعني أن x=1 جذر مضاعف تلامس عنده الدالة محور السينات دون أن تعبره، وغالباً يتطابق هذا مع نقطة حرجة أيضاً كما يظهر في الحل.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>بالتوسيع: \\(f(x)=x^3-3x+2\\)</div>'+
+      '<div><b>التقاطع:</b> \\(f(0)=2\\)؛ من الصورة المعاملة: x=−2 (بسيط)، x=1 (مضاعف)</div>'+
+      '<div><b>التناظر:</b> \\(f(-x)=-x^3+3x+2\\) لا يساوي f(x) ولا −f(x) ⟹ لا يوجد</div>'+
+      '<div>\\(f\'(x)=3x^2-3=0 \\Rightarrow x=\\pm1\\)، \\(f\'\'(x)=6x\\)</div>'+
+      '<div>عند x=1: \\(f\'\'=6>0\\) ⟹ <b>صغرى عند (1,0)</b> — تؤكد أن الجذر المضاعف هو فعلاً أخفض نقطة! عند x=−1: عظمى (−1,4)</div>'+
+      '<div>الانقلاب: \\(x=0\\)، \\(f(0)=2\\) — يطابق تقاطع الصادات</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">قاعدة عامة: عامل \\((x-a)^2\\) يعني أن x=a جذر ونقطة حرجة معاً</div>'+
+    '</div>' },
+
+  { id:'ex_3_6_1', module:'module6',
+    question_text:'جد بُعدَي أكبر مستطيل يمكن أن يوضع داخل المنطقة المحدَّدة بمنحني \\(f(x)=12-x^2\\) ومحور السينات، بحيث يقع ضلعه على محور السينات ورأساه العلويان على المنحني.',
+    ministerial_trap:'الخطأ الأشيع: التعبير عن المساحة بـx فقط (نصف العرض) لكن نسيان مضاعفته لأن المستطيل يمتد على جانبَي محور الصادات معاً — فالمساحة \\(A=2x\\cdot y\\) وليس \\(A=x\\cdot y\\). نسيان معامل الـ2 هذا يُغيّر موقع القيمة الحرجة بالكامل.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>نقطة التماس \\((x,12-x^2)\\)، x>0. العرض الكامل = 2x، الارتفاع = \\(12-x^2\\)</div>'+
+      '<div>\\(A(x)=2x(12-x^2)=24x-2x^3\\)، لمجال \\(0<x<2\\sqrt3\\)</div>'+
+      '<div>\\(A\'(x)=24-6x^2=0 \\Rightarrow x=2\\) (نرفض −2 لأن x>0)</div>'+
+      '<div>\\(A\'\'(2)=-24<0\\) ⟹ عظمى ✓. العرض=4، الارتفاع=8</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">الأبعاد: 4×8 — المساحة العظمى = 32</div>'+
+    '</div>' },
+
+  { id:'ex_3_6_2', module:'module6',
+    question_text:'علبة اسطوانية الشكل مفتوحة من الأعلى سعتها \\(125\\pi\\,cm^3\\). جد أبعادها لتكون مساحة المعدن المستخدم في صنعها أقلّ ما يمكن.',
+    ministerial_trap:'العلبة "مفتوحة من الأعلى" — والفخّ استخدام قانون أسطوانة كاملة بقاعدتين \\(S=2\\pi r^2+2\\pi rh\\) بدل حذف القاعدة العلوية الغائبة: \\(S=\\pi r^2+2\\pi rh\\). هذا يُغيّر الحل الأمثل بالكامل. لاحظ أيضاً أن هذا السؤال "أقلّ ما يمكن" (تصغير)، بعكس أغلب أسئلة الفصل.',
+    detailed_solution:'<div class="space-y-2">'+
+      '<div>\\(V=\\pi r^2h=125\\pi \\Rightarrow h=\\dfrac{125}{r^2}\\)</div>'+
+      '<div>المساحة (بلا غطاء): \\(S(r)=\\pi r^2+2\\pi r\\left(\\dfrac{125}{r^2}\\right)=\\pi r^2+\\dfrac{250\\pi}{r}\\)</div>'+
+      '<div>\\(S\'(r)=2\\pi r-\\dfrac{250\\pi}{r^2}=0 \\Rightarrow r^3=125 \\Rightarrow r=5\\)</div>'+
+      '<div>\\(S\'\'(r)=2\\pi+\\dfrac{500\\pi}{r^3}>0\\) دائماً ⟹ تصغير مؤكَّد ✓. \\(h=\\dfrac{125}{25}=5\\)</div>'+
+      '<div class="p-2 rounded text-center" style="background:var(--gold-dim); color:var(--gold)">نصف القطر = الارتفاع = 5cm (أقلّ مساحة = 75π cm²)</div>'+
+    '</div>' }
+];
+
+function renderBankSection(moduleId){
+  const container = document.getElementById('bank-section-'+moduleId);
+  if(!container) return;
+  const items = supplementaryBank.filter(b=>b.module===moduleId);
+  if(items.length===0) return;
+  container.innerHTML =
+    '<div class="surface spine-copper p-5 sm:p-6 mt-6">'+
+      '<div class="flex items-center gap-2 mb-1">'+
+        '<span class="text-2xl">🏛️</span>'+
+        '<h3 class="font-display font-bold text-lg" style="color:var(--paper)">بنك الأفكار الوزارية</h3>'+
+      '</div>'+
+      '<p class="text-sm mb-4" style="color:var(--paper-dim)">تمارين إضافية من صميم أسئلة الكتاب المنهجي، تختبر أفكاراً فرعية لا تغطيها المحاكيات التفاعلية أعلاه.</p>'+
+      items.map(bankCardHTML).join('')+
+    '</div>';
+}
+
+function bankCardHTML(item){
+  return '<div class="surface-raised p-4 mb-3">'+
+    '<div class="text-sm leading-relaxed mb-3" style="color:var(--paper)">'+item.question_text+'</div>'+
+    '<div class="flex flex-wrap gap-2">'+
+      '<button class="btn text-xs" style="background:var(--brick-dim); color:var(--brick); border:1px solid var(--brick);" onclick="bankToggleTrap(\''+item.id+'\')">⚠️ اكتشف الفخ الوزاري أولاً</button>'+
+      '<button class="btn text-xs" style="background:var(--teal-dim); color:var(--teal); border:1px solid var(--teal);" onclick="bankToggleSolution(\''+item.id+'\')">📜 إظهار الحل المفصّل</button>'+
+    '</div>'+
+    '<div id="bank-trap-'+item.id+'" class="hidden mt-3 p-3 rounded-lg text-sm leading-relaxed" style="background:var(--brick-dim); border-inline-start:3px solid var(--brick); color:var(--paper)"></div>'+
+    '<div id="bank-solution-'+item.id+'" class="hidden mt-3 p-3 rounded-lg text-sm leading-loose" style="background:var(--ink-850); border-inline-start:3px solid var(--teal); color:var(--paper-dim)"></div>'+
+  '</div>';
+}
+
+function bankToggleTrap(id){
+  const item = supplementaryBank.find(b=>b.id===id);
+  const el = document.getElementById('bank-trap-'+id);
+  if(!item || !el) return;
+  if(el.classList.contains('hidden')){
+    el.innerHTML = '<b style="color:var(--brick)">⚠️ الفخ الوزاري:</b> '+item.ministerial_trap;
+    el.classList.remove('hidden');
+    el.classList.add('fade-in');
+    markProgress('bank', id);
+    badgeState.bankTrapsViewed.add(id);
+    refreshBadges();
+  } else {
+    el.classList.add('hidden');
+  }
+  refreshMath();
+}
+
+function bankToggleSolution(id){
+  const item = supplementaryBank.find(b=>b.id===id);
+  const el = document.getElementById('bank-solution-'+id);
+  if(!item || !el) return;
+  if(el.classList.contains('hidden')){
+    el.innerHTML = item.detailed_solution;
+    el.classList.remove('hidden');
+    el.classList.add('fade-in');
+    badgeState.bankSolutionsViewed.add(id);
+    refreshBadges();
+  } else {
+    el.classList.add('hidden');
+  }
+  refreshMath();
+}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+document.addEventListener('DOMContentLoaded', function(){
+  showSection('home');
+  ['module1','module2','module3','module4','module5','module6'].forEach(renderBankSection);
+});
+</script>
+</body>
+</html>
