@@ -2,6 +2,11 @@ name: IQ AI Tutor staging browser CORS QA v033
 on:
   push:
     branches: [qa-browser-live-v032-20260920]
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/live_browser_v033.py'
+      - '.github/workflows/iq-tutor-browser-qa-v033.yml'
 permissions:
   contents: read
 jobs:
