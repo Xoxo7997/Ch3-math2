@@ -1,0 +1,21 @@
+name: IQ AI Tutor staging browser CORS QA v033
+on:
+  push:
+    branches: [qa-browser-live-v032-20260920]
+permissions:
+  contents: read
+jobs:
+  live-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated browser QA dependencies
+        run: |
+          python -m pip install 'playwright==1.55.0'
+          python -m playwright install --with-deps chromium
+      - name: Test real browser to STAGING (no production)
+        run: python qa/live_browser_v033.py
