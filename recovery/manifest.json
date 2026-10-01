@@ -1,0 +1,67 @@
+{
+  "recovery_version": "iq-ai-tutor.canonical-recovery.v0.1",
+  "created_for_branch": "recovery/verified-mastery-canonical",
+  "base_main_commit": "95c4a92ea98b42f354372b1e21779b81e19d1d24",
+  "purpose": "Transport byte-exact canonical source/config/test files from archived IQ AI Tutor artifacts into an isolated Git branch for Codex audit. This is not a production merge.",
+  "source_artifacts": [
+    {
+      "name": "IQ_AI_Tutor_Golden_Slice_v0_1_1.zip",
+      "source_zip_sha256": "0397d9fbe0072ea45ee2361166577bf75ca2bd136641f57bf76b8a609eec0249",
+      "transport_bundle": "golden_slice_text.tar.gz",
+      "transport_sha256": "2b182a8a16323aa90879b13c6831302c6495f7be5e552b19b13737b7743f7da3",
+      "transport_parts": 4,
+      "scope": "All text/source/schema/test/report/provenance files from the artifact, preserving bytes. Binary/nested archives and synthetic SQLite are intentionally not transported in this first recovery commit.",
+      "omitted": [
+        "BASELINE_GOLDEN_SLICE_v0_1.zip",
+        "frozen/part2_1/BASELINE_PART2_TEACHER_REVIEW.zip",
+        "frozen/part3_2/BASELINE_PART2_1_TEACHER_REVIEW.zip",
+        "frozen/part3_2/BASELINE_PART3_1_TEACHER_REVIEW.zip",
+        "frozen/part3_2/BASELINE_PART3_TEACHER_REVIEW.zip",
+        "synthetic_ledger.sqlite"
+      ]
+    },
+    {
+      "name": "IQ_AI_Tutor_Evidence_Semantics_v0_2_1_Surgical_Patch.zip",
+      "source_zip_sha256": "bc9c21436a09c4d7d4fbcd9f3317cf6e289daa1e73d1a8ff14b196fe3a941ec9",
+      "transport_bundle": "evidence_semantics_core.tar.gz",
+      "transport_sha256": "b5309af07549e8121fd6fe8099670a5729a8de3ed2145d4e9bbc049ecb04b75f",
+      "transport_parts": 2,
+      "scope": "Core executable implementation, schemas, tests, locks/manifests, reports, math vendor, and compact source-of-truth inputs needed for structural audit. Large generated/regression datasets are intentionally omitted from this first recovery commit.",
+      "omitted": [
+        "audit_artifacts/ast_only.json",
+        "audit_artifacts/baseline.json",
+        "audit_artifacts/both.json",
+        "audit_artifacts/python_runtime_0.json",
+        "audit_artifacts/python_runtime_1.json",
+        "audit_artifacts/rule_only.json",
+        "baseline_v0_2_test_results.json",
+        "baseline_v0_2_test_results.txt",
+        "baselines/Evidence_Semantics_v0_2.zip",
+        "baselines/comparison_216.json",
+        "baselines/derived_projections.json",
+        "baselines/measurement_records.json",
+        "benchmark_metrics.json",
+        "comparison_216.json",
+        "cross_python_replay_results.json",
+        "dependency_root_error_registry.json",
+        "derived_projections.json",
+        "measurement_records.json",
+        "regression_change_attribution.json",
+        "regression_disagreements.json",
+        "scenario_traces.json",
+        "sources/dataset.json",
+        "sources/frozen_scorer_outputs.json",
+        "sources/gold_annotations.json",
+        "sources/normalized_responses.json"
+      ]
+    }
+  ],
+  "guarantees": [
+    "main is untouched",
+    "m0/execution-control-plane is untouched",
+    "qa-browser-live-v032-20260920 is untouched",
+    "no pull request is created",
+    "no merge is performed",
+    "transported files reconstruct outside the tracked tree by default"
+  ]
+}
